@@ -1,0 +1,55 @@
+HEADER Modification of 2WFU PDB Code
+REMARK Included Atoms : 'CA'
+REMARK Include Nonstandard Amino Acids: False
+REMARK Structure: 1-DIMENSIONAL CUBIC LATTICE STRUCTURE
+SEQRES   1 A   22  GLY VAL VAL ASP SER CYS CYS ARG ASN SER CYS SER PHE          
+SEQRES   2 A   22  SER THR LEU ARG ALA TYR CYS ASP SER                          
+SEQRES   1 B   24  ASN SER LEU ARG ALA CYS GLY PRO ALA LEU MET ASP MET          
+SEQRES   2 B   24  LEU ARG VAL ALA CYS PRO ASN GLY PHE ASN SER                  
+ATOM      1  CA  GLY A   1      18.000   3.000  17.594  1.00 26.95           C  
+ATOM      2  CA  VAL A   2      15.000   3.000  17.595  1.00 25.44           C  
+ATOM      3  CA  VAL A   3      15.000   0.000  17.597  1.00 24.91           C  
+ATOM      4  CA  ASP A   4      18.000   0.000  17.600  1.00 25.25           C  
+ATOM      5  CA  SER A   5      18.000   0.000  20.604  1.00 23.67           C  
+ATOM      6  CA  CYS A   6      15.000   0.000  20.609  1.00 23.79           C  
+ATOM      7  CA  CYS A   7      15.000   0.000  17.615  1.00 24.46           C  
+ATOM      8  CA  ARG A   8      18.000   0.000  17.622  1.00 25.46           C  
+ATOM      9  CA  ASN A   9      18.000   0.000  20.630  1.00 24.72           C  
+ATOM     10  CA  SER A  10      15.000   0.000  20.639  1.00 24.95           C  
+ATOM     11  CA  CYS A  11      15.000   3.000  20.649  1.00 24.19           C  
+ATOM     12  CA  SER A  12      12.000   3.000  20.660  1.00 23.32           C  
+ATOM     13  CA  PHE A  13       9.000   3.000  20.672  1.00 22.99           C  
+ATOM     14  CA  SER A  14       9.000   6.000  20.685  1.00 23.78           C  
+ATOM     15  CA  THR A  15      12.000   6.000  20.699  1.00 22.47           C  
+ATOM     16  CA  LEU A  16      12.000   6.000  17.714  1.00 23.38           C  
+ATOM     17  CA  ARG A  17      12.000   9.000  17.730  1.00 25.38           C  
+ATOM     18  CA  ALA A  18      15.000   9.000  17.747  1.00 25.85           C  
+ATOM     19  CA  TYR A  19      15.000   9.000  14.765  1.00 27.14           C  
+ATOM     20  CA  CYS A  20      12.000   9.000  14.784  1.00 28.63           C  
+ATOM     21  CA  ASP A  21      12.000  12.000  14.804  1.00 31.80           C  
+ATOM     22  CA  SER A  22      12.000  12.000  17.825  1.00 33.86           C  
+ATOM     23  CA  ASN B   1      12.000   9.000  17.847  1.00 32.93           C  
+ATOM     24  CA  SER B   2      12.000   9.000  14.870  1.00 30.61           C  
+ATOM     25  CA  LEU B   3      12.000   9.000  11.894  1.00 25.18           C  
+ATOM     26  CA  ARG B   4      12.000   9.000   8.919  1.00 23.81           C  
+ATOM     27  CA  ALA B   5      12.000   9.000   5.945  1.00 24.42           C  
+ATOM     28  CA  CYS B   6      12.000   9.000   2.972  1.00 27.91           C  
+ATOM     29  CA  GLY B   7      12.000   9.000   0.000  1.00 29.90           C  
+ATOM     30  CA  PRO B   8       9.000   9.000   0.029  1.00 27.64           C  
+ATOM     31  CA  ALA B   9       9.000   9.000   3.059  1.00 23.27           C  
+ATOM     32  CA  LEU B  10       9.000  12.000   3.090  1.00 22.40           C  
+ATOM     33  CA  MET B  11       9.000  15.000   3.122  1.00 24.74           C  
+ATOM     34  CA  ASP B  12       6.000  15.000   3.155  1.00 23.79           C  
+ATOM     35  CA  MET B  13       6.000  15.000   6.189  0.50 22.27           C  
+ATOM     36  CA  LEU B  14       6.000  18.000   6.224  1.00 25.59           C  
+ATOM     37  CA  ARG B  15       3.000  18.000   6.260  1.00 26.93           C  
+ATOM     38  CA  VAL B  16       3.000  18.000   9.297  1.00 25.70           C  
+ATOM     39  CA  ALA B  17       3.000  18.000  12.335  1.00 26.71           C  
+ATOM     40  CA  CYS B  18       3.000  21.000  12.374  1.00 30.16           C  
+ATOM     41  CA  PRO B  19       0.000  21.000  12.414  1.00 36.79           C  
+ATOM     42  CA  ASN B  20       0.000  24.000  12.455  1.00 41.84           C  
+ATOM     43  CA  GLY B  21       0.000  21.000  12.497  1.00 43.59           C  
+ATOM     44  CA  PHE B  22       3.000  21.000  12.540  1.00 45.10           C  
+ATOM     45  CA  ASN B  23       6.000  21.000  12.584  1.00 46.82           C  
+ATOM     46  CA  SER B  24       9.000  21.000  12.629  1.00 47.77           C  
+END
