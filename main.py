@@ -1,5 +1,4 @@
-from Visualization import view_pdb
-from Report import create_report
+from GenerateReport import create_report, view_pdb
 from Structure import Structure
 from GUI import gui
 

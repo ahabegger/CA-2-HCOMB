@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, StringVar, BooleanVar
-from PDB import download_pdb
+from GenerateReport import download_pdb
 import os
 
 

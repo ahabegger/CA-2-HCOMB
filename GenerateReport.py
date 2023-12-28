@@ -1,3 +1,13 @@
+import requests
+import nglview
+
+
+def view_pdb(pdb_file):
+    view = nglview.show_structure_file(pdb_file)
+    nglview.write_html(f'Diagrams/{pdb_file.split("/")[1].split(".")[0]}.html', view)
+    return view
+
+
 def create_report(pdb_code):
     title = ""
     with open(f"PDB_Files/{pdb_code}.pdb") as file:
@@ -52,5 +62,28 @@ def create_report(pdb_code):
         file.write(code)
 
 
-if __name__ == "__main__":
-    create_report("3FXC")
+def download_pdb(pdb_id):
+    """
+    Download a PDB file given the PDB ID.
+
+    Args:
+    pdb_id (str): The ID of the PDB record.
+    """
+    # Construct the URL
+    url = f'https://files.rcsb.org/download/{pdb_id}.pdb'
+
+    # Send a request to the URL
+    response = requests.get(url)
+
+    # If the request was successful
+    if response.status_code == 200:
+        # The destination file path (you may want to customize this)
+        file_path = f'PDB_Files/{pdb_id}.pdb'
+
+        # Write the response content (the PDB file) to a local file
+        with open(file_path, 'wb') as file:
+            file.write(response.content)
+        return True
+    else:
+        print(f'Error downloading {pdb_id}.pdb. Status code: {response.status_code}')
+        return False
