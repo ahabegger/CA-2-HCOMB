@@ -1,13 +1,8 @@
 from GenerateReport import create_report, view_pdb
 from Structure import Structure
-from GUI import gui
 
-pdb_code, nonstandard, structure = gui()
 
-#pdb_code = "1A80"
-#nonstandard = False
-#structure = "DEFAULT STRUCTURE"
-
+pdb_code, nonstandard, structure = 0, 0, 0
 
 model = ""
 with open(f"PDB_Files/{pdb_code}.pdb") as file:
