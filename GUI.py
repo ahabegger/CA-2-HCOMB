@@ -90,7 +90,7 @@ def gui_pdb_selection():
 
     def sec1frame3_save(custom_pdb_file):
         code = "custom"
-        with open('PDB_Files/custom.pdb', 'w') as file:
+        with open('TransformationReports/PDB_Files/custom.pdb', 'w') as file:
             file.write(custom_pdb_file)
         if check_pdb_in_folder(code):
             print(f"{code} Found in Files")
