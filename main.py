@@ -1,20 +1,27 @@
 from GenerateReport import create_report, view_pdb
 from Structure import Structure
 
+print("Sample PDB Codes are 1A0M, 1A1M, 1A2M, 1A3M, 1A4M, 1A5M, 1A6M, 1A7M, 1A8M, 1A9M, 1B0M, 1B1M, 1B2M, 1B3M, 1B4M")
+pdb_code = input("Input 4-Letter PDB Code: ")
 
-pdb_code, nonstandard, structure = 0, 0, 0
+print("Structure Options:")
+print("1 = CA Backbone Structure")
+print("2 = 1-Dimensional Cubic Lattice Structure")
+print("3 = 3-Dimensional Cubic Lattice Structure")
+print("4 = Tetrahedral Lattice Structure")
+print("5 = N-Dimensional Lattice Structure")
+structure = input("Input Structure: ")
+
 
 model = ""
 with open(f"PDB_Files/{pdb_code}.pdb") as file:
     for line in file:
         model += line
 
-s1 = Structure(model, nonstandard)
+s1 = Structure(model)
 
 new_lines = f'HEADER Modification of {pdb_code} PDB Code\n' \
-            f'REMARK Included Atoms : \'CA\'\n' \
-            f'REMARK Include Nonstandard Amino Acids: {nonstandard}\n' \
-            f'REMARK Structure: {structure}\n' \
+            f'REMARK Structure: {structure}\n'
 
 seq_lines = ''
 atom_lines = ''
@@ -39,3 +46,4 @@ view_pdb(f"Modified_PDB_Files/{pdb_code}_modified.pdb")
 view_pdb(f"PDB_Files/{pdb_code}.pdb")
 
 create_report(pdb_code)
+
