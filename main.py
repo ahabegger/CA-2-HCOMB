@@ -1,9 +1,9 @@
 from GenerateReport import create_report
 from PDB2Backbone import create_backbone
-from OneDimCubic/OneDimCubic import create_one_dim_cubic
-from ThreeDimCubic/ThreeDimCubic import create_three_dim_cubic
-from TetrahederalLattice/TetrahederalLattice import create_tetrahederal_lattice
-from NDimensionalLattice/NDimensionalLattice import create_n_dimensional_lattice
+from OneDimCubic.OneDimCubic import create_one_dim_cubic
+from ThreeDimCubic.ThreeDimCubic import create_three_dim_cubic
+from Tetrahederal.Tetrahederal import create_tetrahederal_lattice
+from NDimLattice.NDimLattice import create_n_dimensional_lattice
 
 
 print("Sample PDB Codes are 1A0M, 1A1M, 1A2M, 1A3M, 1A4M, 1A5M, 1A6M, 1A7M, 1A8M, 1A9M, 1B0M, 1B1M, 1B2M, 1B3M, 1B4M")
@@ -18,15 +18,20 @@ print("5 = N-Dimensional Lattice Structure")
 structure = input("Input Structure: ")
 
 if structure == "1":
-    create_backbone(pdb_code)
+    xyz = create_backbone(pdb_code)
+    create_report(xyz)
 elif structure == "2":
-    create_one_dim_cubic(pdb_code)
+    xyz = create_one_dim_cubic(pdb_code)
+    create_report(xyz)
 elif structure == "3":
-    create_three_dim_cubic(pdb_code)
+    xyz = create_three_dim_cubic(pdb_code)
+    create_report(xyz)
 elif structure == "4":
-    create_tetrahederal_lattice(pdb_code)
+    xyz = create_tetrahederal_lattice(pdb_code)
+    create_report(xyz)
 elif structure == "5":
-    create_n_dimensional_lattice(pdb_code)
+    xyz = create_n_dimensional_lattice(pdb_code)
+    create_report(xyz)
 else:
     print("Invalid Structure")
     exit()

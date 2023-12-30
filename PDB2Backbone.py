@@ -1,6 +1,16 @@
 from OneDimCubic import OneDimCubic as onecube
 from ThreeDimCubic import ThreeDimCubic as threecube
-from TetrahederalLattice import Tetrahederal as tetra
+from Tetrahederal import Tetrahederal as tetra
+
+def create_backbone(pdb_code):
+    model = ""
+    with open(f"PDB_Files/{pdb_code}.pdb") as file:
+        for line in file:
+            model += line
+
+    s1 = Structure(model, True)
+    s1.default()
+    return s1
 
 
 class Structure:
