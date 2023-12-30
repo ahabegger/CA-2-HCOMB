@@ -2,6 +2,10 @@ import pandas as pd
 import numpy as np
 
 
+def create_one_dim_cubic(pdb_code):
+    return None
+
+
 def convert_xyz(input_xyz):
     # Preparing Input
     input_df = pd.DataFrame(input_xyz)
@@ -30,7 +34,7 @@ def convert_xyz(input_xyz):
 
     # Determine Next Point
     for index, row in input_df.iterrows():
-        
+
         if not is_valid(output_df):
             break
 
@@ -74,7 +78,3 @@ if __name__ == "__main__":
                        [1.557, 4.706, 6.49], [-0.976, 3.478, 9.087], [1.27, 4.027, 12.181], [2.018, 7.653, 11.246],
                        [-0.756, 10.28, 11.313], [1.302, 13.135, 9.777], [3.307, 10.759, 7.547], [7.02, 10.035, 7.072],
                        [9.707, 11.001, 4.522], [13.164, 9.502, 5.297]]))
-
-
-def create_one_dim_cubic():
-    return None

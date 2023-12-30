@@ -2,7 +2,7 @@ from GenerateReport import create_report
 from PDB2Backbone import create_backbone
 from OneDimCubic.OneDimCubic import create_one_dim_cubic
 from ThreeDimCubic.ThreeDimCubic import create_three_dim_cubic
-from Tetrahederal.Tetrahederal import create_tetrahederal_lattice
+from Tetrahederal.Tetrahederal import create_tetrahedral_lattice
 from NDimLattice.NDimLattice import create_n_dimensional_lattice
 
 
@@ -19,18 +19,23 @@ structure = input("Input Structure: ")
 
 if structure == "1":
     xyz = create_backbone(pdb_code)
+    print(xyz)
     create_report(xyz)
 elif structure == "2":
     xyz = create_one_dim_cubic(pdb_code)
+    print(xyz)
     create_report(xyz)
 elif structure == "3":
     xyz = create_three_dim_cubic(pdb_code)
+    print(xyz)
     create_report(xyz)
 elif structure == "4":
-    xyz = create_tetrahederal_lattice(pdb_code)
+    xyz = create_tetrahedral_lattice(pdb_code)
+    print(xyz)
     create_report(xyz)
 elif structure == "5":
     xyz = create_n_dimensional_lattice(pdb_code)
+    print(xyz)
     create_report(xyz)
 else:
     print("Invalid Structure")
