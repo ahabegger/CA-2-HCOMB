@@ -1,6 +1,7 @@
 import requests
 import nglview
 
+
 new_lines = f'HEADER Modification of {pdb_code} PDB Code\n' \
             f'REMARK Structure: {structure}\n'
 

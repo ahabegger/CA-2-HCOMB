@@ -1,16 +1,30 @@
 import pandas as pd
 import numpy as np
+import requests
+
+'''
+This script will take a PDB file and convert it into a backbone-only XYZ.
+'''
 
 
 def create_backbone(pdb_code):
-    model = ""
-    with open(f"PDB_Files/{pdb_code}.pdb") as file:
-        for line in file:
-            model += line
+    download_pdb(pdb_code)
 
-    s1 = Structure(model, True)
-    s1.default()
-    return s1
+
+def download_pdb(pdb_id):
+    # Construct the URL
+    url = f'https://files.rcsb.org/download/{pdb_id}.pdb'
+
+    # Send a request to the URL
+    response = requests.get(url)
+
+    # If the request was successful
+    if response.status_code == 200:
+        print(response.content)
+        return True
+    else:
+        print(f'Error downloading {pdb_id}.pdb. Status code: {response.status_code}')
+        return False
 
 
 class Structure:
@@ -44,25 +58,6 @@ class Structure:
 
         return xyz_array
 
-    def default(self):
-        return self.seq_lines, self.atom_lines
-
-    def one_d_cubic(self):
-        self.output_xyz = onecube.convert_xyz(self.input_xyz)
-        print(self.output_xyz)
-        self.atom_lines = self.replace_xyz()
-        return self.seq_lines, self.atom_lines
-
-    def three_d_cubic(self):
-        self.output_xyz = threecube.convert_xyz(self.input_xyz)
-        self.atom_lines = self.replace_xyz()
-        return self.seq_lines, self.atom_lines
-
-    def tetrahederal(self):
-        self.output_xyz = tetra.convert_xyz(self.input_xyz)
-        self.atom_lines = self.replace_xyz()
-        return self.seq_lines, self.atom_lines
-
     def replace_xyz(self):
         new_atom_lines = ''
         split_lines = self.atom_lines.splitlines()
@@ -88,6 +83,7 @@ class Structure:
         )
 
         return new_line
+
     def print(self):
         print(self.seq_lines)
         print(self.atom_lines)
@@ -96,10 +92,4 @@ class Structure:
 
 
 if __name__ == "__main__":
-    model = ""
-    with open(f"PDB_Files/2WFU.pdb") as file:
-        for line in file:
-            model += line
-
-    s1 = Structure(model, True)
-    print(s1.one_d_cubic())
+    create_backbone('1A3M')
