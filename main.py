@@ -1,5 +1,10 @@
-from GenerateReport import create_report, view_pdb
-from PDB2Backbone import Structure
+from GenerateReport import create_report
+from PDB2Backbone import create_backbone
+from OneDimCubic/OneDimCubic import create_one_dim_cubic
+from ThreeDimCubic/ThreeDimCubic import create_three_dim_cubic
+from TetrahederalLattice/TetrahederalLattice import create_tetrahederal_lattice
+from NDimensionalLattice/NDimensionalLattice import create_n_dimensional_lattice
+
 
 print("Sample PDB Codes are 1A0M, 1A1M, 1A2M, 1A3M, 1A4M, 1A5M, 1A6M, 1A7M, 1A8M, 1A9M, 1B0M, 1B1M, 1B2M, 1B3M, 1B4M")
 pdb_code = input("Input 4-Letter PDB Code: ")
@@ -12,31 +17,16 @@ print("4 = Tetrahedral Lattice Structure")
 print("5 = N-Dimensional Lattice Structure")
 structure = input("Input Structure: ")
 
-
-new_lines = f'HEADER Modification of {pdb_code} PDB Code\n' \
-            f'REMARK Structure: {structure}\n'
-
-seq_lines = ''
-atom_lines = ''
-
-if structure == "DEFAULT STRUCTURE":
-    seq_lines, atom_lines = s1.default()
-elif structure == "1-DIMENSIONAL CUBIC LATTICE STRUCTURE":
-    seq_lines, atom_lines = s1.one_d_cubic()
-elif structure == "3-DIMENSIONAL CUBIC LATTICE STRUCTURE":
-    seq_lines, atom_lines = s1.three_d_cubic()
-elif structure == "TETRAHEDERAL LATTICE STRUCTURE":
-    seq_lines, atom_lines = s1.tetrahederal()
-
-new_lines += seq_lines
-new_lines += atom_lines
-new_lines += 'END'
-
-with open(f'Modified_PDB_Files/{pdb_code}_modified.pdb', 'w') as file:
-    file.write(new_lines)
-
-view_pdb(f"Modified_PDB_Files/{pdb_code}_modified.pdb")
-view_pdb(f"PDB_Files/{pdb_code}.pdb")
-
-create_report(pdb_code)
-
+if structure == "1":
+    create_backbone(pdb_code)
+elif structure == "2":
+    create_one_dim_cubic(pdb_code)
+elif structure == "3":
+    create_three_dim_cubic(pdb_code)
+elif structure == "4":
+    create_tetrahederal_lattice(pdb_code)
+elif structure == "5":
+    create_n_dimensional_lattice(pdb_code)
+else:
+    print("Invalid Structure")
+    exit()
