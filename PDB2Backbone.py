@@ -1,6 +1,7 @@
-from Structures import OneDimCubic as onecube
-from Structures import ThreeDimCubic as threecube
-from Structures import Tetrahederal as tetra
+from OneDimCubic import OneDimCubic as onecube
+from ThreeDimCubic import ThreeDimCubic as threecube
+from TetrahederalLattice import Tetrahederal as tetra
+
 
 class Structure:
     def __init__(self, model, nonstandard):
