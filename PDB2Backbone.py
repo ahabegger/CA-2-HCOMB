@@ -1,6 +1,6 @@
-from OneDimCubic import OneDimCubic as onecube
-from ThreeDimCubic import ThreeDimCubic as threecube
-from Tetrahederal import Tetrahederal as tetra
+import pandas as pd
+import numpy as np
+
 
 def create_backbone(pdb_code):
     model = ""

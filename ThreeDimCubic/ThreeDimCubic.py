@@ -1,3 +1,6 @@
+import pandas as pd
+import numpy as np
+
 def create_three_dim_cubic(pdb_code):
     return None
 
