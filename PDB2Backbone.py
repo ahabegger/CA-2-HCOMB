@@ -7,19 +7,19 @@ This script will take a PDB file and convert it into a backbone-only XYZ.
 '''
 
 
-def create_backbone(pdb_code):
+def create_backbone(pdb_id):
     # Define the URL for the PDB file
-    pdb_url = f'https://files.rcsb.org/download/{pdb_code}.pdb'
+    pdb_url = f'https://files.rcsb.org/download/{pdb_id}.pdb'
 
     try:
         # Download the PDB file
-        pdb_file, _ = urllib.request.urlretrieve(pdb_url, f'{pdb_code}.pdb')
+        pdb_file, _ = urllib.request.urlretrieve(pdb_url, f'{pdb_id}.pdb')
 
         # Initialize a PDB parser
         parser = PDB.PDBParser(QUIET=True)
 
         # Parse the PDB file
-        structure = parser.get_structure(pdb_code, pdb_file)
+        structure = parser.get_structure(pdb_id, pdb_file)
 
         # Create lists to store data
         id = []
