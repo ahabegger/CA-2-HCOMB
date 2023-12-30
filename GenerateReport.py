@@ -1,6 +1,31 @@
 import requests
 import nglview
 
+new_lines = f'HEADER Modification of {pdb_code} PDB Code\n' \
+            f'REMARK Structure: {structure}\n'
+
+seq_lines = ''
+atom_lines = ''
+
+if structure == "DEFAULT STRUCTURE":
+    seq_lines, atom_lines = s1.default()
+elif structure == "1-DIMENSIONAL CUBIC LATTICE STRUCTURE":
+    seq_lines, atom_lines = s1.one_d_cubic()
+elif structure == "3-DIMENSIONAL CUBIC LATTICE STRUCTURE":
+    seq_lines, atom_lines = s1.three_d_cubic()
+elif structure == "TETRAHEDERAL LATTICE STRUCTURE":
+    seq_lines, atom_lines = s1.tetrahederal()
+
+new_lines += seq_lines
+new_lines += atom_lines
+new_lines += 'END'
+
+with open(f'Modified_PDB_Files/{pdb_code}_modified.pdb', 'w') as file:
+    file.write(new_lines)
+
+view_pdb(f"Modified_PDB_Files/{pdb_code}_modified.pdb")
+view_pdb(f"PDB_Files/{pdb_code}.pdb")
+
 
 def view_pdb(pdb_file):
     view = nglview.show_structure_file(pdb_file)
