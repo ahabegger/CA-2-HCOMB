@@ -1,6 +1,7 @@
-import pandas as pd
-import numpy as np
 import requests
+import pandas as pd
+from Bio import PDB
+import urllib.request
 
 '''
 This script will take a PDB file and convert it into a backbone-only XYZ.
@@ -8,7 +9,48 @@ This script will take a PDB file and convert it into a backbone-only XYZ.
 
 
 def create_backbone(pdb_code):
-    download_pdb(pdb_code)
+    # Define the URL for the PDB file
+    pdb_url = f'https://files.rcsb.org/download/{pdb_code}.pdb'
+
+    try:
+        # Download the PDB file
+        pdb_file, _ = urllib.request.urlretrieve(pdb_url, f'{pdb_code}.pdb')
+
+        # Initialize a PDB parser
+        parser = PDB.PDBParser(QUIET=True)
+
+        # Parse the PDB file
+        structure = parser.get_structure(pdb_code, pdb_file)
+
+        # Create lists to store data
+        id = []
+        amino_acids = []
+        coordinates = [[], [], []]
+
+        # Iterate over all models, chains, residues, and atoms
+        for model in structure:
+            for chain in model:
+                for residue in chain:
+                    resname = residue.get_resname()
+                    for atom in residue:
+                        if atom.name == "CA":
+                            id.append(f"{chain.id}:{residue.id[1]}")
+                            amino_acids.append(resname)
+                            coordinates[0].append(atom.get_coord()[0])  # X
+                            coordinates[1].append(atom.get_coord()[1])  # Y
+                            coordinates[2].append(atom.get_coord()[2])  # Z
+
+        # Create a DataFrame
+        df = pd.DataFrame({'ID': id,
+                           'Amino Acid': amino_acids,
+                           'X': coordinates[0],
+                           'Y': coordinates[1],
+                           'Z': coordinates[2]})
+
+        return df
+
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 
 def download_pdb(pdb_id):
@@ -20,11 +62,10 @@ def download_pdb(pdb_id):
 
     # If the request was successful
     if response.status_code == 200:
-        print(response.content)
-        return True
+        return response.content
     else:
         print(f'Error downloading {pdb_id}.pdb. Status code: {response.status_code}')
-        return False
+        exit(0)
 
 
 class Structure:
@@ -92,4 +133,7 @@ class Structure:
 
 
 if __name__ == "__main__":
-    create_backbone('1A3M')
+    # Example usage:
+    pdb_code = "2WFU"  # Replace with the PDB code you want to analyze
+    df = create_backbone(pdb_code)
+    print(df)

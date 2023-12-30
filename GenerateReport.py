@@ -5,7 +5,6 @@ import numpy as np
 
 def create_report(pdb_code, output_xyz, structure):
     download_pdb(pdb_code)
-
     create_modified_pdb(pdb_code, output_xyz, structure)
 
     title = ""
