@@ -20,23 +20,23 @@ structure = input("Input Structure: ")
 if structure == "1":
     xyz = create_backbone(pdb_code)
     print(xyz)
-    create_report(xyz)
+    create_report(pdb_code, xyz, "CA Backbone Structure")
 elif structure == "2":
     xyz = create_one_dim_cubic(pdb_code)
     print(xyz)
-    create_report(xyz)
+    create_report(pdb_code, xyz, "1-Dimensional Cubic Lattice Structure")
 elif structure == "3":
     xyz = create_three_dim_cubic(pdb_code)
     print(xyz)
-    create_report(xyz)
+    create_report(pdb_code, xyz, "3-Dimensional Cubic Lattice Structure")
 elif structure == "4":
     xyz = create_tetrahedral_lattice(pdb_code)
     print(xyz)
-    create_report(xyz)
+    create_report(pdb_code, xyz, "Tetrahedral Lattice Structure")
 elif structure == "5":
     xyz = create_n_dimensional_lattice(pdb_code)
     print(xyz)
-    create_report(xyz)
+    create_report(pdb_code, xyz, "N-Dimensional Lattice Structure")
 else:
     print("Invalid Structure")
     exit()

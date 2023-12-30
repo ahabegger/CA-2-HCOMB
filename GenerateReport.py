@@ -1,54 +1,27 @@
 import requests
 import nglview
+import numpy as np
 
 
-new_lines = f'HEADER Modification of {pdb_code} PDB Code\n' \
-            f'REMARK Structure: {structure}\n'
+def create_report(pdb_code, output_xyz, structure):
+    download_pdb(pdb_code)
 
-seq_lines = ''
-atom_lines = ''
+    create_modified_pdb(pdb_code, output_xyz, structure)
 
-if structure == "DEFAULT STRUCTURE":
-    seq_lines, atom_lines = s1.default()
-elif structure == "1-DIMENSIONAL CUBIC LATTICE STRUCTURE":
-    seq_lines, atom_lines = s1.one_d_cubic()
-elif structure == "3-DIMENSIONAL CUBIC LATTICE STRUCTURE":
-    seq_lines, atom_lines = s1.three_d_cubic()
-elif structure == "TETRAHEDERAL LATTICE STRUCTURE":
-    seq_lines, atom_lines = s1.tetrahederal()
-
-new_lines += seq_lines
-new_lines += atom_lines
-new_lines += 'END'
-
-with open(f'Modified_PDB_Files/{pdb_code}_modified.pdb', 'w') as file:
-    file.write(new_lines)
-
-view_pdb(f"Modified_PDB_Files/{pdb_code}_modified.pdb")
-view_pdb(f"PDB_Files/{pdb_code}.pdb")
-
-
-def view_pdb(pdb_file):
-    view = nglview.show_structure_file(pdb_file)
-    nglview.write_html(f'Diagrams/{pdb_file.split("/")[1].split(".")[0]}.html', view)
-    return view
-
-
-def create_report(pdb_code):
     title = ""
-    with open(f"PDB_Files/{pdb_code}.pdb") as file:
+    with open(f"TransformationReports/PDB_Files/{pdb_code}.pdb") as file:
         for line in file:
             if "TITLE" in line:
                 title += line
 
     input_diagram = ""
-    with open(f"Diagrams/{pdb_code}.html") as file:
+    with open(f"diagram_{pdb_code}.html") as file:
         for line in file:
             input_diagram += line
     input_diagram = input_diagram.split("body>")[1][:-2]
 
     output_diagram = ""
-    with open(f"Diagrams/{pdb_code}_modified.html") as file:
+    with open(f"diagram_{pdb_code}_modified.html") as file:
         for line in file:
             output_diagram += line
     output_diagram = output_diagram.split("body>")[1][:-2]
@@ -88,14 +61,13 @@ def create_report(pdb_code):
         file.write(code)
 
 
-def download_pdb(pdb_id):
-    """
-    Download a PDB file given the PDB ID.
+def view_pdb(pdb_file):
+    view = nglview.show_structure_file(pdb_file)
+    nglview.write_html(f'Diagrams/{pdb_file.split("/")[1].split(".")[0]}.html', view)
+    return view
 
-    Args:
-    pdb_id (str): The ID of the PDB record.
-    """
-    # Construct the URL
+
+def download_pdb(pdb_id):
     url = f'https://files.rcsb.org/download/{pdb_id}.pdb'
 
     # Send a request to the URL
@@ -103,13 +75,19 @@ def download_pdb(pdb_id):
 
     # If the request was successful
     if response.status_code == 200:
-        # The destination file path (you may want to customize this)
-        file_path = f'PDB_Files/{pdb_id}.pdb'
+        file_path = f'TransformationReports/PDB_Files/{pdb_id}.pdb'
 
-        # Write the response content (the PDB file) to a local file
         with open(file_path, 'wb') as file:
             file.write(response.content)
         return True
     else:
         print(f'Error downloading {pdb_id}.pdb. Status code: {response.status_code}')
         return False
+
+
+def create_modified_pdb(pdb_code, output_xyz, structure):
+    pass
+
+
+if __name__ == "__main__":
+    pass
