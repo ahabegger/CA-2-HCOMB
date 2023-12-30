@@ -1,9 +1,10 @@
 import pandas as pd
 from Bio import PDB
 import urllib.request
+import os
 
 '''
-This script will take a PDB file and convert it into a backbone-only XYZ.
+This script will take a PDB id and convert it into a backbone-only XYZ dataframe.
 '''
 
 
@@ -45,6 +46,9 @@ def create_backbone(pdb_id):
                                'X': coordinates[0],
                                'Y': coordinates[1],
                                'Z': coordinates[2]})
+
+        # Remove the PDB file
+        os.remove(f'{pdb_id}.pdb')
 
         return xyz_df
 
