@@ -22,31 +22,31 @@ def create_backbone(pdb_id):
         structure = parser.get_structure(pdb_id, pdb_file)
 
         # Create lists to store data
-        id = []
+        chain_id = []
         amino_acids = []
-        coordinates = [[], [], []]
+        coordinates = [[], [], []]  # X, Y, Z
 
         # Iterate over all models, chains, residues, and atoms
         for model in structure:
             for chain in model:
                 for residue in chain:
-                    resname = residue.get_resname()
+                    residue_name = residue.get_resname()
                     for atom in residue:
                         if atom.name == "CA":
-                            id.append(f"{chain.id}:{residue.id[1]}")
-                            amino_acids.append(resname)
+                            chain_id.append(f"{chain.id}:{residue.id[1]}")
+                            amino_acids.append(residue_name)
                             coordinates[0].append(atom.get_coord()[0])  # X
                             coordinates[1].append(atom.get_coord()[1])  # Y
                             coordinates[2].append(atom.get_coord()[2])  # Z
 
         # Create a DataFrame
-        df = pd.DataFrame({'ID': id,
-                           'Amino Acid': amino_acids,
-                           'X': coordinates[0],
-                           'Y': coordinates[1],
-                           'Z': coordinates[2]})
+        xyz_df = pd.DataFrame({'ID': chain_id,
+                               'Amino Acid': amino_acids,
+                               'X': coordinates[0],
+                               'Y': coordinates[1],
+                               'Z': coordinates[2]})
 
-        return df
+        return xyz_df
 
     except Exception as e:
         return f"Error: {str(e)}"
