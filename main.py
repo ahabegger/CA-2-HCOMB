@@ -7,7 +7,7 @@ from NDimLattice.NDimLattice import create_n_dimensional_lattice
 
 is_test = True
 structure = "1"
-pdb_code = "1A0M"
+pdb_code = "1A2M"
 
 if not is_test:
     print("Sample PDB Codes are 1A0M, 1A1M, 1A2M, 1A3M, 1A4M, 1A5M, 1A6M, 1A7M, 1A8M, 1A9M, 1B0M, 1B1M, 1B2M, 1B3M, 1B4M")
@@ -24,7 +24,7 @@ if not is_test:
 if structure == "1":
     xyz = create_backbone(pdb_code)
     print(xyz)
-    create_report(pdb_code, xyz, "CA Backbone Structure")
+    #create_report(pdb_code, xyz, "CA Backbone Structure")
 elif structure == "2":
     xyz = create_one_dim_cubic(pdb_code)
     print(xyz)

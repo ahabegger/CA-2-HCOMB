@@ -4,7 +4,10 @@ import numpy as np
 
 
 def create_report(pdb_code, output_xyz, structure):
+    # Download the PDB file
     download_pdb(pdb_code)
+
+    # Create the Modified PDB File
     create_modified_pdb(pdb_code, output_xyz, structure)
 
     title = ""
@@ -13,6 +16,9 @@ def create_report(pdb_code, output_xyz, structure):
             if "TITLE" in line:
                 title += line
 
+    print(title)
+
+def pause():
     input_diagram = ""
     with open(f"diagram_{pdb_code}.html") as file:
         for line in file:
