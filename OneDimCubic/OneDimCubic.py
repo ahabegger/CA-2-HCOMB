@@ -16,6 +16,13 @@ def create_one_dim_cubic(pdb_code):
 
     print(cost_df)
 
+    # Find the lowest cost for each row
+    lowest_cost = cost_df.idxmin(axis=1)
+    lowest_cost = lowest_cost.tolist()
+
+    print(lowest_cost)
+
+
     movements = {
         1: [1, 0, 0], 2: [-1, 0, 0], 3: [0, 1, 0],
         4: [0, -1, 0], 5: [0, 0, 1], 6: [0, 0, -1]
