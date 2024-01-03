@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from PDB2Backbone import create_backbone
+import ThreeDimCubic.XYZ_helper as xyz_helper
 
 
 def create_three_dim_cubic(pdb_code):
@@ -14,7 +15,15 @@ def create_three_dim_cubic(pdb_code):
         costs = cost_calculations(backbone_xyz.iloc[i], backbone_xyz.iloc[i + 1])
         cost_df.iloc[i] = costs
 
-    return backbone_xyz
+    # Find the lowest cost for each row
+    lowest_cost = cost_df.idxmin(axis=1)
+    lowest_cost = lowest_cost.tolist()
+
+    lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
+
+    print(lowest_xyz)
+
+    return lowest_xyz
 
 
 def cost_calculations(input_origin, input_destination):
