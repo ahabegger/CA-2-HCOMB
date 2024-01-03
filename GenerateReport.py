@@ -95,9 +95,10 @@ def replace_coordinates(input_line, new_coords):
 
 def create_modified_pdb(pdb_code, output_xyz, structure):
     # Set the PDB file structure
-    header = f"HEADER       Modified {pdb_code} PDB File"
+    header = f"HEADER    Modified File of {pdb_code}"
     title = f"TITLE     {structure} {pdb_code}"
-    remark = (f"REMARK    Changed using PDB2LatticePy\n"
+    remark = (f"REMARK    All Credit to the original authors of {pdb_code}\n"
+              f"REMARK    Changed using PDB2LatticePy\n"
               f"REMARK    GitHub: https://github.com/ahabegger/PDB-2-Lattice")
     seq_lines = ""
     atom_lines = ""

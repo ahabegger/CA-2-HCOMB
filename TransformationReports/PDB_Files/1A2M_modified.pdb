@@ -1,8 +1,8 @@
-HEADER       Modified 1A2M PDB File
+HEADER    Modified File of 1A2M
 TITLE     CA Backbone Structure 1A2M
+REMARK    All Credit to the original authors of 1A2M
 REMARK    Changed using PDB2LatticePy
 REMARK    GitHub: https://github.com/ahabegger/PDB-2-Lattice
-
 SEQRES   1 A  189  ALA GLN TYR GLU ASP GLY LYS GLN TYR THR THR LEU GLU          
 SEQRES   2 A  189  LYS PRO VAL ALA GLY ALA PRO GLN VAL LEU GLU PHE PHE          
 SEQRES   3 A  189  SER PHE PHE CYS PRO HIS CYS TYR GLN PHE GLU GLU VAL          
