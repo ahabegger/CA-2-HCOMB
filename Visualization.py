@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def visualize(xyz, amino_info):
+def visualize(xyz, amino_info, title='Protein Structure'):
     # Convert to DataFrame for easier processing
     df = pd.DataFrame(xyz)
 
@@ -17,7 +17,7 @@ def visualize(xyz, amino_info):
 
     # Create 3D plot
     fig = plt.figure()
-    fig.suptitle('One Dimensional Cubic Lattice', fontsize=16)
+    fig.suptitle(title, fontsize=16)
     ax = fig.add_subplot(projection='3d')
 
     # Plot all points as a line plot to maintain the original order

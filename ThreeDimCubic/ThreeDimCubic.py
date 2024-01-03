@@ -22,7 +22,7 @@ def create_three_dim_cubic(pdb_code):
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
-    plot.visualize(lowest_xyz, backbone_xyz)
+    plot.visualize(lowest_xyz, backbone_xyz, title="Three Dimensional Cubic Lattice")
 
     return lowest_xyz
 
