@@ -6,7 +6,7 @@ from Tetrahederal.Tetrahederal import create_tetrahedral_lattice
 from NDimLattice.NDimLattice import create_n_dimensional_lattice
 
 is_test = True
-structure = "1"
+structure = "2"
 pdb_code = "1A2M"
 
 if not is_test:
