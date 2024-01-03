@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from PDB2Backbone import create_backbone
 import ThreeDimCubic.XYZ_helper as xyz_helper
+import Visualization as plot
 
 
 def create_three_dim_cubic(pdb_code):
@@ -21,7 +22,7 @@ def create_three_dim_cubic(pdb_code):
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
-    print(lowest_xyz)
+    plot.visualize(lowest_xyz, backbone_xyz)
 
     return lowest_xyz
 
