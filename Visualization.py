@@ -1,12 +1,10 @@
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
-import mplcursors
 
 
-def visualize(lowest_xyz, amino_info):
+def visualize(xyz, amino_info):
     # Convert to DataFrame for easier processing
-    df = pd.DataFrame(lowest_xyz)
+    df = pd.DataFrame(xyz)
 
     # Add the amino acid information
     amino_df = amino_info[['ID', 'Amino Acid']]  # Extract the ID and Amino Acid columns

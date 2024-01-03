@@ -1,8 +1,8 @@
 import pandas as pd
 
 
-def covert_to_xyz(lowest_cost):
-    xyz = pd.DataFrame(0.0, index=range(len(lowest_cost) + 1), columns=['X', 'Y', 'Z'])
+def covert_to_xyz(moves_26):
+    xyz = pd.DataFrame(0.0, index=range(len(moves_26) + 1), columns=['X', 'Y', 'Z'])
     movements = {
         1: [0, 0, -1], 2: [0, 0, 1],
         3: [0, -1, 0], 4: [0, -1, -1], 5: [0, -1, 1],
@@ -15,8 +15,8 @@ def covert_to_xyz(lowest_cost):
         24: [1, 1, 0], 25: [1, 1, -1], 26: [1, 1, 1]
     }
 
-    for i in range(len(lowest_cost)):
-        xyz.iloc[i + 1] = xyz.iloc[i] + movements[lowest_cost[i]]
+    for i in range(len(moves_26)):
+        xyz.iloc[i + 1] = xyz.iloc[i] + movements[moves_26[i]]
 
     return xyz
 

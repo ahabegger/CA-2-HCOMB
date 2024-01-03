@@ -1,8 +1,7 @@
 import pandas as pd
-import numpy as np
 from PDB2Backbone import create_backbone
 import OneDimCubic.XYZ_helper as xyz_helper
-import OneDimCubic.Visualization as plot
+import Visualization as plot
 
 
 def create_one_dim_cubic(pdb_code):
