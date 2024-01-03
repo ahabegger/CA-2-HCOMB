@@ -4,7 +4,7 @@ import urllib.request
 import os
 
 '''
-This script will take a PDB id and convert it into a backbone-only XYZ dataframe.
+This function takes a PDB code and returns a DataFrame containing the backbone structure of the protein.
 '''
 
 

@@ -11,6 +11,10 @@ def create_report(pdb_code, output_xyz, structure):
     # Create the Modified PDB File
     create_modified_pdb(pdb_code, output_xyz, structure)
 
+    # Create the Diagrams
+    create_diagram(f"TransformationReports/PDB_Files/{pdb_code}.pdb")
+    create_diagram(f"TransformationReports/PDB_Files/{pdb_code}_modified.pdb")
+
 
 def pause(pdb_code):
     input_diagram = ""
@@ -30,7 +34,7 @@ def pause(pdb_code):
         for line in file:
             if "REMARK" in line:
                 changes += '<p>' + line + '</p>\n'
-
+    title = ""
     top = f"<!DOCTYPE html>\n" \
           f"<html lang=\"en\">\n" \
           f"<head>\n" \
@@ -60,22 +64,18 @@ def pause(pdb_code):
         file.write(code)
 
 
-def view_pdb(pdb_file):
+def create_diagram(pdb_file):
     view = nglview.show_structure_file(pdb_file)
-    nglview.write_html(f'Diagrams/{pdb_file.split("/")[1].split(".")[0]}.html', view)
-    return view
+    nglview.write_html(f'{pdb_file.split("/")[2].split(".")[0]}_diagram.html', view)
 
 
 def download_pdb(pdb_id):
     url = f'https://files.rcsb.org/download/{pdb_id}.pdb'
-
-    # Send a request to the URL
     response = requests.get(url)
 
     # If the request was successful
     if response.status_code == 200:
         file_path = f'TransformationReports/PDB_Files/{pdb_id}.pdb'
-
         with open(file_path, 'wb') as file:
             file.write(response.content)
         return True

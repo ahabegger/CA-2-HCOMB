@@ -10,7 +10,8 @@ structure = "1"
 pdb_code = "1A2M"
 
 if not is_test:
-    print("Sample PDB Codes are 1A0M, 1A1M, 1A2M, 1A3M, 1A4M, 1A5M, 1A6M, 1A7M, 1A8M, 1A9M, 1B0M, 1B1M, 1B2M, 1B3M, 1B4M")
+    print("Sample PDB Codes are 1A0M, 1A1M, 1A2M, 1A3M, 1A4M, "
+          "1A5M, 1A6M, 1A7M, 1A8M, 1A9M, 1B0M, 1B1M, 1B2M, 1B3M, 1B4M")
     pdb_code = input("Input 4-Letter PDB Code: ")
 
     print("Structure Options:")
