@@ -23,8 +23,7 @@ def create_one_dim_cubic(pdb_code):
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
-    output_xyz = backbone_xyz
-    return output_xyz
+    return lowest_xyz
 
 
 def cost_calculations(input_origin, input_destination):
