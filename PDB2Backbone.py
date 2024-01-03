@@ -4,7 +4,8 @@ import urllib.request
 import os
 
 '''
-This function takes a PDB code and returns a DataFrame containing the backbone structure of the protein.
+PDB2Backbone.py
+This Script takes a PDB code and creates a DataFrame containing the coordinates of the protein backbone.
 '''
 
 

@@ -5,6 +5,12 @@ from ThreeDimCubic.ThreeDimCubic import create_three_dim_cubic
 from Tetrahederal.Tetrahederal import create_tetrahedral_lattice
 from NDimLattice.NDimLattice import create_n_dimensional_lattice
 
+'''
+main.py
+This Script takes a PDB code and a structure type and creates a report containing the original PDB file, the modified
+PDB file, and the diagrams of both.
+'''
+
 is_test = True
 structure = "2"
 pdb_code = "1A2M"

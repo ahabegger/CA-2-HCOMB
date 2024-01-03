@@ -2,6 +2,12 @@ import requests
 import nglview
 import os
 
+'''
+GenerateReport.py
+This Script takes a PDB code and a DataFrame containing the new coordinates of the protein backbone and creates a
+report containing the original PDB file, the modified PDB file, and the diagrams of both.
+'''
+
 
 def create_report(pdb_code, output_xyz, structure):
     # Download the PDB file
