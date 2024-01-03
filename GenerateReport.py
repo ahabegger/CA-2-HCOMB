@@ -1,6 +1,7 @@
 import requests
 import nglview
 import numpy as np
+import pandas as pd
 
 
 def create_report(pdb_code, output_xyz, structure):
@@ -10,15 +11,8 @@ def create_report(pdb_code, output_xyz, structure):
     # Create the Modified PDB File
     create_modified_pdb(pdb_code, output_xyz, structure)
 
-    title = ""
-    with open(f"TransformationReports/PDB_Files/{pdb_code}.pdb") as file:
-        for line in file:
-            if "TITLE" in line:
-                title += line
 
-    print(title)
-
-def pause():
+def pause(pdb_code):
     input_diagram = ""
     with open(f"diagram_{pdb_code}.html") as file:
         for line in file:
@@ -92,7 +86,11 @@ def download_pdb(pdb_id):
 
 def replace_coordinates(input_line, new_coords):
     # Ensure the new coordinates are in the correct format
-    return input_line[:30] + f"{new_coords[0]:8.3f}" + f"{new_coords[1]:8.3f}" + f"{new_coords[2]:8.3f}" + input_line[54:]
+    return (input_line[:30] +
+            f"{new_coords.X:8.3f}" +  # New X coordinate
+            f"{new_coords.Y:8.3f}" +  # New Y coordinate
+            f"{new_coords.Z:8.3f}" +  # New Z coordinate
+            input_line[54:])
 
 
 def create_modified_pdb(pdb_code, output_xyz, structure):
@@ -100,7 +98,7 @@ def create_modified_pdb(pdb_code, output_xyz, structure):
     header = f"HEADER       Modified {pdb_code} PDB File"
     title = f"TITLE     {structure} {pdb_code}"
     remark = (f"REMARK    Changed using PDB2LatticePy\n"
-              f"REMARK    GitHub: https://github.com/ahabegger/PDB-2-Lattice\n")
+              f"REMARK    GitHub: https://github.com/ahabegger/PDB-2-Lattice")
     seq_lines = ""
     atom_lines = ""
     end = "END"
@@ -108,6 +106,7 @@ def create_modified_pdb(pdb_code, output_xyz, structure):
     # Read the PDB file
     with open(f"TransformationReports/PDB_Files/{pdb_code}.pdb") as file:
         pdb_file = file.read()
+        counter = 1
         for line in pdb_file.splitlines():
 
             # Add the SEQRES lines to the new PDB file
@@ -115,7 +114,6 @@ def create_modified_pdb(pdb_code, output_xyz, structure):
                 seq_lines += line + '\n'
 
             # Add the ATOM lines to the new PDB file
-            counter = 1
             if line.split()[0] in ["ATOM"]:
                 if line.split()[2] in ['CA']:
                     atom_lines += f"{line[:7]}{counter:>4}{line[11:]}" + '\n'
@@ -128,9 +126,10 @@ def create_modified_pdb(pdb_code, output_xyz, structure):
         file.write(remark + '\n')
         file.write(seq_lines)
         for x in range(len(atom_lines.splitlines())):
-            new_line = replace_coordinates(atom_lines.splitlines()[x], output_xyz[x])
+            new_line = replace_coordinates(atom_lines.splitlines()[x], output_xyz.iloc[x])
             file.write(new_line + '\n')
         file.write(end)
+
 
 class Structure:
     def __init__(self, model, nonstandard):
@@ -194,6 +193,7 @@ class Structure:
         print(self.atom_lines)
         print(self.input_xyz)
         print(self.output_xyz)
+
 
 if __name__ == "__main__":
     pass
