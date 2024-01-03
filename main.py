@@ -35,7 +35,7 @@ if structure == "1":
 elif structure == "2":
     xyz = create_one_dim_cubic(pdb_code)
     print(xyz)
-    create_report(pdb_code, xyz, "1-Dimensional Cubic Lattice Structure")
+    # create_report(pdb_code, xyz, "1-Dimensional Cubic Lattice Structure")
 elif structure == "3":
     xyz = create_three_dim_cubic(pdb_code)
     print(xyz)

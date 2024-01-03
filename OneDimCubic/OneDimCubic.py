@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 from PDB2Backbone import create_backbone
-import OneDimCubic.xyz_helper as xyz_helper
+import OneDimCubic.XYZ_helper as xyz_helper
+import OneDimCubic.Visualization as plot
 
 
 def create_one_dim_cubic(pdb_code):
@@ -22,6 +23,8 @@ def create_one_dim_cubic(pdb_code):
     lowest_cost = lowest_cost.tolist()
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
+
+    plot.visualize(lowest_xyz)
 
     return lowest_xyz
 
