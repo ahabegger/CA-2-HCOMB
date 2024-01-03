@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from PDB2Backbone import create_backbone
+import OneDimCubic.xyz_helper as xyz_helper
 
 
 def create_one_dim_cubic(pdb_code):
@@ -20,23 +21,10 @@ def create_one_dim_cubic(pdb_code):
     lowest_cost = cost_df.idxmin(axis=1)
     lowest_cost = lowest_cost.tolist()
 
-    print(lowest_cost)
-
-
-    movements = {
-        1: [1, 0, 0], 2: [-1, 0, 0], 3: [0, 1, 0],
-        4: [0, -1, 0], 5: [0, 0, 1], 6: [0, 0, -1]
-    }
+    lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
     output_xyz = backbone_xyz
     return output_xyz
-
-
-def is_valid(xyz):
-    copy = xyz
-    copy = copy[~(copy == -1000).any(axis=1)]
-    rows_are_unique = copy.duplicated().sum() == 0
-    return rows_are_unique
 
 
 def cost_calculations(input_origin, input_destination):
