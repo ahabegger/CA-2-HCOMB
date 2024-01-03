@@ -26,10 +26,25 @@ def create_tetrahedral_lattice(pdb_code):
 
     plot.visualize(lowest_xyz, backbone_xyz, title="Tetrahedral Lattice")
 
-    return None
+    return lowest_xyz
 
 
 def cost_calculations(input_origin, input_destination):
+    origin = np.array([input_origin.X, input_origin.Y, input_origin.Z])
+    destination = np.array([input_destination.X, input_destination.Y, input_destination.Z])
+    movement_vector = destination - origin
+    magnitude = np.linalg.norm(movement_vector)
+    unit_vector = movement_vector / magnitude
+
+    # Distance between unit vector and each of the 4 possible moves
+    move_cost = {
+        1: np.linalg.norm(unit_vector - np.array([0, 0, -1])),
+        2: np.linalg.norm(unit_vector - np.array([0, -1, 0])),
+        3: np.linalg.norm(unit_vector - np.array([-1, 0, 0])),
+        4: np.linalg.norm(unit_vector - np.array([1, 1, 1]))
+    }
+    #print(unit_vector)
+
     return None
 
 
