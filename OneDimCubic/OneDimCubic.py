@@ -24,7 +24,7 @@ def create_one_dim_cubic(pdb_code):
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
-    plot.visualize(lowest_xyz)
+    plot.visualize(lowest_xyz, backbone_xyz)
 
     return lowest_xyz
 
