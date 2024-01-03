@@ -90,8 +90,47 @@ def download_pdb(pdb_id):
         return False
 
 
+def replace_coordinates(input_line, new_coords):
+    # Ensure the new coordinates are in the correct format
+    return input_line[:30] + f"{new_coords[0]:8.3f}" + f"{new_coords[1]:8.3f}" + f"{new_coords[2]:8.3f}" + input_line[54:]
+
+
 def create_modified_pdb(pdb_code, output_xyz, structure):
-    pass
+    # Set the PDB file structure
+    header = f"HEADER       Modified {pdb_code} PDB File"
+    title = f"TITLE     {structure} {pdb_code}"
+    remark = (f"REMARK    Changed using PDB2LatticePy\n"
+              f"REMARK    GitHub: https://github.com/ahabegger/PDB-2-Lattice\n")
+    seq_lines = ""
+    atom_lines = ""
+    end = "END"
+
+    # Read the PDB file
+    with open(f"TransformationReports/PDB_Files/{pdb_code}.pdb") as file:
+        pdb_file = file.read()
+        for line in pdb_file.splitlines():
+
+            # Add the SEQRES lines to the new PDB file
+            if line.split()[0] == "SEQRES":
+                seq_lines += line + '\n'
+
+            # Add the ATOM lines to the new PDB file
+            counter = 1
+            if line.split()[0] in ["ATOM"]:
+                if line.split()[2] in ['CA']:
+                    atom_lines += f"{line[:7]}{counter:>4}{line[11:]}" + '\n'
+                    counter += 1
+
+    # Create the new Modified PDB file
+    with open(f"TransformationReports/PDB_Files/{pdb_code}_modified.pdb", 'w') as file:
+        file.write(header + '\n')
+        file.write(title + '\n')
+        file.write(remark + '\n')
+        file.write(seq_lines)
+        for x in range(len(atom_lines.splitlines())):
+            new_line = replace_coordinates(atom_lines.splitlines()[x], output_xyz[x])
+            file.write(new_line + '\n')
+        file.write(end)
 
 class Structure:
     def __init__(self, model, nonstandard):

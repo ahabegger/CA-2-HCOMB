@@ -24,7 +24,7 @@ if not is_test:
 if structure == "1":
     xyz = create_backbone(pdb_code)
     print(xyz)
-    #create_report(pdb_code, xyz, "CA Backbone Structure")
+    create_report(pdb_code, xyz, "CA Backbone Structure")
 elif structure == "2":
     xyz = create_one_dim_cubic(pdb_code)
     print(xyz)
