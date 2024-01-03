@@ -1,7 +1,6 @@
 import requests
 import nglview
-import numpy as np
-import pandas as pd
+import os
 
 
 def create_report(pdb_code, output_xyz, structure):
@@ -21,23 +20,19 @@ def create_report(pdb_code, output_xyz, structure):
 
 def write_report_html(pdb_code, structure):
     input_diagram = ""
-    with open(f"diagram_{pdb_code}.html") as file:
+    with open(f"{pdb_code}_diagram.html") as file:
         for line in file:
             input_diagram += line
     input_diagram = input_diagram.split("body>")[1][:-2]
+    os.remove(f"{pdb_code}_diagram.html")
 
     output_diagram = ""
-    with open(f"diagram_{pdb_code}_modified.html") as file:
+    with open(f"{pdb_code}_modified_diagram.html") as file:
         for line in file:
             output_diagram += line
     output_diagram = output_diagram.split("body>")[1][:-2]
+    os.remove(f"{pdb_code}_modified_diagram.html")
 
-    changes = ""
-    with open(f"Modified_PDB_Files/{pdb_code}_modified.pdb") as file:
-        for line in file:
-            if "REMARK" in line:
-                changes += '<p>' + line + '</p>\n'
-    title = ""
     top = f"<!DOCTYPE html>\n" \
           f"<html lang=\"en\">\n" \
           f"<head>\n" \
@@ -49,22 +44,20 @@ def write_report_html(pdb_code, structure):
           f"</head>\n" \
           f"<body>\n" \
           f"<h1>PDB2LatticePy Report</h1>\n" \
-          f"<h2>{pdb_code} M2M Transformation</h2>\n"
-    for part in title.replace('TITLE', '').split('\n'):
-        top += f"<h2>{part}</h2>\n"
-    top += f"<h3>Input Model</h3>\n"
+          f"<h2>{pdb_code} Changed to {structure}</h2>\n" \
+          f"<h3>Input Model</h3>\n" \
+          f"TransformationReports/PDB_Files/{pdb_code}.pdb\n"
 
     bottom = '</body>\n<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" ' \
              'integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" ' \
              'crossorigin="anonymous"></script>\n</html> '
 
-    middle = '<h3>Changes</h3>\n' \
-             f'{changes.replace("REMARK", "")}\n' \
-             '<h3>Output Model</h3>\n'
+    middle = f'<h3>Output Model</h3>\n' \
+             f'TransformationReports/PDB_Files/{pdb_code}_modified.pdb\n'
 
-    code = top + input_diagram + middle + output_diagram + bottom
-    with open(f"Reports/{pdb_code}_transformation.html", 'w') as file:
-        file.write(code)
+    html = top + input_diagram + middle + output_diagram + bottom
+    with open(f"TransformationReports/Reports/{pdb_code}_transformation.html", 'w') as file:
+        file.write(html)
 
 
 def create_diagram(pdb_file):
