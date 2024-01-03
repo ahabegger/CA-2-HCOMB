@@ -12,7 +12,7 @@ PDB file, and the diagrams of both.
 '''
 
 is_test = True
-structure = "2"
+structure = "3"
 pdb_code = "1A2M"
 
 if not is_test:
@@ -39,15 +39,15 @@ elif structure == "2":
 elif structure == "3":
     xyz = create_three_dim_cubic(pdb_code)
     print(xyz)
-    create_report(pdb_code, xyz, "3-Dimensional Cubic Lattice Structure")
+    #create_report(pdb_code, xyz, "3-Dimensional Cubic Lattice Structure")
 elif structure == "4":
     xyz = create_tetrahedral_lattice(pdb_code)
     print(xyz)
-    create_report(pdb_code, xyz, "Tetrahedral Lattice Structure")
+    #create_report(pdb_code, xyz, "Tetrahedral Lattice Structure")
 elif structure == "5":
     xyz = create_n_dimensional_lattice(pdb_code)
     print(xyz)
-    create_report(pdb_code, xyz, "N-Dimensional Lattice Structure")
+    #create_report(pdb_code, xyz, "N-Dimensional Lattice Structure")
 else:
     print("Invalid Structure")
     exit()
