@@ -7,12 +7,12 @@ def create_one_dim_cubic(pdb_code):
     backbone_xyz = create_backbone(pdb_code)
 
     num_rows = backbone_xyz.shape[0]
-    cost_df = pd.DataFrame(0, index=range(num_rows - 1), columns=range(6))
+    cost_df = pd.DataFrame(0.0, index=range(num_rows - 1), columns=range(1, 7))
 
     # For each row in the backbone_xyz DataFrame
     for i in range(num_rows - 1):
-        costs = move_priority(backbone_xyz.iloc[i], backbone_xyz.iloc[i + 1])
-        print(costs)
+        costs = cost_calculations(backbone_xyz.iloc[i], backbone_xyz.iloc[i + 1])
+        cost_df.iloc[i] = costs
 
     print(cost_df)
 
