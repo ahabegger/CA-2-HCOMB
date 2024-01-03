@@ -1,6 +1,4 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 
 
 def covert_to_xyz(lowest_cost):
