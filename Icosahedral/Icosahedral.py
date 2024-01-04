@@ -28,7 +28,7 @@ def create_icosahedral(pdb_code):
     lowest_cost = cost_df.idxmin(axis=1)
     lowest_cost = lowest_cost.tolist()
 
-    lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
+    lowest_xyz = xyz_helper.convert_to_xyz(lowest_cost)
 
     plot.visualize(lowest_xyz, backbone_xyz, title="Icosahedral (12 Move) Lattice")
 

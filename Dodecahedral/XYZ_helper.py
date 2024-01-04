@@ -2,7 +2,7 @@ import math
 import pandas as pd
 
 
-def covert_to_xyz(moves_20):
+def convert_to_xyz(moves_20):
     xyz = pd.DataFrame(0.0, index=range(len(moves_20) + 1), columns=['X', 'Y', 'Z'])
     phi = (1 + math.sqrt(5)) / 2
 

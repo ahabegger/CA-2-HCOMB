@@ -2,8 +2,8 @@ import math
 import pandas as pd
 
 
-def covert_to_xyz(moves_20):
-    xyz = pd.DataFrame(0.0, index=range(len(moves_20) + 1), columns=['X', 'Y', 'Z'])
+def convert_to_xyz(moves_12):
+    xyz = pd.DataFrame(0.0, index=range(len(moves_12) + 1), columns=['X', 'Y', 'Z'])
     phi = (1 + math.sqrt(5)) / 2
 
     movements = {
@@ -15,8 +15,8 @@ def covert_to_xyz(moves_20):
         11: normalize([-phi, 0, 1]), 12: normalize([-phi, 0, -1])
     }
 
-    for i in range(len(moves_20)):
-        xyz.iloc[i + 1] = xyz.iloc[i] + movements[moves_20[i]]
+    for i in range(len(moves_12)):
+        xyz.iloc[i + 1] = xyz.iloc[i] + movements[moves_12[i]]
 
     return xyz
 

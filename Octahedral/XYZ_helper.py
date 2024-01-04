@@ -2,8 +2,9 @@ import pandas as pd
 import math
 
 
-def covert_to_xyz(moves_8):
+def convert_to_xyz(moves_8):
     xyz = pd.DataFrame(0.0, index=range(len(moves_8) + 1), columns=['X', 'Y', 'Z'])
+
     movements = {
         1: [1 / math.sqrt(3), 1 / math.sqrt(3), 1 / math.sqrt(3)],
         2: [-1 / math.sqrt(3), 1 / math.sqrt(3), 1 / math.sqrt(3)],

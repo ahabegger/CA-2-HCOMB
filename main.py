@@ -3,8 +3,8 @@ from PDB2Backbone import create_backbone
 from Tetrahederal.Tetrahederal import create_tetrahedral
 from Hexahedral.Hexahedral import create_hexahedral
 from Octahedral.Octahedral import create_octahedral
-from Dodecahedral.Dodecahedral import create_dodecahedral
 from Icosahedral.Icosahedral import create_icosahedral
+from Dodecahedral.Dodecahedral import create_dodecahedral
 
 '''
 main.py
@@ -13,7 +13,7 @@ PDB file, and the diagrams of both.
 '''
 
 is_test = True
-structure = "5"
+structure = "6"
 pdb_code = "1A2M"
 
 if not is_test:
@@ -26,8 +26,8 @@ if not is_test:
     print("2 = Tetrahedral (4 Moves) Lattice Structure")
     print("3 = Hexahedral (6 Moves) Lattice Structure")
     print("4 = Octahedral (8 Moves) Lattice Structure")
-    print("5 = Dodecahedron (12 Moves) Lattice Structure")
-    print("6 = Icosahedron (20 Moves) Lattice Structure")
+    print("5 = Dodecahedral (12 Moves) Lattice Structure")
+    print("6 = Dodecahedral (20 Moves) Lattice Structure")
     structure = input("Input Structure: ")
 
 if structure == "1":  # CA Backbone Structure
@@ -46,14 +46,14 @@ elif structure == "4":  # Octahedral (8 Moves) Lattice Structure
     xyz = create_octahedral(pdb_code)
     print(xyz)
     create_report(pdb_code, xyz, "Octahedral Lattice Structure")
-elif structure == "5":  # Dodecahedron (12 Moves) Lattice Structure
-    xyz = create_dodecahedral(pdb_code)
-    print(xyz)
-    create_report(pdb_code, xyz, "Dodecahedral Lattice Structure")
-elif structure == "6":  # Icosahedron (20 Moves) Lattice Structure
+elif structure == "5":  # Icosahedral (12 Moves) Lattice Structure
     xyz = create_icosahedral(pdb_code)
     print(xyz)
     create_report(pdb_code, xyz, "Icosahedral Lattice Structure")
+elif structure == "6":  # Dodecahedral (20 Moves) Lattice Structure
+    xyz = create_dodecahedral(pdb_code)
+    print(xyz)
+    create_report(pdb_code, xyz, "Dodecahedral Lattice Structure")
 else:
     print("Invalid Structure")
     exit()
