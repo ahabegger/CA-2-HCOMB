@@ -1,10 +1,10 @@
 import pandas as pd
 from PDB2Backbone import create_backbone
-import Hexahedral.XYZ_helper as xyz_helper
+import Dodecahedral.XYZ_helper as xyz_helper
 import Visualization as plot
 
 
-def create_one_dim_cubic(pdb_code):
+def create_dodecahedral(pdb_code):
     backbone_xyz = create_backbone(pdb_code)
 
     num_rows = backbone_xyz.shape[0]

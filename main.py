@@ -1,8 +1,8 @@
 from GenerateReport import create_report
 from PDB2Backbone import create_backbone
-from Hexahedral.Hexahedral import create_one_dim_cubic
+from Hexahedral.Hexahedral import create_hexahedral
 from ThreeDimCubic.ThreeDimCubic import create_three_dim_cubic
-from Tetrahederal.Tetrahederal import create_tetrahedral_lattice
+from Tetrahederal.Tetrahederal import create_tetrahedral
 from NDimLattice.NDimLattice import create_n_dimensional_lattice
 
 '''
@@ -34,7 +34,7 @@ if structure == "1":  # CA Backbone Structure
     print(xyz)
     #create_report(pdb_code, xyz, "CA Backbone Structure")
 elif structure == "2":
-    xyz = create_one_dim_cubic(pdb_code)
+    xyz = create_hexahedral(pdb_code)
     print(xyz)
     create_report(pdb_code, xyz, "1-Dimensional Cubic Lattice Structure")
 elif structure == "3":
@@ -42,7 +42,7 @@ elif structure == "3":
     print(xyz)
     #create_report(pdb_code, xyz, "3-Dimensional Cubic Lattice Structure")
 elif structure == "4":
-    xyz = create_tetrahedral_lattice(pdb_code)
+    xyz = create_tetrahedral(pdb_code)
     print(xyz)
     #create_report(pdb_code, xyz, "Tetrahedral Lattice Structure")
 elif structure == "5":

@@ -6,7 +6,7 @@ import Visualization as plot
 import Tetrahederal.XYZ_helper as xyz_helper
 
 
-def create_tetrahedral_lattice(pdb_code):
+def create_tetrahedral(pdb_code):
     backbone_xyz = create_backbone(pdb_code)
 
     num_rows = backbone_xyz.shape[0]
