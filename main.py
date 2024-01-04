@@ -1,9 +1,10 @@
 from GenerateReport import create_report
 from PDB2Backbone import create_backbone
-from Hexahedral.Hexahedral import create_hexahedral
-from ThreeDimCubic.ThreeDimCubic import create_three_dim_cubic
 from Tetrahederal.Tetrahederal import create_tetrahedral
-from NDimLattice.NDimLattice import create_n_dimensional_lattice
+from Hexahedral.Hexahedral import create_hexahedral
+from Octahedral.Octahedral import create_octahedral
+from Dodecahedral.Dodecahedral import create_dodecahedral
+from Icosahedral.Icosahedral import create_icosahedral
 
 '''
 main.py
@@ -32,23 +33,27 @@ if not is_test:
 if structure == "1":  # CA Backbone Structure
     xyz = create_backbone(pdb_code)
     print(xyz)
-    #create_report(pdb_code, xyz, "CA Backbone Structure")
-elif structure == "2":
-    xyz = create_hexahedral(pdb_code)
-    print(xyz)
-    create_report(pdb_code, xyz, "1-Dimensional Cubic Lattice Structure")
-elif structure == "3":
-    xyz = create_three_dim_cubic(pdb_code)
-    print(xyz)
-    #create_report(pdb_code, xyz, "3-Dimensional Cubic Lattice Structure")
-elif structure == "4":
+    create_report(pdb_code, xyz, "CA Backbone Structure")
+elif structure == "2":  # Tetrahedral (4 Moves) Lattice Structure
     xyz = create_tetrahedral(pdb_code)
     print(xyz)
-    #create_report(pdb_code, xyz, "Tetrahedral Lattice Structure")
-elif structure == "5":
-    xyz = create_n_dimensional_lattice(pdb_code)
+    create_report(pdb_code, xyz, "Hexahedral Lattice Structure")
+elif structure == "3":  # Hexahedral (6 Moves) Lattice Structure
+    xyz = create_hexahedral(pdb_code)
     print(xyz)
-    #create_report(pdb_code, xyz, "N-Dimensional Lattice Structure")
+    create_report(pdb_code, xyz, "Hexahedral Lattice Structure")
+elif structure == "4":  # Octahedral (8 Moves) Lattice Structure
+    xyz = create_octahedral(pdb_code)
+    print(xyz)
+    create_report(pdb_code, xyz, "Octahedral Lattice Structure")
+elif structure == "5":  # Dodecahedron (12 Moves) Lattice Structure
+    xyz = create_dodecahedral(pdb_code)
+    print(xyz)
+    create_report(pdb_code, xyz, "Dodecahedral Lattice Structure")
+elif structure == "6":  # Icosahedron (20 Moves) Lattice Structure
+    xyz = create_icosahedral(pdb_code)
+    print(xyz)
+    create_report(pdb_code, xyz, "Icosahedral Lattice Structure")
 else:
     print("Invalid Structure")
     exit()
