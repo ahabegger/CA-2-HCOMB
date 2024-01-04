@@ -3,6 +3,11 @@ from PDB2Backbone import create_backbone
 import Octahedral.XYZ_helper as xyz_helper
 import Visualization as plot
 
+'''
+Octahedral.py
+This Script is used to create a Octahedral (8 Move) Lattice from a PDB file.
+'''
+
 
 def create_octahedral(pdb_code):
     backbone_xyz = create_backbone(pdb_code)

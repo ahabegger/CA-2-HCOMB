@@ -5,6 +5,11 @@ from PDB2Backbone import create_backbone
 import Visualization as plot
 import Tetrahederal.XYZ_helper as xyz_helper
 
+'''
+Tetrahedral.py
+This Script is used to create a Tetrahedral (4 Move) Lattice from a PDB file.
+'''
+
 
 def create_tetrahedral(pdb_code):
     backbone_xyz = create_backbone(pdb_code)
@@ -51,7 +56,3 @@ def cost_calculations(input_origin, input_destination):
         move_cost[key] -= abs(lowest_cost)
 
     return move_cost
-
-
-if __name__ == "__main__":
-    pass

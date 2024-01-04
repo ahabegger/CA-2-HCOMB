@@ -4,6 +4,11 @@ from PDB2Backbone import create_backbone
 import Hexahedral.XYZ_helper as xyz_helper
 import Visualization as plot
 
+'''
+Hexahedral.py
+This Script is used to create a Hexahedral (6 Move) Lattice from a PDB file.
+'''
+
 
 def create_hexahedral(pdb_code):
     backbone_xyz = create_backbone(pdb_code)
@@ -51,7 +56,3 @@ def cost_calculations(input_origin, input_destination):
         move_cost[key] += abs(lowest_cost)
 
     return move_cost
-
-
-if __name__ == "__main__":
-    pass

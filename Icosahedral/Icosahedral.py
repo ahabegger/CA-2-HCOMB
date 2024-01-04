@@ -3,6 +3,11 @@ from PDB2Backbone import create_backbone
 import Icosahedral.XYZ_helper as xyz_helper
 import Visualization as plot
 
+'''
+Icosahedral.py
+This Script is used to create a Icosahedral (12 Move) Lattice from a PDB file.
+'''
+
 
 def create_icosahedral(pdb_code):
     backbone_xyz = create_backbone(pdb_code)

@@ -13,7 +13,7 @@ PDB file, and the diagrams of both.
 '''
 
 is_test = True
-structure = "4"
+structure = "3"
 pdb_code = "1A2M"
 
 if not is_test:
@@ -57,4 +57,3 @@ elif structure == "6":  # Icosahedron (20 Moves) Lattice Structure
 else:
     print("Invalid Structure")
     exit()
-

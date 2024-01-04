@@ -3,6 +3,11 @@ from PDB2Backbone import create_backbone
 import Dodecahedral.XYZ_helper as xyz_helper
 import Visualization as plot
 
+'''
+Dodecahedral.py
+This Script is used to create a Dodecahedral (20 Move) Lattice from a PDB file.
+'''
+
 
 def create_dodecahedral(pdb_code):
     backbone_xyz = create_backbone(pdb_code)
