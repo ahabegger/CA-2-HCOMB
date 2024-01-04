@@ -5,6 +5,7 @@ from Hexahedral.Hexahedral import create_hexahedral
 from Octahedral.Octahedral import create_octahedral
 from Icosahedral.Icosahedral import create_icosahedral
 from Dodecahedral.Dodecahedral import create_dodecahedral
+import Visualization as plot
 
 '''
 main.py
@@ -13,7 +14,7 @@ PDB file, and the diagrams of both.
 '''
 
 is_test = True
-structure = "6"
+structure = "1"
 pdb_code = "1A2M"
 
 if not is_test:
@@ -33,6 +34,7 @@ if not is_test:
 if structure == "1":  # CA Backbone Structure
     xyz = create_backbone(pdb_code)
     print(xyz)
+    plot.visualize(xyz[['X', 'Y', 'Z']], xyz, title="CA Backbone Structure")
     create_report(pdb_code, xyz, "CA Backbone Structure")
 elif structure == "2":  # Tetrahedral (4 Moves) Lattice Structure
     xyz = create_tetrahedral(pdb_code)
