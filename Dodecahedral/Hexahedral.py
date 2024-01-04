@@ -1,6 +1,6 @@
 import pandas as pd
 from PDB2Backbone import create_backbone
-import OneDimCubic.XYZ_helper as xyz_helper
+import Hexahedral.XYZ_helper as xyz_helper
 import Visualization as plot
 
 
