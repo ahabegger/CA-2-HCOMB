@@ -3,6 +3,7 @@ import pandas as pd
 from PDB2Backbone import create_backbone
 import Hexahedral.XYZ_helper as xyz_helper
 import Visualization as plot
+from Hexahedral.Greedy import greedy_hexahedral
 
 '''
 Hexahedral.py
@@ -23,15 +24,15 @@ def create_hexahedral(pdb_code):
 
     print(cost_df)
 
-    # Find the lowest cost for each row
-    lowest_cost = cost_df.idxmin(axis=1)
-    lowest_cost = lowest_cost.tolist()
+    normalize_cost_df = normalize_cost(cost_df)
+    initial_moves = [1] * (num_rows - 1)
 
-    lowest_xyz = xyz_helper.convert_to_xyz(lowest_cost)
+    moves, cost = greedy_hexahedral(initial_moves, normalize_cost_df)
 
-    plot.visualize(lowest_xyz, backbone_xyz, title="Hexahedral (6 Move) Lattice")
+    xyz = xyz_helper.convert_to_xyz(moves)
+    plot.visualize(xyz, backbone_xyz, title="Hexahedral (6 Move) Lattice")
 
-    return lowest_xyz
+    return xyz
 
 
 def cost_calculations(input_origin, input_destination):
@@ -52,3 +53,15 @@ def cost_calculations(input_origin, input_destination):
     }
 
     return move_cost
+
+
+def normalize_cost(costs):
+    normalize_costs = costs.copy()
+    num_rows = costs.shape[0]
+
+    for i in range(num_rows):
+        lowest_cost = min(costs.iloc[i])
+        for col in costs.columns:
+            normalize_costs.at[i, col] -= abs(lowest_cost)
+
+    return normalize_costs
