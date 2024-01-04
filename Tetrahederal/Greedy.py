@@ -3,9 +3,6 @@ import Tetrahederal.XYZ_helper as xyz_helper
 
 
 def greedy_tetrahederal(moves, cost_df):
-    cost = get_cost(moves, cost_df)
-    xyz = xyz_helper.convert_to_xyz(moves)
-
     print('-' * 50)
     print('Initial')
     print(f"Moves: {moves}")
