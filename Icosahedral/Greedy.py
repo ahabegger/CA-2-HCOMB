@@ -1,6 +1,12 @@
 import numpy as np
 import Icosahedral.XYZ_helper as xyz_helper
 
+'''
+Greedy.py
+This Script is  used to create a Icosahedral (12 Move) Lattice 
+by creating a greedy algorithm that minimizes the cost of the lattice.
+'''
+
 
 def greedy_icosahedral(moves, cost_df):
     print('-' * 50)
