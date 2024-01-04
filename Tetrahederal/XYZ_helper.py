@@ -6,10 +6,10 @@ def convert_to_xyz(moves_4):
     xyz = pd.DataFrame(0.0, index=range(len(moves_4) + 1), columns=['X', 'Y', 'Z'])
 
     movements = {
-        1: [1/math.sqrt(3), 1/math.sqrt(3), 1/math.sqrt(3)],
-        2: [-1/math.sqrt(3), -1/math.sqrt(3), 1/math.sqrt(3)],
-        3: [-1/math.sqrt(3), 1/math.sqrt(3), -1/math.sqrt(3)],
-        4: [1/math.sqrt(3), -1/math.sqrt(3), -1/math.sqrt(3)]
+        1: [1 / math.sqrt(3), 1 / math.sqrt(3), 1 / math.sqrt(3)],
+        2: [-1 / math.sqrt(3), -1 / math.sqrt(3), 1 / math.sqrt(3)],
+        3: [-1 / math.sqrt(3), 1 / math.sqrt(3), -1 / math.sqrt(3)],
+        4: [1 / math.sqrt(3), -1 / math.sqrt(3), -1 / math.sqrt(3)]
     }
 
     for i in range(len(moves_4)):
