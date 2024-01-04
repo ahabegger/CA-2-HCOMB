@@ -29,7 +29,7 @@ def create_hexahedral(pdb_code):
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
-    plot.visualize(lowest_xyz, backbone_xyz, title="One Dimensional Cubic Lattice")
+    plot.visualize(lowest_xyz, backbone_xyz, title="Hexahedral (6 Move) Lattice")
 
     return lowest_xyz
 

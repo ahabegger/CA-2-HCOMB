@@ -59,7 +59,3 @@ def cost_calculations(input_origin, input_destination):
         moves_dict[key] += abs(lowest_cost)
 
     return moves_dict
-
-
-if __name__ == "__main__":
-    pass

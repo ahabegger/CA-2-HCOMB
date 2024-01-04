@@ -30,7 +30,7 @@ def create_tetrahedral(pdb_code):
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
-    plot.visualize(lowest_xyz, backbone_xyz, title="Tetrahedral Lattice")
+    plot.visualize(lowest_xyz, backbone_xyz, title="Tetrahedral (4 Move) Lattice")
 
     return lowest_xyz
 
