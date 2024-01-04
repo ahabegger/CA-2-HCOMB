@@ -1,7 +1,9 @@
+import numpy as np
 import pandas as pd
 from PDB2Backbone import create_backbone
 import Icosahedral.XYZ_helper as xyz_helper
 import Visualization as plot
+import math
 
 '''
 Icosahedral.py
@@ -28,20 +30,35 @@ def create_icosahedral(pdb_code):
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
-    plot.visualize(lowest_xyz, backbone_xyz, title="One Dimensional Cubic Lattice")
+    plot.visualize(lowest_xyz, backbone_xyz, title="Icosahedral (12 Move) Lattice")
 
     return lowest_xyz
 
 
 def cost_calculations(input_origin, input_destination):
+    origin = np.array([input_origin.X, input_origin.Y, input_origin.Z])
+    destination = np.array([input_destination.X, input_destination.Y, input_destination.Z])
+    movement_vector = destination - origin
+    magnitude = np.linalg.norm(movement_vector)
+    unit_vector = movement_vector / magnitude
+
+    phi = (1 + math.sqrt(5)) / 2
+
     moves_dict = {
-        1: input_origin.X - input_destination.X,
-        2: input_destination.X - input_origin.X,
-        3: input_origin.Y - input_destination.Y,
-        4: input_destination.Y - input_origin.Y,
-        5: input_origin.Z - input_destination.Z,
-        6: input_destination.Z - input_origin.Z
+        1: np.linalg.norm(unit_vector - normalize(np.array([0, 1, phi]))),
+        2: np.linalg.norm(unit_vector - normalize(np.array([0, -1, phi]))),
+        3: np.linalg.norm(unit_vector - normalize(np.array([0, 1, -phi]))),
+        4: np.linalg.norm(unit_vector - normalize(np.array([0, -1, -phi]))),
+        5: np.linalg.norm(unit_vector - normalize(np.array([1, phi, 0]))),
+        6: np.linalg.norm(unit_vector - normalize(np.array([-1, phi, 0]))),
+        7: np.linalg.norm(unit_vector - normalize(np.array([1, -phi, 0]))),
+        8: np.linalg.norm(unit_vector - normalize(np.array([-1, -phi, 0]))),
+        9: np.linalg.norm(unit_vector - normalize(np.array([phi, 0, 1]))),
+        10: np.linalg.norm(unit_vector - normalize(np.array([phi, 0, -1]))),
+        11: np.linalg.norm(unit_vector - normalize(np.array([-phi, 0, 1]))),
+        12: np.linalg.norm(unit_vector - normalize(np.array([-phi, 0, -1])))
     }
+
     lowest_cost = min(moves_dict.values())
     for key in moves_dict.keys():
         moves_dict[key] += abs(lowest_cost)
@@ -49,5 +66,6 @@ def cost_calculations(input_origin, input_destination):
     return moves_dict
 
 
-if __name__ == "__main__":
-    pass
+def normalize(vector):
+    magnitude = np.linalg.norm(vector)
+    return vector / magnitude
