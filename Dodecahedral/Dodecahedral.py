@@ -44,7 +44,8 @@ def cost_calculations(input_origin, input_destination):
 
     phi = (1 + math.sqrt(5)) / 2
 
-    moves_dict = {
+    # Distance between unit vector and each of the 20 possible moves
+    move_cost = {
         1: np.linalg.norm(unit_vector - normalize(np.array([1, 1, 1]))),
         2: np.linalg.norm(unit_vector - normalize(np.array([1, 1, -1]))),
         3: np.linalg.norm(unit_vector - normalize(np.array([1, -1, 1]))),
@@ -67,11 +68,7 @@ def cost_calculations(input_origin, input_destination):
         20: np.linalg.norm(unit_vector - normalize(np.array([-phi, 0, -1/phi])))
     }
 
-    lowest_cost = min(moves_dict.values())
-    for key in moves_dict.keys():
-        moves_dict[key] += abs(lowest_cost)
-
-    return moves_dict
+    return move_cost
 
 
 def normalize(vector):

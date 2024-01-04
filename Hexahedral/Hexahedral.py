@@ -51,8 +51,4 @@ def cost_calculations(input_origin, input_destination):
         6: np.linalg.norm(unit_vector - np.array([0, 0, -1]))
     }
 
-    lowest_cost = min(move_cost.values())
-    for key in move_cost.keys():
-        move_cost[key] += abs(lowest_cost)
-
     return move_cost

@@ -50,9 +50,4 @@ def cost_calculations(input_origin, input_destination):
         4: np.linalg.norm(unit_vector - np.array([1/math.sqrt(3), -1/math.sqrt(3), -1/math.sqrt(3)]))
     }
 
-    # Find the lowest cost for each row
-    lowest_cost = min(move_cost.values())
-    for key in move_cost.keys():
-        move_cost[key] -= abs(lowest_cost)
-
     return move_cost

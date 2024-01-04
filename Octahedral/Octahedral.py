@@ -42,7 +42,8 @@ def cost_calculations(input_origin, input_destination):
     magnitude = np.linalg.norm(movement_vector)
     unit_vector = movement_vector / magnitude
 
-    moves_dict = {
+    # Distance between unit vector and each of the 8 possible moves
+    move_cost = {
         1: np.linalg.norm(unit_vector - np.array([1/math.sqrt(3), 1/math.sqrt(3), 1/math.sqrt(3)])),
         2: np.linalg.norm(unit_vector - np.array([-1/math.sqrt(3), 1/math.sqrt(3), 1/math.sqrt(3)])),
         3: np.linalg.norm(unit_vector - np.array([1/math.sqrt(3), -1/math.sqrt(3), 1/math.sqrt(3)])),
@@ -53,8 +54,4 @@ def cost_calculations(input_origin, input_destination):
         8: np.linalg.norm(unit_vector - np.array([-1/math.sqrt(3), -1/math.sqrt(3), -1/math.sqrt(3)]))
     }
 
-    lowest_cost = min(moves_dict.values())
-    for key in moves_dict.keys():
-        moves_dict[key] += abs(lowest_cost)
-
-    return moves_dict
+    return move_cost
