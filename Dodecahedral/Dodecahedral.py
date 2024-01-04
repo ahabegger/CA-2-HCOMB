@@ -1,7 +1,9 @@
+import numpy as np
 import pandas as pd
 from PDB2Backbone import create_backbone
 import Dodecahedral.XYZ_helper as xyz_helper
 import Visualization as plot
+import math
 
 '''
 Dodecahedral.py
@@ -28,20 +30,43 @@ def create_dodecahedral(pdb_code):
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
-    plot.visualize(lowest_xyz, backbone_xyz, title="One Dimensional Cubic Lattice")
+    plot.visualize(lowest_xyz, backbone_xyz, title="Dodecahedral (20 Move) Lattice")
 
     return lowest_xyz
 
 
 def cost_calculations(input_origin, input_destination):
+    origin = np.array([input_origin.X, input_origin.Y, input_origin.Z])
+    destination = np.array([input_destination.X, input_destination.Y, input_destination.Z])
+    movement_vector = destination - origin
+    magnitude = np.linalg.norm(movement_vector)
+    unit_vector = movement_vector / magnitude
+
+    phi = (1 + math.sqrt(5)) / 2
+
     moves_dict = {
-        1: input_origin.X - input_destination.X,
-        2: input_destination.X - input_origin.X,
-        3: input_origin.Y - input_destination.Y,
-        4: input_destination.Y - input_origin.Y,
-        5: input_origin.Z - input_destination.Z,
-        6: input_destination.Z - input_origin.Z
+        1: np.linalg.norm(unit_vector - normalize(np.array([1, 1, 1]))),
+        2: np.linalg.norm(unit_vector - normalize(np.array([1, 1, -1]))),
+        3: np.linalg.norm(unit_vector - normalize(np.array([1, -1, 1]))),
+        4: np.linalg.norm(unit_vector - normalize(np.array([1, -1, -1]))),
+        5: np.linalg.norm(unit_vector - normalize(np.array([-1, 1, 1]))),
+        6: np.linalg.norm(unit_vector - normalize(np.array([-1, 1, -1]))),
+        7: np.linalg.norm(unit_vector - normalize(np.array([-1, -1, 1]))),
+        8: np.linalg.norm(unit_vector - normalize(np.array([-1, -1, -1]))),
+        9: np.linalg.norm(unit_vector - normalize(np.array([0, 1/phi, phi]))),
+        10: np.linalg.norm(unit_vector - normalize(np.array([0, -1/phi, phi]))),
+        11: np.linalg.norm(unit_vector - normalize(np.array([0, 1/phi, -phi]))),
+        12: np.linalg.norm(unit_vector - normalize(np.array([0, -1/phi, -phi]))),
+        13: np.linalg.norm(unit_vector - normalize(np.array([1/phi, phi, 0]))),
+        14: np.linalg.norm(unit_vector - normalize(np.array([-1/phi, phi, 0]))),
+        15: np.linalg.norm(unit_vector - normalize(np.array([1/phi, -phi, 0]))),
+        16: np.linalg.norm(unit_vector - normalize(np.array([-1/phi, -phi, 0]))),
+        17: np.linalg.norm(unit_vector - normalize(np.array([phi, 0, 1/phi]))),
+        18: np.linalg.norm(unit_vector - normalize(np.array([-phi, 0, 1/phi]))),
+        19: np.linalg.norm(unit_vector - normalize(np.array([phi, 0, -1/phi]))),
+        20: np.linalg.norm(unit_vector - normalize(np.array([-phi, 0, -1/phi])))
     }
+
     lowest_cost = min(moves_dict.values())
     for key in moves_dict.keys():
         moves_dict[key] += abs(lowest_cost)
@@ -49,5 +74,6 @@ def cost_calculations(input_origin, input_destination):
     return moves_dict
 
 
-if __name__ == "__main__":
-    pass
+def normalize(vector):
+    magnitude = np.linalg.norm(vector)
+    return vector / magnitude
