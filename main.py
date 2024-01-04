@@ -13,7 +13,7 @@ PDB file, and the diagrams of both.
 '''
 
 is_test = True
-structure = "3"
+structure = "5"
 pdb_code = "1A2M"
 
 if not is_test:
