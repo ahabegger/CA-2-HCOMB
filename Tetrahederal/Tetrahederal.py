@@ -4,7 +4,6 @@ import numpy as np
 from PDB2Backbone import create_backbone
 import Visualization as plot
 import Tetrahederal.XYZ_helper as xyz_helper
-
 from Tetrahederal.Greedy import greedy_tetrahederal
 
 '''
