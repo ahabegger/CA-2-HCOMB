@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from PDB2Backbone import create_backbone
 import Hexahedral.XYZ_helper as xyz_helper
@@ -29,19 +30,27 @@ def create_hexahedral(pdb_code):
 
 
 def cost_calculations(input_origin, input_destination):
-    moves_dict = {
-        1: input_origin.X - input_destination.X,
-        2: input_destination.X - input_origin.X,
-        3: input_origin.Y - input_destination.Y,
-        4: input_destination.Y - input_origin.Y,
-        5: input_origin.Z - input_destination.Z,
-        6: input_destination.Z - input_origin.Z
-    }
-    lowest_cost = min(moves_dict.values())
-    for key in moves_dict.keys():
-        moves_dict[key] += abs(lowest_cost)
+    origin = np.array([input_origin.X, input_origin.Y, input_origin.Z])
+    destination = np.array([input_destination.X, input_destination.Y, input_destination.Z])
+    movement_vector = destination - origin
+    magnitude = np.linalg.norm(movement_vector)
+    unit_vector = movement_vector / magnitude
 
-    return moves_dict
+    # Distance between unit vector and each of the 6 possible moves
+    move_cost = {
+        1: np.linalg.norm(unit_vector - np.array([1, 0, 0])),
+        2: np.linalg.norm(unit_vector - np.array([-1, 0, 0])),
+        3: np.linalg.norm(unit_vector - np.array([0, 1, 0])),
+        4: np.linalg.norm(unit_vector - np.array([0, -1, 0])),
+        5: np.linalg.norm(unit_vector - np.array([0, 0, 1])),
+        6: np.linalg.norm(unit_vector - np.array([0, 0, -1]))
+    }
+
+    lowest_cost = min(move_cost.values())
+    for key in move_cost.keys():
+        move_cost[key] += abs(lowest_cost)
+
+    return move_cost
 
 
 if __name__ == "__main__":
