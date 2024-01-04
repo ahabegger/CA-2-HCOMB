@@ -14,7 +14,7 @@ PDB file, and the diagrams of both.
 '''
 
 is_test = True
-structure = "1"
+structure = "2"
 pdb_code = "1A2M"
 
 if not is_test:
@@ -27,7 +27,7 @@ if not is_test:
     print("2 = Tetrahedral (4 Moves) Lattice Structure")
     print("3 = Hexahedral (6 Moves) Lattice Structure")
     print("4 = Octahedral (8 Moves) Lattice Structure")
-    print("5 = Dodecahedral (12 Moves) Lattice Structure")
+    print("5 = Icosahedral (12 Moves) Lattice Structure")
     print("6 = Dodecahedral (20 Moves) Lattice Structure")
     structure = input("Input Structure: ")
 
@@ -39,7 +39,7 @@ if structure == "1":  # CA Backbone Structure
 elif structure == "2":  # Tetrahedral (4 Moves) Lattice Structure
     xyz = create_tetrahedral(pdb_code)
     print(xyz)
-    create_report(pdb_code, xyz, "Hexahedral Lattice Structure")
+    create_report(pdb_code, xyz, "Tetrahedral Lattice Structure")
 elif structure == "3":  # Hexahedral (6 Moves) Lattice Structure
     xyz = create_hexahedral(pdb_code)
     print(xyz)
