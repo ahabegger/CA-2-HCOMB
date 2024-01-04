@@ -1,3 +1,6 @@
+import math
+
+import numpy as np
 import pandas as pd
 from PDB2Backbone import create_backbone
 import Octahedral.XYZ_helper as xyz_helper
@@ -28,20 +31,29 @@ def create_octahedral(pdb_code):
 
     lowest_xyz = xyz_helper.covert_to_xyz(lowest_cost)
 
-    plot.visualize(lowest_xyz, backbone_xyz, title="One Dimensional Cubic Lattice")
+    plot.visualize(lowest_xyz, backbone_xyz, title="Octahedral (8 Move) Lattice")
 
     return lowest_xyz
 
 
 def cost_calculations(input_origin, input_destination):
+    origin = np.array([input_origin.X, input_origin.Y, input_origin.Z])
+    destination = np.array([input_destination.X, input_destination.Y, input_destination.Z])
+    movement_vector = destination - origin
+    magnitude = np.linalg.norm(movement_vector)
+    unit_vector = movement_vector / magnitude
+
     moves_dict = {
-        1: input_origin.X - input_destination.X,
-        2: input_destination.X - input_origin.X,
-        3: input_origin.Y - input_destination.Y,
-        4: input_destination.Y - input_origin.Y,
-        5: input_origin.Z - input_destination.Z,
-        6: input_destination.Z - input_origin.Z
+        1: np.linalg.norm(unit_vector - np.array([1/math.sqrt(3), 1/math.sqrt(3), 1/math.sqrt(3)])),
+        2: np.linalg.norm(unit_vector - np.array([-1/math.sqrt(3), 1/math.sqrt(3), 1/math.sqrt(3)])),
+        3: np.linalg.norm(unit_vector - np.array([1/math.sqrt(3), -1/math.sqrt(3), 1/math.sqrt(3)])),
+        4: np.linalg.norm(unit_vector - np.array([1/math.sqrt(3), 1/math.sqrt(3), -1/math.sqrt(3)])),
+        5: np.linalg.norm(unit_vector - np.array([-1/math.sqrt(3), -1/math.sqrt(3), 1/math.sqrt(3)])),
+        6: np.linalg.norm(unit_vector - np.array([1/math.sqrt(3), -1/math.sqrt(3), -1/math.sqrt(3)])),
+        7: np.linalg.norm(unit_vector - np.array([-1/math.sqrt(3), 1/math.sqrt(3), -1/math.sqrt(3)])),
+        8: np.linalg.norm(unit_vector - np.array([-1/math.sqrt(3), -1/math.sqrt(3), -1/math.sqrt(3)]))
     }
+
     lowest_cost = min(moves_dict.values())
     for key in moves_dict.keys():
         moves_dict[key] += abs(lowest_cost)
