@@ -2,15 +2,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def visualize(xyz, amino_info, title='Protein Structure'):
+def visualize(xyz, title='Protein Structure'):
     # Convert to DataFrame for easier processing
     df = pd.DataFrame(xyz)
-
-    # Add the amino acid information
-    amino_df = amino_info[['ID', 'Amino Acid']]  # Extract the ID and Amino Acid columns
-
-    # Merge the amino acid information with the coordinate data
-    df = pd.concat([df, amino_df], axis=1)
 
     # Identify unique and repeated points
     is_repeated = df.duplicated(subset=['X', 'Y', 'Z'], keep=False)
