@@ -16,7 +16,7 @@ def greedy_dodecahederal(moves, cost_df):
         # Change the move at index i to a random move
         current_move_cost = cost_df.iloc[i][moves[i]]
 
-        for change_move in range(1, 31):
+        for change_move in range(1, 21):
             change_move_cost = cost_df.iloc[i][change_move]
             if change_move_cost < current_move_cost:
                 new_moves = moves.copy()
@@ -45,6 +45,8 @@ def greedy_dodecahederal(moves, cost_df):
                 break
             else:
                 changes = 0
+
+    return moves, get_cost(moves, cost_df)
 
 
 def get_cost(moves, costs):
