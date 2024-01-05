@@ -40,9 +40,7 @@ def create_octahedral(pdb_code):
     ]
 
     moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
-
     xyz = XYZ_helper.convert_to_xyz(moves, movements)
-    plot.visualize(xyz, backbone_xyz, title="Octahedral (8 Move) Lattice")
 
     return xyz
 

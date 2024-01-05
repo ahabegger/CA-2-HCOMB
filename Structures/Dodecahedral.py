@@ -45,9 +45,7 @@ def create_dodecahedral(pdb_code):
     ]
 
     moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
-
     xyz = xyz_helper.convert_to_xyz(moves, movements)
-    plot.visualize(xyz, backbone_xyz, title="Dodecahedral (20 Move) Lattice")
 
     return xyz
 

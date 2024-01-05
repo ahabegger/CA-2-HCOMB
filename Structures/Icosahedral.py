@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 from Greedy import greedy_lattice
 from PDB2Backbone import create_backbone
-import Visualization as plot
 import math
 import XYZHelper as XYZ_helper
 
@@ -39,9 +38,7 @@ def create_icosahedral(pdb_code):
     ]
 
     moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
-
     xyz = XYZ_helper.convert_to_xyz(moves, movements)
-    plot.visualize(xyz, backbone_xyz, title="Icosahedral (12 Move) Lattice")
 
     return xyz
 
