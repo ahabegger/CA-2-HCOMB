@@ -1,10 +1,10 @@
 import math
 import numpy as np
 import pandas as pd
+from Greedy import greedy_lattice
 from PDB2Backbone import create_backbone
-import Octahedral.XYZ_helper as xyz_helper
 import Visualization as plot
-from Octahedral.Greedy import greedy_octahedral
+import XYZHelper as XYZ_helper
 
 '''
 Octahedral.py
@@ -26,9 +26,22 @@ def create_octahedral(pdb_code):
     normalize_cost_df = normalize_cost(cost_df)
     initial_moves = [1] * (num_rows - 1)
 
-    moves, cost = greedy_octahedral(initial_moves, normalize_cost_df)
+    # Calculate the normalization factor
+    norm_factor = 1 / math.sqrt(3)
+    movements = [
+        [norm_factor, norm_factor, norm_factor],
+        [-norm_factor, norm_factor, norm_factor],
+        [norm_factor, -norm_factor, norm_factor],
+        [norm_factor, norm_factor, -norm_factor],
+        [-norm_factor, -norm_factor, norm_factor],
+        [norm_factor, -norm_factor, -norm_factor],
+        [-norm_factor, norm_factor, -norm_factor],
+        [-norm_factor, -norm_factor, -norm_factor]
+    ]
 
-    xyz = xyz_helper.convert_to_xyz(moves)
+    moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
+
+    xyz = XYZ_helper.convert_to_xyz(moves, movements)
     plot.visualize(xyz, backbone_xyz, title="Octahedral (8 Move) Lattice")
 
     return xyz
