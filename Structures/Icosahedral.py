@@ -40,7 +40,7 @@ def create_icosahedral(pdb_code):
     moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
     xyz = XYZ_helper.convert_to_xyz(moves, movements)
 
-    return xyz
+    return xyz, cost
 
 
 def cost_calculations(input_origin, input_destination):
