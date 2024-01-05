@@ -1,35 +1,37 @@
+import numpy as np
 import math
 import pandas as pd
 
 
 def convert_to_xyz(moves_20):
-    xyz = pd.DataFrame(0.0, index=range(len(moves_20) + 1), columns=['X', 'Y', 'Z'])
     phi = (1 + math.sqrt(5)) / 2
 
-    movements = {
-        1: normalize([1, 1, 1]), 2: normalize([1, 1, -1]),
-        3: normalize([1, -1, 1]), 4: normalize([1, -1, -1]),
-        5: normalize([-1, 1, 1]), 6: normalize([-1, 1, -1]),
-        7: normalize([-1, -1, 1]), 8: normalize([-1, -1, -1]),
-        9: normalize([0, 1 / phi, phi]), 10: normalize([0, -1 / phi, phi]),
-        11: normalize([0, 1 / phi, -phi]), 12: normalize([0, -1 / phi, -phi]),
-        13: normalize([1 / phi, phi, 0]), 14: normalize([-1 / phi, phi, 0]),
-        15: normalize([1 / phi, -phi, 0]), 16: normalize([-1 / phi, -phi, 0]),
-        17: normalize([phi, 0, 1 / phi]), 18: normalize([-phi, 0, 1 / phi]),
-        19: normalize([phi, 0, -1 / phi]), 20: normalize([-phi, 0, -1 / phi])
-    }
+    # Define movements as a list of normalized vectors
+    movements = [
+        normalize([1, 1, 1]), normalize([1, 1, -1]),
+        normalize([1, -1, 1]), normalize([1, -1, -1]),
+        normalize([-1, 1, 1]), normalize([-1, 1, -1]),
+        normalize([-1, -1, 1]), normalize([-1, -1, -1]),
+        normalize([0, 1 / phi, phi]), normalize([0, -1 / phi, phi]),
+        normalize([0, 1 / phi, -phi]), normalize([0, -1 / phi, -phi]),
+        normalize([1 / phi, phi, 0]), normalize([-1 / phi, phi, 0]),
+        normalize([1 / phi, -phi, 0]), normalize([-1 / phi, -phi, 0]),
+        normalize([phi, 0, 1 / phi]), normalize([-phi, 0, 1 / phi]),
+        normalize([phi, 0, -1 / phi]), normalize([-phi, 0, -1 / phi])
+    ]
 
-    for i in range(len(moves_20)):
-        xyz.iloc[i + 1] = xyz.iloc[i] + movements[moves_20[i]]
+    # Pre-allocate space for xyz coordinates
+    xyz = np.zeros((len(moves_20) + 1, 3))
 
-    return xyz
+    # Calculate the cumulative sum of movements
+    for i, move in enumerate(moves_20):
+        xyz[i + 1] = xyz[i] + movements[move - 1]  # -1 because moves are 1-indexed
+
+    return pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
 
 
 def is_valid(xyz):
-    copy = xyz
-    copy = copy[~(copy == -1000).any(axis=1)]
-    rows_are_unique = copy.duplicated().sum() == 0
-    return rows_are_unique
+    return xyz.duplicated().sum() == 0
 
 
 def normalize(vector):
