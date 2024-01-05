@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
-from Icosahedral.Greedy import greedy_icosahedral
+from Greedy import greedy_lattice
 from PDB2Backbone import create_backbone
-import Icosahedral.XYZ_helper as xyz_helper
 import Visualization as plot
 import math
+import XYZHelper as XYZ_helper
 
 '''
 Icosahedral.py
@@ -26,9 +26,21 @@ def create_icosahedral(pdb_code):
     normalize_cost_df = normalize_cost(cost_df)
     initial_moves = [1] * (num_rows - 1)
 
-    moves, cost = greedy_icosahedral(initial_moves, normalize_cost_df)
+    phi = (1 + math.sqrt(5)) / 2
 
-    xyz = xyz_helper.convert_to_xyz(moves)
+    # Define movements as a list of normalized vectors
+    movements = [
+        normalize([0, 1, phi]), normalize([0, -1, phi]),
+        normalize([0, 1, -phi]), normalize([0, -1, -phi]),
+        normalize([1, phi, 0]), normalize([-1, phi, 0]),
+        normalize([1, -phi, 0]), normalize([-1, -phi, 0]),
+        normalize([phi, 0, 1]), normalize([phi, 0, -1]),
+        normalize([-phi, 0, 1]), normalize([-phi, 0, -1])
+    ]
+
+    moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
+
+    xyz = XYZ_helper.convert_to_xyz(moves, movements)
     plot.visualize(xyz, backbone_xyz, title="Icosahedral (12 Move) Lattice")
 
     return xyz
@@ -63,8 +75,12 @@ def cost_calculations(input_origin, input_destination):
 
 
 def normalize(vector):
-    magnitude = np.linalg.norm(vector)
-    return vector / magnitude
+    try:
+        magnitude = np.linalg.norm(vector)
+        return vector / magnitude
+    except:
+        magnitude = math.sqrt(sum([x ** 2 for x in vector]))
+        return [x / magnitude for x in vector]
 
 
 def normalize_cost(costs):

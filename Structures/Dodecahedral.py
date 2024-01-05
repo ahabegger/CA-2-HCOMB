@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
-from Dodecahedral.Greedy import greedy_dodecahederal
+from Greedy import greedy_lattice
 from PDB2Backbone import create_backbone
-import Dodecahedral.XYZ_helper as xyz_helper
+import XYZHelper as xyz_helper
 import Visualization as plot
 import math
 
@@ -28,9 +28,25 @@ def create_dodecahedral(pdb_code):
     normalize_cost_df = normalize_cost(cost_df)
     initial_moves = [1] * (num_rows - 1)
 
-    moves, cost = greedy_dodecahederal(initial_moves, normalize_cost_df)
+    phi = (1 + math.sqrt(5)) / 2
 
-    xyz = xyz_helper.convert_to_xyz(moves)
+    # Define movements as a list of normalized vectors
+    movements = [
+        normalize([1, 1, 1]), normalize([1, 1, -1]),
+        normalize([1, -1, 1]), normalize([1, -1, -1]),
+        normalize([-1, 1, 1]), normalize([-1, 1, -1]),
+        normalize([-1, -1, 1]), normalize([-1, -1, -1]),
+        normalize([0, 1 / phi, phi]), normalize([0, -1 / phi, phi]),
+        normalize([0, 1 / phi, -phi]), normalize([0, -1 / phi, -phi]),
+        normalize([1 / phi, phi, 0]), normalize([-1 / phi, phi, 0]),
+        normalize([1 / phi, -phi, 0]), normalize([-1 / phi, -phi, 0]),
+        normalize([phi, 0, 1 / phi]), normalize([-phi, 0, 1 / phi]),
+        normalize([phi, 0, -1 / phi]), normalize([-phi, 0, -1 / phi])
+    ]
+
+    moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
+
+    xyz = xyz_helper.convert_to_xyz(moves, movements)
     plot.visualize(xyz, backbone_xyz, title="Dodecahedral (20 Move) Lattice")
 
     return xyz
@@ -55,26 +71,30 @@ def cost_calculations(input_origin, input_destination):
         6: np.linalg.norm(unit_vector - normalize(np.array([-1, 1, -1]))),
         7: np.linalg.norm(unit_vector - normalize(np.array([-1, -1, 1]))),
         8: np.linalg.norm(unit_vector - normalize(np.array([-1, -1, -1]))),
-        9: np.linalg.norm(unit_vector - normalize(np.array([0, 1/phi, phi]))),
-        10: np.linalg.norm(unit_vector - normalize(np.array([0, -1/phi, phi]))),
-        11: np.linalg.norm(unit_vector - normalize(np.array([0, 1/phi, -phi]))),
-        12: np.linalg.norm(unit_vector - normalize(np.array([0, -1/phi, -phi]))),
-        13: np.linalg.norm(unit_vector - normalize(np.array([1/phi, phi, 0]))),
-        14: np.linalg.norm(unit_vector - normalize(np.array([-1/phi, phi, 0]))),
-        15: np.linalg.norm(unit_vector - normalize(np.array([1/phi, -phi, 0]))),
-        16: np.linalg.norm(unit_vector - normalize(np.array([-1/phi, -phi, 0]))),
-        17: np.linalg.norm(unit_vector - normalize(np.array([phi, 0, 1/phi]))),
-        18: np.linalg.norm(unit_vector - normalize(np.array([-phi, 0, 1/phi]))),
-        19: np.linalg.norm(unit_vector - normalize(np.array([phi, 0, -1/phi]))),
-        20: np.linalg.norm(unit_vector - normalize(np.array([-phi, 0, -1/phi])))
+        9: np.linalg.norm(unit_vector - normalize(np.array([0, 1 / phi, phi]))),
+        10: np.linalg.norm(unit_vector - normalize(np.array([0, -1 / phi, phi]))),
+        11: np.linalg.norm(unit_vector - normalize(np.array([0, 1 / phi, -phi]))),
+        12: np.linalg.norm(unit_vector - normalize(np.array([0, -1 / phi, -phi]))),
+        13: np.linalg.norm(unit_vector - normalize(np.array([1 / phi, phi, 0]))),
+        14: np.linalg.norm(unit_vector - normalize(np.array([-1 / phi, phi, 0]))),
+        15: np.linalg.norm(unit_vector - normalize(np.array([1 / phi, -phi, 0]))),
+        16: np.linalg.norm(unit_vector - normalize(np.array([-1 / phi, -phi, 0]))),
+        17: np.linalg.norm(unit_vector - normalize(np.array([phi, 0, 1 / phi]))),
+        18: np.linalg.norm(unit_vector - normalize(np.array([-phi, 0, 1 / phi]))),
+        19: np.linalg.norm(unit_vector - normalize(np.array([phi, 0, -1 / phi]))),
+        20: np.linalg.norm(unit_vector - normalize(np.array([-phi, 0, -1 / phi])))
     }
 
     return move_cost
 
 
 def normalize(vector):
-    magnitude = np.linalg.norm(vector)
-    return vector / magnitude
+    try:
+        magnitude = np.linalg.norm(vector)
+        return vector / magnitude
+    except:
+        magnitude = math.sqrt(sum([x ** 2 for x in vector]))
+        return [x / magnitude for x in vector]
 
 
 def normalize_cost(costs):

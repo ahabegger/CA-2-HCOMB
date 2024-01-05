@@ -1,22 +1,21 @@
-import math
-import pandas as pd
 import numpy as np
+import pandas as pd
 from PDB2Backbone import create_backbone
+import XYZHelper as xyz_helper
 import Visualization as plot
-import Tetrahederal.XYZ_helper as xyz_helper
-from Tetrahederal.Greedy import greedy_tetrahederal
+from Greedy import greedy_lattice
 
 '''
-Tetrahedral.py
-This Script is used to create a Tetrahedral (4 Move) Lattice from a PDB file.
+Hexahedral.py
+This Script is used to create a Hexahedral (6 Move) Lattice from a PDB file.
 '''
 
 
-def create_tetrahedral(pdb_code):
+def create_hexahedral(pdb_code):
     backbone_xyz = create_backbone(pdb_code)
 
     num_rows = backbone_xyz.shape[0]
-    cost_df = pd.DataFrame(0.0, index=range(num_rows - 1), columns=range(1, 5))
+    cost_df = pd.DataFrame(0.0, index=range(num_rows - 1), columns=range(1, 7))
 
     # For each row in the backbone_xyz DataFrame
     for i in range(num_rows - 1):
@@ -24,12 +23,17 @@ def create_tetrahedral(pdb_code):
         cost_df.iloc[i] = costs
 
     normalize_cost_df = normalize_cost(cost_df)
-    initial_moves = [4] * (num_rows - 1)
+    initial_moves = [2] * (num_rows - 1)
 
-    moves, cost = greedy_tetrahederal(initial_moves, normalize_cost_df)
+    movements = np.array([
+        [1, 0, 0], [-1, 0, 0], [0, 1, 0],
+        [0, -1, 0], [0, 0, 1], [0, 0, -1]
+    ])
 
-    xyz = xyz_helper.convert_to_xyz(moves)
-    plot.visualize(xyz, backbone_xyz, title="Tetrahedral (4 Move) Lattice")
+    moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
+
+    xyz = xyz_helper.convert_to_xyz(moves, movements)
+    plot.visualize(xyz, backbone_xyz, title="Hexahedral (6 Move) Lattice")
 
     return xyz
 
@@ -41,12 +45,14 @@ def cost_calculations(input_origin, input_destination):
     magnitude = np.linalg.norm(movement_vector)
     unit_vector = movement_vector / magnitude
 
-    # Distance between unit vector and each of the 4 possible moves
+    # Distance between unit vector and each of the 6 possible moves
     move_cost = {
-        1: np.linalg.norm(unit_vector - np.array([1 / math.sqrt(3), 1 / math.sqrt(3), 1 / math.sqrt(3)])),
-        2: np.linalg.norm(unit_vector - np.array([-1 / math.sqrt(3), -1 / math.sqrt(3), 1 / math.sqrt(3)])),
-        3: np.linalg.norm(unit_vector - np.array([-1 / math.sqrt(3), 1 / math.sqrt(3), -1 / math.sqrt(3)])),
-        4: np.linalg.norm(unit_vector - np.array([1 / math.sqrt(3), -1 / math.sqrt(3), -1 / math.sqrt(3)]))
+        1: np.linalg.norm(unit_vector - np.array([1, 0, 0])),
+        2: np.linalg.norm(unit_vector - np.array([-1, 0, 0])),
+        3: np.linalg.norm(unit_vector - np.array([0, 1, 0])),
+        4: np.linalg.norm(unit_vector - np.array([0, -1, 0])),
+        5: np.linalg.norm(unit_vector - np.array([0, 0, 1])),
+        6: np.linalg.norm(unit_vector - np.array([0, 0, -1]))
     }
 
     return move_cost
