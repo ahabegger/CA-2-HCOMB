@@ -39,10 +39,10 @@ def create_octahedral(pdb_code):
         [-norm_factor, -norm_factor, -norm_factor]
     ]
 
-    moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
+    moves, cost, time = greedy_lattice(initial_moves, normalize_cost_df, movements)
     xyz = XYZ_helper.convert_to_xyz(moves, movements)
 
-    return xyz, cost
+    return xyz, cost, time
 
 
 def cost_calculations(input_origin, input_destination):

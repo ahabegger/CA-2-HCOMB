@@ -48,10 +48,11 @@ def greedy_lattice(moves, cost_df, movements):
             changes = 0
 
     final_cost = get_cost(moves, cost_matrix)
-    print(f"--- {time.time() - start_time} seconds ---")
+    elapsed_time = time.time() - start_time
+    print(f"--- {elapsed_time} seconds ---")
     print(f"--- {final_cost} cost ---")
 
-    return moves, final_cost
+    return moves, final_cost, elapsed_time
 
 
 def get_cost(moves, cost_matrix):

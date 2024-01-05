@@ -44,10 +44,10 @@ def create_dodecahedral(pdb_code):
         normalize([phi, 0, -1 / phi]), normalize([-phi, 0, -1 / phi])
     ]
 
-    moves, cost = greedy_lattice(initial_moves, normalize_cost_df, movements)
+    moves, cost, time = greedy_lattice(initial_moves, normalize_cost_df, movements)
     xyz = xyz_helper.convert_to_xyz(moves, movements)
 
-    return xyz, cost
+    return xyz, cost, time
 
 
 def cost_calculations(input_origin, input_destination):
