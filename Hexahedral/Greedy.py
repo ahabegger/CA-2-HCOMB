@@ -1,59 +1,58 @@
+import time
 import numpy as np
 import Hexahedral.XYZ_helper as xyz_helper
 
 
 def greedy_hexahedral(moves, cost_df):
+    cost_matrix = cost_df.to_numpy()
+    cost_matrix = np.insert(cost_matrix, 0, 100, axis=1)
+
     print('-' * 50)
-    print('Initial')
-    print(f"Moves: {moves}")
-    print(f"Cost: {get_cost(moves, cost_df)}")
+    print("Greedy Hexahedral (6 Move) Lattice")
+    print(f"Initial Moves: {moves}")
+    print(f"Initial Cost: {get_cost(moves, cost_matrix)}")
     print('-' * 50)
 
-    counter = 0
+    start_time = time.time()
+    num_moves = len(moves)
     changes = 0
 
-    for i in np.random.randint(0, len(moves), size=100000):
-        # Change the move at index i to a random move
-        current_move_cost = cost_df.iloc[i][moves[i]]
+    for iteration in range(1, 10000):
+        # Pick a random move
+        i = np.random.randint(0, num_moves)
 
-        for change_move in range(1, 7):
-            change_move_cost = cost_df.iloc[i][change_move]
-            if change_move_cost < current_move_cost:
-                new_moves = moves.copy()
-                new_moves[i] = change_move
-                xyz = xyz_helper.convert_to_xyz(new_moves)
+        # Find all moves with a smaller cost than the current move
+        current_move = moves[i]
+        current_move_cost = cost_matrix[i, current_move]
+        smaller_costs = np.where(cost_matrix[i] < current_move_cost)[0]
 
-                # If the new move is valid, update the moves list and break out of the loop
-                if xyz_helper.is_valid(xyz):
-                    moves = new_moves
-                    changes += 1
-                    break
+        if smaller_costs.size != 0:
+            new_move = np.random.choice(smaller_costs)
+            new_moves = moves.copy()
+            new_moves[i] = new_move
 
-        counter += 1
+            # If the new move is valid, update the moves list and break out of the loop
+            if xyz_helper.is_valid(xyz_helper.convert_to_xyz(new_moves)):
+                moves = new_moves
+                changes += 1
 
-        # Print out the current state of the lattice every 500 iterations
-        if counter % 500 == 0:
-            print('-' * 50)
-            print(f"Counter: {counter}")
+        if iteration % 1000 == 0:
+            print(f"Iteration: {iteration}")
             print(f"Moves: {moves}")
-            print(f"Cost: {get_cost(moves, cost_df)}")
+            print(f"Cost: {get_cost(moves, cost_matrix)}")
             print(f"Changes: {changes}")
             print('-' * 50)
 
-            # If there are no changes in the last 500 iterations, break out of the loop
             if changes == 0:
                 break
-            else:
-                changes = 0
+            changes = 0
 
-    return moves, get_cost(moves, cost_df)
+    final_cost = get_cost(moves, cost_matrix)
+    print(f"--- {time.time() - start_time} seconds ---")
+    print(f"--- {final_cost} cost ---")
+
+    return moves, final_cost
 
 
-def get_cost(moves, costs):
-    num_rows = costs.shape[0]
-    total_cost = 0.0
-
-    for i in range(num_rows - 1):
-        total_cost += costs.iloc[i][moves[i]]
-
-    return total_cost
+def get_cost(moves, cost_matrix):
+    return np.sum(cost_matrix[np.arange(len(moves)), moves])
