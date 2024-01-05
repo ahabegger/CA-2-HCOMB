@@ -1,14 +1,13 @@
 import time
 import numpy as np
-import Hexahedral.XYZ_helper as xyz_helper
+import XYZHelper as xyz_helper
 
 
-def greedy_hexahedral(moves, cost_df):
+def greedy_lattice(moves, cost_df, movements):
     cost_matrix = cost_df.to_numpy()
     cost_matrix = np.insert(cost_matrix, 0, 100, axis=1)
 
     print('-' * 50)
-    print("Greedy Hexahedral (6 Move) Lattice")
     print(f"Initial Moves: {moves}")
     print(f"Initial Cost: {get_cost(moves, cost_matrix)}")
     print('-' * 50)
@@ -32,7 +31,7 @@ def greedy_hexahedral(moves, cost_df):
             new_moves[i] = new_move
 
             # If the new move is valid, update the moves list and break out of the loop
-            if xyz_helper.is_valid(xyz_helper.convert_to_xyz(new_moves)):
+            if xyz_helper.is_valid(xyz_helper.convert_to_xyz(new_moves, movements)):
                 moves = new_moves
                 changes += 1
 
