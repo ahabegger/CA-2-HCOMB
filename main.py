@@ -31,47 +31,72 @@ def user_input():
     return pdb_code, structure
 
 
-def menu(pdb_code, structure):
-
+def menu(pdb_code, structure, visualize=True):
     if structure == "1":  # CA Backbone Structure
-        xyz, cost = create_backbone(pdb_code), 0
-        plot.visualize(xyz[['X', 'Y', 'Z']], title="CA Backbone Structure")
+        xyz, cost, time = create_backbone(pdb_code), 0, 0
+        if visualize:
+            plot.visualize(xyz[['X', 'Y', 'Z']], title="CA Backbone Structure")
         #  create_report(pdb_code, xyz, "CA Backbone Structure")
 
     elif structure == "2":  # Tetrahedral (4 Moves) Lattice Structure
-        xyz, cost = create_tetrahedral(pdb_code)
-        plot.visualize(xyz, title="Tetrahedral (4 Move) Lattice")
+        xyz, cost, time = create_tetrahedral(pdb_code)
+        if visualize:
+            plot.visualize(xyz, title="Tetrahedral (4 Move) Lattice")
         #  create_report(pdb_code, xyz, "Tetrahedral Lattice Structure")
 
     elif structure == "3":  # Hexahedral (6 Moves) Lattice Structure
-        xyz, cost = create_hexahedral(pdb_code)
-        plot.visualize(xyz, title="Hexahedral (6 Move) Lattice")
+        xyz, cost, time = create_hexahedral(pdb_code)
+        if visualize:
+            plot.visualize(xyz, title="Hexahedral (6 Move) Lattice")
         #  create_report(pdb_code, xyz, "Hexahedral Lattice Structure")
 
     elif structure == "4":  # Octahedral (8 Moves) Lattice Structure
-        xyz, cost = create_octahedral(pdb_code)
-        plot.visualize(xyz, title="Octahedral (8 Move) Lattice")
+        xyz, cost, time = create_octahedral(pdb_code)
+        if visualize:
+            plot.visualize(xyz, title="Octahedral (8 Move) Lattice")
         #  create_report(pdb_code, xyz, "Octahedral Lattice Structure")
 
     elif structure == "5":  # Icosahedral (12 Moves) Lattice Structure
-        xyz, cost = create_icosahedral(pdb_code)
-        plot.visualize(xyz, title="Icosahedral (12 Move) Lattice")
+        xyz, cost, time = create_icosahedral(pdb_code)
+        if visualize:
+            plot.visualize(xyz, title="Icosahedral (12 Move) Lattice")
         #  create_report(pdb_code, xyz, "Icosahedral Lattice Structure")
 
     elif structure == "6":  # Dodecahedral (20 Moves) Lattice Structure
-        xyz, cost = create_dodecahedral(pdb_code)
-        plot.visualize(xyz, title="Icosahedral (12 Move) Lattice")
+        xyz, cost, time = create_dodecahedral(pdb_code)
+        if visualize:
+            plot.visualize(xyz, title="Dodecahedral (20 Move) Lattice")
         #  create_report(pdb_code, xyz, "Dodecahedral Lattice Structure")
 
     else:
         print("Invalid Structure")
         exit()
 
+    return cost, time
+
+
+def testing(pdb):
+    structures = ["1", "2", "3", "4", "5", "6"]
+    costs = []
+    times = []
+
+    for structure in structures:
+        cost, time = menu(pdb, structure, visualize=False)
+        costs.append(cost)
+        times.append(time)
+
+    print("Costs: ", costs)
+    print("Times: ", times)
+    print("Total Cost: ", sum(costs))
+    print("Total Time: ", sum(times))
+
 
 if __name__ == '__main__':
     # pdb_code, structure = user_input()
 
-    structure = "4"
+    # structure = "4"
     pdb_code = "1A2M"
 
-    menu(pdb_code, structure)
+    # menu(pdb_code, structure)
+
+    testing(pdb_code)
