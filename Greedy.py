@@ -35,14 +35,15 @@ def greedy_lattice(moves, cost_df, movements):
                 moves = new_moves
                 changes += 1
 
-        if iteration % 1000 == 0:
+        if iteration % 2000 == 0:
+            current_cost = get_cost(moves, cost_matrix)
             print(f"Iteration: {iteration}")
             print(f"Moves: {moves}")
-            print(f"Cost: {get_cost(moves, cost_matrix)}")
+            print(f"Cost: {current_cost}")
             print(f"Changes: {changes}")
             print('-' * 50)
 
-            if changes == 0:
+            if changes == 0 or current_cost == 0:
                 break
             changes = 0
 
