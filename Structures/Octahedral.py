@@ -24,7 +24,6 @@ def create_octahedral(pdb_code):
         cost_df.iloc[i] = costs
 
     normalize_cost_df = normalize_cost(cost_df)
-    initial_moves = [1] * (num_rows - 1)
 
     # Calculate the normalization factor
     norm_factor = 1 / math.sqrt(3)
@@ -39,7 +38,7 @@ def create_octahedral(pdb_code):
         [-norm_factor, -norm_factor, -norm_factor]
     ]
 
-    moves, cost, time = greedy_lattice(initial_moves, normalize_cost_df, movements)
+    moves, cost, time = greedy_lattice(normalize_cost_df, movements)
     xyz = XYZ_helper.convert_to_xyz(moves, movements)
 
     return xyz, cost, time

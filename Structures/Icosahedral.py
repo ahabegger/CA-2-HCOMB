@@ -23,7 +23,6 @@ def create_icosahedral(pdb_code):
         cost_df.iloc[i] = costs
 
     normalize_cost_df = normalize_cost(cost_df)
-    initial_moves = [1] * (num_rows - 1)
 
     phi = (1 + math.sqrt(5)) / 2
 
@@ -37,7 +36,7 @@ def create_icosahedral(pdb_code):
         normalize([-phi, 0, 1]), normalize([-phi, 0, -1])
     ]
 
-    moves, cost, time = greedy_lattice(initial_moves, normalize_cost_df, movements)
+    moves, cost, time = greedy_lattice(normalize_cost_df, movements)
     xyz = XYZ_helper.convert_to_xyz(moves, movements)
 
     return xyz, cost, time

@@ -3,14 +3,20 @@ import numpy as np
 import XYZHelper as xyz_helper
 
 
-def greedy_lattice(moves, cost_df, movements):
+def greedy_lattice(cost_df, movements):
     # Executes the greedy lattice instance 10 times and returns the best result
-    best_moves = moves
+    best_moves = []
     best_cost = 1000000
     start_time = time.time()
 
     for i in range(10):
-        moves, final_cost = greedy_lattice_instance(moves, cost_df, movements)
+        # Initialize the moves list with the first move being the first column of the cost_df
+        initial_moves = [i % cost_df.shape[1]] * (cost_df.shape[0] - 1)
+
+        # Run the greedy lattice instance
+        moves, final_cost = greedy_lattice_instance(initial_moves, cost_df, movements)
+
+        # If the final cost is better than the current best cost, update the best moves and best cost
         if final_cost < best_cost:
             best_moves = moves
             best_cost = final_cost

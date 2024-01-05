@@ -25,7 +25,6 @@ def create_tetrahedral(pdb_code):
         cost_df.iloc[i] = costs
 
     normalize_cost_df = normalize_cost(cost_df)
-    initial_moves = [4] * (num_rows - 1)
 
     norm_factor = 1 / math.sqrt(3)
 
@@ -37,7 +36,7 @@ def create_tetrahedral(pdb_code):
         [norm_factor, -norm_factor, -norm_factor]
     ]
 
-    moves, cost, time = greedy_lattice(initial_moves, normalize_cost_df, movements)
+    moves, cost, time = greedy_lattice(normalize_cost_df, movements)
     xyz = xyz_helper.convert_to_xyz(moves, movements)
 
     return xyz, cost, time
