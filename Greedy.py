@@ -36,72 +36,60 @@ def greedy_lattice_instance(moves, cost_df, movements):
     print(f"Initial Cost: {get_cost(moves, cost_matrix)}")
     print('-' * 50)
 
-    num_moves = len(moves)
-    changes = 0
-
-    for iteration in range(1, 10000):
-        # Pick a random move
-        i = np.random.randint(0, num_moves)
-
-        # Find all moves with a smaller cost than the current move
-        current_move = moves[i]
-        current_move_cost = cost_matrix[i, current_move]
-        smaller_costs = np.where(cost_matrix[i] < current_move_cost)[0]
-
-        if smaller_costs.size != 0:
-            new_move = np.random.choice(smaller_costs)
-            new_moves = moves.copy()
-            new_moves[i] = new_move
-
-            # If the new move is valid, update the moves list and break out of the loop
-            if xyz_helper.is_valid(xyz_helper.convert_to_xyz(new_moves, movements)):
-                moves = new_moves
-                changes += 1
-
-        if iteration % 2500 == 0:
-            current_cost = get_cost(moves, cost_matrix)
-            print(f"Iteration: {iteration}")
-            print(f"Moves: {moves}")
-            print(f"Cost: {current_cost}")
-            print(f"Changes: {changes}")
-            print('-' * 50)
-
-            if changes == 0 or current_cost == 0:
-                break
-            changes = 0
-
     cost = get_cost(moves, cost_matrix)
 
-    if cost != 0:
-        change_cost = 1
-        while change_cost != 0:
-            moves = local_search_refinement_3(moves, cost_matrix, movements)
-            change_cost = cost - get_cost(moves, cost_matrix)
-            print('Local Search Refinement 3')
-            print(f"Cost Change: -{change_cost}")
-            print('-' * 50)
-            cost = get_cost(moves, cost_matrix)
-
-    if cost != 0:
-        change_cost = 1
-        while change_cost != 0:
-            moves = local_search_refinement_5(moves, cost_matrix, movements)
-            change_cost = cost - get_cost(moves, cost_matrix)
-            print('Local Search Refinement 5')
-            print(f"Cost Change: -{change_cost}")
-            print('-' * 50)
-            cost = get_cost(moves, cost_matrix)
+    test_options = [[1, 2]]
+    index = np.random.choice(len(test_options))
+    for test in test_options[index]:
+        if cost != 0:
+            moves = run_refinement(test, moves, cost_matrix, movements)
 
     final_cost = get_cost(moves, cost_matrix)
     elapsed_time = time.time() - start_time
-    print(f"--- {elapsed_time} seconds ---")
-    print(f"--- {final_cost} cost ---")
+    print(f"--- Final Moves: {moves}")
+    print(f"--- {elapsed_time} seconds")
+    print(f"--- {final_cost} cost")
 
     return moves, final_cost
 
 
+def run_refinement(test_num, moves, cost_matrix, movements):
+    cost = get_cost(moves, cost_matrix)
+    change_cost = 1
+
+    if test_num == 1:
+        while change_cost != 0:
+            print('Local Search Refinement 3')
+            moves = local_search_refinement_3(moves, cost_matrix, movements)
+            change_cost = cost - get_cost(moves, cost_matrix)
+            print(f"Cost Change: -{change_cost}")
+            print('-' * 50)
+            cost = get_cost(moves, cost_matrix)
+    elif test_num == 2:
+        while change_cost != 0:
+            print('Local Search Refinement 5')
+            moves = local_search_refinement_5(moves, cost_matrix, movements)
+            change_cost = cost - get_cost(moves, cost_matrix)
+            print(f"Cost Change: -{change_cost}")
+            print('-' * 50)
+            cost = get_cost(moves, cost_matrix)
+    elif test_num == 3:
+        while change_cost != 0:
+            print('Local Search Refinement 7')
+            moves = local_search_refinement_7(moves, cost_matrix, movements)
+            change_cost = cost - get_cost(moves, cost_matrix)
+            print(f"Cost Change: -{change_cost}")
+            print('-' * 50)
+            cost = get_cost(moves, cost_matrix)
+
+    return moves
+
+
 def local_search_refinement_3(moves, cost_matrix, movements):
-    for i in range(1, len(moves) - 1):
+    indices = np.array(range(1, len(moves) - 1))
+    randomized_indices = np.random.permutation(indices)
+
+    for i in randomized_indices:
         total_cost = (cost_matrix[i, moves[i]] +
                       cost_matrix[i + 1, moves[i + 1]] +
                       cost_matrix[i - 1, moves[i - 1]])
@@ -141,7 +129,10 @@ def find_combinations_3(cost_above, cost_below, cost_current, total_cost):
 
 
 def local_search_refinement_5(moves, cost_matrix, movements):
-    for i in range(2, len(moves) - 2):
+    indices = np.array(range(2, len(moves) - 2))
+    randomized_indices = np.random.permutation(indices)
+
+    for i in randomized_indices:
         total_cost = sum(cost_matrix[i + offset, moves[i + offset]] for offset in range(-2, 3))
 
         if total_cost == 0:
@@ -179,6 +170,61 @@ def find_combinations_5(cost_above_1, cost_above_2, cost_below_1, cost_below_2, 
                         if (cost_above_2[a] + cost_above_1[b] + cost_current[c]
                                 + cost_below_1[d] + cost_below_2[e] < total_cost):
                             valid_combinations.append((e, d, c, b, a))
+
+    return valid_combinations
+
+
+def local_search_refinement_7(moves, cost_matrix, movements):
+    indices = np.array(range(3, len(moves) - 3))
+    randomized_indices = np.random.permutation(indices)
+
+    for i in randomized_indices:
+        total_cost = sum(cost_matrix[i + offset, moves[i + offset]] for offset in range(-3, 4))
+
+        if total_cost == 0:
+            continue
+
+        cost_above_1 = cost_matrix[i + 1]
+        cost_above_2 = cost_matrix[i + 2]
+        cost_above_3 = cost_matrix[i + 3]
+        cost_below_1 = cost_matrix[i - 1]
+        cost_below_2 = cost_matrix[i - 2]
+        cost_below_3 = cost_matrix[i - 3]
+        cost_current = cost_matrix[i]
+
+        combinations = find_combinations_7(cost_above_1, cost_above_2, cost_above_3,
+                                           cost_below_1, cost_below_2, cost_below_3,
+                                           cost_current, total_cost)
+        for combo in combinations:
+            new_moves = moves.copy()
+            new_moves[i - 3] = combo[0]
+            new_moves[i - 2] = combo[1]
+            new_moves[i - 1] = combo[2]
+            new_moves[i] = combo[3]
+            new_moves[i + 1] = combo[4]
+            new_moves[i + 2] = combo[5]
+            new_moves[i + 3] = combo[6]
+            if xyz_helper.is_valid(xyz_helper.convert_to_xyz(new_moves, movements)):
+                if get_cost(new_moves, cost_matrix) < get_cost(moves, cost_matrix):
+                    moves = new_moves
+
+    return moves
+
+
+def find_combinations_7(cost_above_1, cost_above_2, cost_above_3, cost_below_1, cost_below_2, cost_below_3,
+                        cost_current, total_cost):
+    valid_combinations = []
+    for a in range(len(cost_above_3)):
+        for b in range(len(cost_above_2)):
+            for c in range(len(cost_above_1)):
+                for d in range(len(cost_current)):
+                    for e in range(len(cost_below_1)):
+                        for f in range(len(cost_below_2)):
+                            for g in range(len(cost_below_3)):
+                                if (cost_above_3[a] + cost_above_2[b] + cost_above_1[c] +
+                                        cost_current[d] + cost_below_1[e] + cost_below_2[f] +
+                                        cost_below_3[g] < total_cost):
+                                    valid_combinations.append((g, f, e, d, c, b, a))
 
     return valid_combinations
 
