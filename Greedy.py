@@ -48,7 +48,7 @@ def greedy_lattice_instance(moves, cost_df, movements):
     refined_moves = moves.copy()
 
     # Refine the moves using local search
-    #refined_moves = test_battery(0, 5, refined_moves, cost_matrix, movements)
+    refined_moves = test_battery(4, 5, refined_moves, cost_matrix, movements)
     refined_moves = test_battery(1, 5, refined_moves, cost_matrix, movements)
     refined_moves = test_battery(2, 2, refined_moves, cost_matrix, movements)
 
@@ -68,7 +68,10 @@ def test_battery(test_num, num_tests, moves, cost_matrix, movements):
     for i in range(num_tests):
         print(f"Test {i + 1} for {test_num * 2 + 1}")
         refined_moves = run_refinement(test_num, moves, cost_matrix, movements)
-        if get_cost(refined_moves, cost_matrix) < lowest_cost:
+        refined_cost = get_cost(refined_moves, cost_matrix)
+        if refined_cost == 0:
+            return refined_moves
+        elif refined_cost < lowest_cost:
             lowest_cost = get_cost(refined_moves, cost_matrix)
             lowest_moves = refined_moves.copy()
 
@@ -77,6 +80,8 @@ def test_battery(test_num, num_tests, moves, cost_matrix, movements):
 
 def run_refinement(test_num, input_moves, cost_matrix, movements):
     cost = get_cost(input_moves, cost_matrix)
+    if cost == 0:
+        return input_moves
     change_cost = 1
 
     output_moves = input_moves.copy()
@@ -124,6 +129,17 @@ def run_refinement(test_num, input_moves, cost_matrix, movements):
             print(f"Total Time: {time.time() - start_time}")
             print('-' * 50)
             cost = get_cost(output_moves, cost_matrix)
+    elif test_num == 4:
+        while change_cost != 0:
+            start_time = time.time()
+            print('Local Search Refinement 2')
+            output_moves = local_search_refinement_2(output_moves, cost_matrix, movements)
+            change_cost = get_cost(output_moves, cost_matrix) - cost
+            print(f"Cost Change: {change_cost}")
+            print(f"Cost: {get_cost(output_moves, cost_matrix)}")
+            print(f"Total Time: {time.time() - start_time}")
+            print('-' * 50)
+            cost = get_cost(output_moves, cost_matrix)
 
     return output_moves
 
@@ -148,6 +164,43 @@ def local_search_refinement_1(moves, cost_matrix, movements):
                 break
 
     return moves
+
+def local_search_refinement_2(moves, cost_matrix, movements):
+    indices = np.array(range(1, len(moves)))
+    randomized_indices = np.random.permutation(indices)
+
+    for i in randomized_indices:
+        # Calculate the total cost of the current and the previous move
+        total_cost = sum(cost_matrix[i + offset, moves[i + offset]] for offset in range(-1, 1))
+
+        if total_cost == 0:
+            continue
+
+        cost_rows = [cost_matrix[i + offset] for offset in [-1, 0]]
+        combinations = find_combinations_2(*cost_rows, total_cost=total_cost, movements=movements)
+
+        for combo in combinations:
+            new_moves = moves.copy()
+            new_moves[i - 1: i + 1] = combo
+            if xyz_helper.is_valid(xyz_helper.convert_to_xyz(new_moves, movements)):
+                moves = new_moves
+                break
+
+    return moves
+
+
+def find_combinations_2(cost_previous, cost_current, total_cost, movements):
+    combinations = []
+
+    for i in range(len(cost_previous)):
+        for j in range(len(cost_current)):
+            combination_cost = cost_previous[i] + cost_current[j]
+            if combination_cost < total_cost:
+                if xyz_helper.is_valid(xyz_helper.convert_to_xyz([i, j], movements)):
+                    combinations.append(((i, j), combination_cost))
+
+    combinations.sort(key=lambda x: x[1])
+    return [combo for combo, cost in combinations]
 
 
 def sorted_indices_below_threshold(arr, threshold):
