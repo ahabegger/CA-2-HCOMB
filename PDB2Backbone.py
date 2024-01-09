@@ -1,3 +1,4 @@
+# Import Outside Libraries
 import pandas as pd
 from Bio import PDB
 import urllib.request
@@ -55,10 +56,3 @@ def create_backbone(pdb_id):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
-if __name__ == "__main__":
-    # Example usage:
-    pdb_code = "2WFU"  # Replace with the PDB code you want to analyze
-    df = create_backbone(pdb_code)
-    print(df)
