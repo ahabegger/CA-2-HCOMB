@@ -17,7 +17,7 @@ def greedy_lattice(cost_df, movements):
     best_cost = float('inf')
     start_time = time.time()
 
-    for i in range(1):
+    for i in range(5):
         # Initialize the moves list with the first move being the first column of the cost_df
         initial_moves = [(i % cost_df.shape[1]) + 1] * cost_df.shape[0]
 
@@ -45,17 +45,12 @@ def greedy_lattice_instance(moves, cost_df, movements):
     print(f"Initial Cost: {get_cost(moves, cost_matrix)}")
     print('-' * 50)
 
-    cost = get_cost(moves, cost_matrix)
+    refined_moves = moves.copy()
 
-    if cost != 0:
-        refined_moves_1 = run_refinement(0, moves, cost_matrix, movements)
-    if cost != 0:
-        refined_moves_3 = run_refinement(1, refined_moves_1, cost_matrix, movements)
-    if cost != 0:
-        refined_moves_5 = run_refinement(2, refined_moves_3, cost_matrix, movements)
-    if cost != 0:
-        refined_moves = run_refinement(3, refined_moves_5, cost_matrix, movements)
-
+    # Refine the moves using local search
+    #refined_moves = test_battery(0, 5, refined_moves, cost_matrix, movements)
+    refined_moves = test_battery(1, 5, refined_moves, cost_matrix, movements)
+    refined_moves = test_battery(2, 2, refined_moves, cost_matrix, movements)
 
     final_cost = get_cost(refined_moves, cost_matrix)
     elapsed_time = time.time() - start_time
@@ -64,6 +59,20 @@ def greedy_lattice_instance(moves, cost_df, movements):
     print(f"--- {final_cost} cost")
 
     return refined_moves, final_cost
+
+
+def test_battery(test_num, num_tests, moves, cost_matrix, movements):
+    lowest_cost = get_cost(moves, cost_matrix)
+    lowest_moves = moves.copy()
+
+    for i in range(num_tests):
+        print(f"Test {i + 1} for {test_num * 2 + 1}")
+        refined_moves = run_refinement(test_num, moves, cost_matrix, movements)
+        if get_cost(refined_moves, cost_matrix) < lowest_cost:
+            lowest_cost = get_cost(refined_moves, cost_matrix)
+            lowest_moves = refined_moves.copy()
+
+    return lowest_moves
 
 
 def run_refinement(test_num, input_moves, cost_matrix, movements):
@@ -224,7 +233,8 @@ def find_combinations_5(cost_below_2, cost_below_1, cost_current, cost_above_1, 
             for c in range(len(cost_current)):
                 for d in range(len(cost_below_1)):
                     for e in range(len(cost_below_2)):
-                        combination_cost = cost_above_2[a] + cost_above_1[b] + cost_current[c] + cost_below_1[d] + cost_below_2[e]
+                        combination_cost = cost_above_2[a] + cost_above_1[b] + cost_current[c] + cost_below_1[d] + \
+                                           cost_below_2[e]
                         if combination_cost < total_cost:
                             if xyz_helper.is_valid(xyz_helper.convert_to_xyz([e, d, c, b, a], movements)):
                                 combinations.append(((e, d, c, b, a), combination_cost))
