@@ -1,9 +1,11 @@
+# Import Outside Libraries
 import math
 import pandas as pd
 import numpy as np
+
+# Import Local Libraries
 from Greedy import greedy_lattice
 from PDB2Backbone import create_backbone
-import Visualization as plot
 import XYZHelper as xyz_helper
 
 
