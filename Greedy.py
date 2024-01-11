@@ -165,28 +165,49 @@ def local_search_refinement_1(moves, cost_matrix, movements):
 
     return moves
 
+
 def local_search_refinement_2(moves, cost_matrix, movements):
-    indices = np.array(range(1, len(moves)))
+    num = 2
+    indices = np.array(range(len(moves) - num + 1))
     randomized_indices = np.random.permutation(indices)
 
     for i in randomized_indices:
-        # Calculate the total cost of the current and the previous move
-        total_cost = sum(cost_matrix[i + offset, moves[i + offset]] for offset in range(-1, 1))
+        total_cost = sum(cost_matrix[i + offset, moves[i + offset]] for offset in range(num))
 
         if total_cost == 0:
             continue
 
-        cost_rows = [cost_matrix[i + offset] for offset in [-1, 0]]
-        combinations = find_combinations_2(*cost_rows, total_cost=total_cost, movements=movements)
+        cost_rows = [cost_matrix[i + offset] for offset in range(num)]
+        combinations = find_combinations(cost_rows, total_cost=total_cost, movements=movements)
 
         for combo in combinations:
             new_moves = moves.copy()
-            new_moves[i - 1: i + 1] = combo
+            new_moves[i: i + num] = combo
             if xyz_helper.is_valid(xyz_helper.convert_to_xyz(new_moves, movements)):
                 moves = new_moves
                 break
 
     return moves
+
+
+def find_combinations(cost_rows, total_cost, movements):
+    # Function to recursively find all combinations of cost up to a certain depth (row)
+    def find_combinations_recursive(row, current_cost, current_indices):
+        if row == len(cost_rows):
+            # Check if the combination is valid and within the cost limit
+            if current_cost < total_cost and xyz_helper.is_valid(xyz_helper.convert_to_xyz(current_indices, movements)):
+                combinations.append((tuple(current_indices), current_cost))
+            return
+
+        for i in range(len(cost_rows[row])):
+            # Add the cost of the current cell and call the function recursively for the next row
+            find_combinations_recursive(row + 1, current_cost + cost_rows[row][i], current_indices + [i])
+
+    combinations = []
+    find_combinations_recursive(0, 0, [])
+    combinations.sort(key=lambda x: x[1])
+
+    return [combo for combo, cost in combinations]
 
 
 def find_combinations_2(cost_previous, cost_current, total_cost, movements):
