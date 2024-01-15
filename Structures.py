@@ -1,12 +1,9 @@
-# Import Outside Statements
-import numpy as np
-import pandas as pd
-
 # Import Local Statements
 from Greedy import greedy_lattice
 from PDB2Backbone import create_backbone
 import XYZHelper as xyz_helper
 import Movements
+import Tilt as tilt
 
 '''
 Structures.py
@@ -15,37 +12,24 @@ This Script is used to create a Lattice from a PDB file.
 
 
 def create_lattice(num_moves, pdb_code):
+    # Create Backbone
     backbone_xyz = create_backbone(pdb_code)
 
-    num_rows = backbone_xyz.shape[0]
-    cost_df = pd.DataFrame(0.0, index=range(num_rows - 1), columns=range(1, num_moves + 1))
+    # Create Movements
     movements = Movements.movements(num_moves)
 
-    # For each row in the backbone_xyz DataFrame
-    for i in range(num_rows - 1):
-        costs = cost_calculations(backbone_xyz.iloc[i], backbone_xyz.iloc[i + 1], movements)
-        cost_df.iloc[i] = costs
+    # Optimize Movements with Tilt.py
+    optimized_movements, cost_df = tilt.optimize_tilt(backbone_xyz, movements)
+    print(f"Optimized Movements: {optimized_movements}")
+    structure_cost = cost_df.min(axis=1).sum()
+    print(f"Structure Cost: {structure_cost}")
 
+    # Fit Movements to Lattice
     normalize_cost_df = normalize_cost(cost_df)
-
-    moves, cost, time = greedy_lattice(normalize_cost_df, movements)
+    moves, fitted_cost, time = greedy_lattice(normalize_cost_df, optimized_movements)
     xyz = xyz_helper.convert_to_xyz(moves, movements)
 
-    return xyz, cost, time
-
-
-def cost_calculations(input_origin, input_destination, movements):
-    origin = np.array([input_origin.X, input_origin.Y, input_origin.Z])
-    destination = np.array([input_destination.X, input_destination.Y, input_destination.Z])
-    movement_vector = destination - origin
-    magnitude = np.linalg.norm(movement_vector)
-    unit_vector = movement_vector / magnitude
-
-    move_cost = {}
-    for i in range(len(movements)):
-        move_cost[i + 1] = np.linalg.norm(unit_vector - movements[i])
-
-    return move_cost
+    return xyz, structure_cost + fitted_cost, time
 
 
 def normalize_cost(costs):
