@@ -37,9 +37,9 @@ def greedy_lattice_instance(test_num, moves, cost_matrix, movements):
 
     print(f"Test #{test_num}: ", end='')
     print(f"Cost={format(get_cost(moves, cost_matrix), '.2f')}", end='|')
-    refined_moves = moves.copy()
 
     # Refine the moves using local search
+    refined_moves = moves
     refined_moves = test_battery(2, 5, refined_moves, cost_matrix, movements)
     refined_moves = test_battery(3, 5, refined_moves, cost_matrix, movements)
     refined_moves = test_battery(5, 2, refined_moves, cost_matrix, movements)
@@ -72,20 +72,18 @@ def test_battery(window_size, num_tests, moves, cost_matrix, movements):
     return lowest_moves
 
 
-def run_refinement(window_size, input_moves, cost_matrix, movements):
-    cost = get_cost(input_moves, cost_matrix)
+def run_refinement(window_size, moves, cost_matrix, movements):
+    cost = get_cost(moves, cost_matrix)
     if cost == 0:
-        return input_moves
+        return moves
 
     change_cost = 1
-    output_moves = input_moves.copy()
-
     while change_cost != 0:
-        output_moves = local_search_refinement(window_size, output_moves, cost_matrix, movements)
-        change_cost = get_cost(output_moves, cost_matrix) - cost
-        cost = get_cost(output_moves, cost_matrix)
+        moves = local_search_refinement(window_size, moves, cost_matrix, movements)
+        change_cost = get_cost(moves, cost_matrix) - cost
+        cost = get_cost(moves, cost_matrix)
 
-    return output_moves
+    return moves
 
 
 def local_search_refinement(window, moves, cost_matrix, movements):
@@ -104,7 +102,9 @@ def local_search_refinement(window, moves, cost_matrix, movements):
         original_segment = moves[i: i + window].copy()  # Store the original segment
         for combo in combinations:
             moves[i: i + window] = combo  # Update in place
-            if not is_valid_moves(moves, movements):
+            if is_valid_moves(moves, movements):
+                break
+            else:
                 moves[i: i + window] = original_segment  # Revert if not valid
 
     return moves
