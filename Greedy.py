@@ -2,7 +2,6 @@ import time
 import numpy as np
 import pandas as pd
 
-
 '''
 Greedy.py
 This Script is used to run the Greedy Lattice Algorithm.
@@ -102,12 +101,11 @@ def local_search_refinement(window, moves, cost_matrix, movements):
         cost_rows = [cost_matrix[i + offset] for offset in range(window)]
         combinations = find_combinations(cost_rows, total_cost=total_cost, movements=movements)
 
+        original_segment = moves[i: i + window].copy()  # Store the original segment
         for combo in combinations:
-            new_moves = moves.copy()
-            new_moves[i: i + window] = combo
-            if is_valid_moves(new_moves, movements):
-                moves = new_moves
-                break
+            moves[i: i + window] = combo  # Update in place
+            if not is_valid_moves(moves, movements):
+                moves[i: i + window] = original_segment  # Revert if not valid
 
     return moves
 
@@ -151,9 +149,9 @@ def convert_to_xyz(moves, possible_movements):
         possible_movements = np.array(possible_movements)
 
     # Initialize the xyz array with the origin and correct size
-    xyz = np.zeros((len(moves) + 1, 3))
+    xyz = np.zeros((len(moves) + 1, 3), dtype=np.float16)
 
     # Efficiently compute the cumulative sum of movements
-    xyz[1:] = np.cumsum(possible_movements[moves], axis=0)
+    xyz[1:] = np.cumsum(possible_movements[moves], axis=0, dtype=np.float16)
 
     return xyz
