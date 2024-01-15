@@ -1,7 +1,5 @@
-# Import Local Statements
 from Greedy import greedy_lattice
 from PDB2Backbone import create_backbone
-import XYZHelper as xyz_helper
 import Movements
 import Tilt as tilt
 
@@ -26,8 +24,7 @@ def create_lattice(num_moves, pdb_code):
 
     # Fit Movements to Lattice
     normalize_cost_df = normalize_cost(cost_df)
-    moves, fitted_cost, time = greedy_lattice(normalize_cost_df, optimized_movements)
-    xyz = xyz_helper.convert_to_xyz(moves, movements)
+    xyz, fitted_cost, time = greedy_lattice(normalize_cost_df, optimized_movements)
 
     return xyz, structure_cost + fitted_cost, time
 

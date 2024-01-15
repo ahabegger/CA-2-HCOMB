@@ -1,9 +1,7 @@
-# Import Outside Statements
 import time
 import numpy as np
+import pandas as pd
 
-# Import Local Statements
-import XYZHelper as xyz_helper
 
 '''
 Greedy.py
@@ -31,7 +29,7 @@ def greedy_lattice(cost_df, movements):
         if best_cost == 0:
             break
 
-    return best_moves, best_cost, time.time() - start_time
+    return convert_to_xyz(best_moves, movements), best_cost, time.time() - start_time
 
 
 def greedy_lattice_instance(moves, cost_df, movements):
@@ -116,7 +114,7 @@ def local_search_refinement(num, moves, cost_matrix, movements):
         for combo in combinations:
             new_moves = moves.copy()
             new_moves[i: i + num] = combo
-            if xyz_helper.is_valid(xyz_helper.convert_to_xyz(new_moves, movements)):
+            if is_valid(convert_to_xyz(new_moves, movements)):
                 moves = new_moves
                 break
 
@@ -128,7 +126,7 @@ def find_combinations(cost_rows, total_cost, movements):
     def find_combinations_recursive(row, current_cost, current_indices):
         if row == len(cost_rows):
             # Check if the combination is valid and within the cost limit
-            if current_cost < total_cost and xyz_helper.is_valid(xyz_helper.convert_to_xyz(current_indices, movements)):
+            if current_cost < total_cost and is_valid(convert_to_xyz(current_indices, movements)):
                 combinations.append((tuple(current_indices), current_cost))
             return
 
@@ -145,3 +143,24 @@ def find_combinations(cost_rows, total_cost, movements):
 
 def get_cost(moves, cost_matrix):
     return np.sum(cost_matrix[np.arange(len(moves)), moves])
+
+
+def is_valid(xyz):
+    return not xyz.duplicated().any()
+
+
+def convert_to_xyz(moves, possible_movements):
+    # Ensure moves is a NumPy array
+    moves = np.array(moves, dtype=int) - 1  # Adjust for 1-indexing
+
+    # Check if possible_movements is a list of lists or a 2D NumPy array
+    if isinstance(possible_movements, list):
+        possible_movements = np.array(possible_movements)
+
+    # Initialize the xyz array with the origin and correct size
+    xyz = np.zeros((len(moves) + 1, 3))
+
+    # Efficiently compute the cumulative sum of movements
+    xyz[1:] = np.cumsum(possible_movements[moves], axis=0)
+
+    return pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
