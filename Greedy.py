@@ -16,7 +16,7 @@ def greedy_lattice(cost_matrix, movements):
     start_time = time.time()
 
     for i in range(5):
-        initial_moves = [(i % cost_matrix.shape[1]) + 1] * cost_matrix.shape[0]
+        initial_moves = [(i % cost_matrix.shape[1])] * cost_matrix.shape[0]
 
         # Run the greedy lattice instance
         moves, final_cost = greedy_lattice_instance(initial_moves, cost_matrix, movements)
@@ -33,7 +33,6 @@ def greedy_lattice(cost_matrix, movements):
 
 def greedy_lattice_instance(moves, cost_matrix, movements):
     start_time = time.time()
-    cost_matrix = np.insert(cost_matrix, 0, 1000, axis=1)
 
     print('-' * 50)
     print(f"TESTING: {len(movements)} - MOVE LATTICE")
@@ -149,7 +148,7 @@ def is_valid(xyz):
 
 def convert_to_xyz(moves, possible_movements):
     # Ensure moves is a NumPy array
-    moves = np.array(moves, dtype=int) - 1  # Adjust for 1-indexing
+    moves = np.array(moves, dtype=int)
 
     # Check if possible_movements is a list of lists or a 2D NumPy array
     if isinstance(possible_movements, list):
