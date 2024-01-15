@@ -4,12 +4,9 @@ import pandas as pd
 
 
 def optimize_tilt(backbone_xyz, movements):
-    start_time = time.time()
     backbone_xyz_np = backbone_xyz[['X', 'Y', 'Z']].to_numpy()
     lowest_sum = get_cost(backbone_xyz_np, movements)
     lowest_movements = movements
-
-    print(f"Initial Lowest Sum: {lowest_sum}")
 
     x, y, z = 0, 0, 0
 
@@ -22,7 +19,6 @@ def optimize_tilt(backbone_xyz, movements):
                     lowest_sum = current_sum
                     lowest_movements = tilt_movements
                     x, y, z = i, j, k
-                    print(f"i: {i}, j: {j}, k: {k} | Lowest Sum: {lowest_sum}")
 
     for i in range(x - 15, x + 15):
         for j in range(y - 15, y + 15):
@@ -33,16 +29,11 @@ def optimize_tilt(backbone_xyz, movements):
                     lowest_sum = current_sum
                     lowest_movements = tilt_movements
                     x, y, z = i, j, k
-                    print(f"i: {i}, j: {j}, k: {k} | Lowest Sum: {lowest_sum}")
-
-    print(f"Tilted Movements: {lowest_movements}")
-    print(f"Titled Sum: {lowest_sum}")
-    print(f"Time: {time.time() - start_time}")
 
     # Create normalized cost matrix
     cost_matrix = create_cost_matrix(backbone_xyz_np, lowest_movements)
 
-    return lowest_movements, cost_matrix, lowest_sum
+    return lowest_movements, cost_matrix, lowest_sum, [x, y, z]
 
 
 def rotate_movements(movements, degree_x, degree_y, degree_z):
