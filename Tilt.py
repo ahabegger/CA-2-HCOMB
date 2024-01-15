@@ -1,6 +1,10 @@
-import time
 import numpy as np
-import pandas as pd
+
+'''
+Tile.py
+This Script is used to optimize the movements for a given structure
+by rotating the movements around the X, Y, and Z axes.
+'''
 
 
 def optimize_tilt(backbone_xyz, movements):
@@ -10,25 +14,27 @@ def optimize_tilt(backbone_xyz, movements):
 
     x, y, z = 0, 0, 0
 
-    for i in range(0, 360, 15):
-        for j in range(0, 360, 15):
-            for k in range(0, 360, 15):
-                tilt_movements = rotate_movements(movements, i, j, k)
-                current_sum = get_cost(backbone_xyz_np, tilt_movements)
-                if current_sum < lowest_sum:
-                    lowest_sum = current_sum
-                    lowest_movements = tilt_movements
-                    x, y, z = i, j, k
+    for i in np.arange(0, 375, 10):
+        for j in np.arange(0, 375, 10):
+            for k in np.arange(0, 375, 10):
+                if 0 <= i <= 360 and 0 <= j <= 360 and 0 <= k <= 360:
+                    tilt_movements = rotate_movements(movements, i, j, k)
+                    current_sum = get_cost(backbone_xyz_np, tilt_movements)
+                    if current_sum < lowest_sum:
+                        lowest_sum = current_sum
+                        lowest_movements = tilt_movements
+                        x, y, z = i, j, k
 
-    for i in range(x - 15, x + 15):
-        for j in range(y - 15, y + 15):
-            for k in range(z - 15, z + 15):
-                tilt_movements = rotate_movements(movements, i, j, k)
-                current_sum = get_cost(backbone_xyz_np, tilt_movements)
-                if current_sum < lowest_sum:
-                    lowest_sum = current_sum
-                    lowest_movements = tilt_movements
-                    x, y, z = i, j, k
+    for i in np.arange(x - 10, x + 10):
+        for j in np.arange(y - 10, y + 10):
+            for k in np.arange(z - 10, z + 10):
+                if 0 <= i <= 360 and 0 <= j <= 360 and 0 <= k <= 360:
+                    tilt_movements = rotate_movements(movements, i, j, k)
+                    current_sum = get_cost(backbone_xyz_np, tilt_movements)
+                    if current_sum < lowest_sum:
+                        lowest_sum = current_sum
+                        lowest_movements = tilt_movements
+                        x, y, z = i, j, k
 
     # Create normalized cost matrix
     cost_matrix = create_cost_matrix(backbone_xyz_np, lowest_movements)
@@ -42,25 +48,20 @@ def rotate_movements(movements, degree_x, degree_y, degree_z):
     angles_rad_y = np.radians(degree_y)
     angles_rad_z = np.radians(degree_z)
 
-    # Create rotation matrices for each axis
-    cos_x, sin_x = np.cos(angles_rad_x), np.sin(angles_rad_x)
-    rotation_matrix_x = np.array([[1, 0, 0],
-                                  [0, cos_x, -sin_x],
-                                  [0, sin_x, cos_x]])
+    # Compute sin and cos for each angle
+    sin_x, cos_x = np.sin(angles_rad_x), np.cos(angles_rad_x)
+    sin_y, cos_y = np.sin(angles_rad_y), np.cos(angles_rad_y)
+    sin_z, cos_z = np.sin(angles_rad_z), np.cos(angles_rad_z)
 
-    cos_y, sin_y = np.cos(angles_rad_y), np.sin(angles_rad_y)
-    rotation_matrix_y = np.array([[cos_y, 0, sin_y],
-                                  [0, 1, 0],
-                                  [-sin_y, 0, cos_y]])
+    # Directly compute the combined rotation matrix
+    rotation_matrix = np.array([
+        [cos_y * cos_z, cos_z * sin_x * sin_y - cos_x * sin_z, sin_x * sin_z + cos_x * cos_z * sin_y],
+        [cos_y * sin_z, cos_x * cos_z + sin_x * sin_y * sin_z, cos_x * sin_y * sin_z - cos_z * sin_x],
+        [-sin_y, cos_y * sin_x, cos_x * cos_y]
+    ])
 
-    cos_z, sin_z = np.cos(angles_rad_z), np.sin(angles_rad_z)
-    rotation_matrix_z = np.array([[cos_z, -sin_z, 0],
-                                  [sin_z, cos_z, 0],
-                                  [0, 0, 1]])
-
-    # Combined rotation matrix
-    combined_rotation_matrix = np.dot(np.dot(rotation_matrix_z, rotation_matrix_y), rotation_matrix_x)
-    changed_movements = np.dot(movements, combined_rotation_matrix)
+    # Apply the rotation to the movements
+    changed_movements = np.dot(movements, rotation_matrix)
 
     return changed_movements
 
@@ -71,10 +72,13 @@ def create_cost_matrix(backbone_xyz_np, movements):
     magnitudes = np.linalg.norm(movement_vectors, axis=1)
 
     # Initialize the cost matrix
-    cost_matrix = np.zeros((movement_vectors.shape[0], len(movements)))
+    cost_matrix = np.zeros((movement_vectors.shape[0], len(movements)), dtype=np.float16)
 
     # Iterate over movements to calculate costs
     for i, movement in enumerate(movements):
+        # Convert movement to float32
+        movement = np.array(movement, dtype=np.float16)
+
         # Normalize movement vectors and compute the cost
         # Handle zero magnitudes to avoid division by zero
         norm_movement_vectors = movement_vectors / magnitudes[:, np.newaxis]
