@@ -1,7 +1,8 @@
 # Import Internal Libraries
-from GenerateReport import create_report
+import pandas as pd
+from matplotlib import pyplot as plt
+
 from PDB2Backbone import create_backbone
-import Visualization as plot
 from Structures import create_lattice
 
 '''
@@ -32,16 +33,37 @@ def menu(pdb_code, structure, visualize=True):
     if structure == "1":  # CA Backbone Structure
         xyz, cost, time = create_backbone(pdb_code), 0, 0
         if visualize:
-            plot.visualize(xyz[['X', 'Y', 'Z']], title="CA Backbone Structure")
+            visualize(xyz[['X', 'Y', 'Z']], title="CA Backbone Structure")
         #  create_report(pdb_code, xyz, "CA Backbone Structure")
     else:
         xyz, cost, time = create_lattice(int(structure), pdb_code)
         if visualize:
-            plot.visualize(xyz, title=f"{structure} Move Lattice for {pdb_code}")
+            visualize(xyz, title=f"{structure} Move Lattice for {pdb_code}")
         #  create_report(pdb_code, xyz, f"{structure} Lattice Structure")
 
     return cost, time
 
+
+def visualize(xyz, title='Protein Structure'):
+    # Convert to DataFrame for easier processing
+    df = pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
+
+    # Create 3D plot
+    fig = plt.figure()
+    fig.suptitle(title, fontsize=16)
+    ax = fig.add_subplot(projection='3d')
+
+    # Plot points
+    ax.scatter(df['X'], df['Y'], df['Z'], color='green', label='Points')
+
+    # Draw connections
+    ax.plot3D(df['X'], df['Y'], df['Z'], color='blue', label='Line Connection')
+
+    # Show plot
+    plt.legend()
+    plt.show()
+
+    return None
 
 def testing(pdb):
     structures = ["1", "4", "6", "8", "12"]
