@@ -1,8 +1,6 @@
 import time
-
 import numpy as np
 import pandas as pd
-import math
 
 
 def optimize_tilt(backbone_xyz, movements):
@@ -41,7 +39,10 @@ def optimize_tilt(backbone_xyz, movements):
     print(f"Titled Sum: {lowest_sum}")
     print(f"Time: {time.time() - start_time}")
 
-    return lowest_movements, create_cost_df(backbone_xyz_np, lowest_movements)
+    # Create normalized cost matrix
+    cost_matrix = create_cost_matrix(backbone_xyz_np, lowest_movements)
+
+    return lowest_movements, cost_matrix, lowest_sum
 
 
 def rotate_movements(movements, degree_x, degree_y, degree_z):
@@ -73,18 +74,29 @@ def rotate_movements(movements, degree_x, degree_y, degree_z):
     return changed_movements
 
 
-def create_cost_df(backbone_xyz_np, movements):
-    num_rows = backbone_xyz_np.shape[0]
-    cost_df = np.zeros((num_rows - 1, len(movements)))
-
+def create_cost_matrix(backbone_xyz_np, movements):
+    # Compute movement vectors and their magnitudes
     movement_vectors = backbone_xyz_np[1:] - backbone_xyz_np[:-1]
-    magnitudes = np.linalg.norm(movement_vectors, axis=1).reshape(-1, 1)
-    unit_vectors = movement_vectors / magnitudes
+    magnitudes = np.linalg.norm(movement_vectors, axis=1)
 
+    # Initialize the cost matrix
+    cost_matrix = np.zeros((movement_vectors.shape[0], len(movements)))
+
+    # Iterate over movements to calculate costs
     for i, movement in enumerate(movements):
-        cost_df[:, i] = np.linalg.norm(unit_vectors - movement, axis=1)
+        # Normalize movement vectors and compute the cost
+        # Handle zero magnitudes to avoid division by zero
+        norm_movement_vectors = movement_vectors / magnitudes[:, np.newaxis]
+        norm_movement_vectors[magnitudes == 0] = 0
+        cost_matrix[:, i] = np.linalg.norm(norm_movement_vectors - movement, axis=1)
 
-    return pd.DataFrame(cost_df)
+    # Find the minimum value in each row
+    lowest_costs = np.min(cost_matrix, axis=1)
+
+    # Subtract the minimum value from each element in the row
+    cost_matrix = cost_matrix - lowest_costs[:, np.newaxis]
+
+    return cost_matrix
 
 
 def get_cost(backbone_xyz_np, movements):
@@ -93,7 +105,7 @@ def get_cost(backbone_xyz_np, movements):
     magnitudes = np.linalg.norm(movement_vectors, axis=1)
 
     # Initialize the cost matrix
-    cost_df = np.zeros((movement_vectors.shape[0], len(movements)))
+    cost_matrix = np.zeros((movement_vectors.shape[0], len(movements)))
 
     # Iterate over movements to calculate costs
     for i, movement in enumerate(movements):
@@ -101,8 +113,8 @@ def get_cost(backbone_xyz_np, movements):
         # Handle zero magnitudes to avoid division by zero
         norm_movement_vectors = movement_vectors / magnitudes[:, np.newaxis]
         norm_movement_vectors[magnitudes == 0] = 0
-        cost_df[:, i] = np.linalg.norm(norm_movement_vectors - movement, axis=1)
+        cost_matrix[:, i] = np.linalg.norm(norm_movement_vectors - movement, axis=1)
 
     # Return the sum of minimum costs for each vector
-    return np.min(cost_df, axis=1).sum()
+    return np.min(cost_matrix, axis=1).sum()
 

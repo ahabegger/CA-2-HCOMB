@@ -9,18 +9,17 @@ This Script is used to run the Greedy Lattice Algorithm.
 '''
 
 
-def greedy_lattice(cost_df, movements):
+def greedy_lattice(cost_matrix, movements):
     # Executes the greedy lattice instance 10 times and returns the best result
     best_moves = []
     best_cost = float('inf')
     start_time = time.time()
 
     for i in range(5):
-        # Initialize the moves list with the first move being the first column of the cost_df
-        initial_moves = [(i % cost_df.shape[1]) + 1] * cost_df.shape[0]
+        initial_moves = [(i % cost_matrix.shape[1]) + 1] * cost_matrix.shape[0]
 
         # Run the greedy lattice instance
-        moves, final_cost = greedy_lattice_instance(initial_moves, cost_df, movements)
+        moves, final_cost = greedy_lattice_instance(initial_moves, cost_matrix, movements)
 
         # If the final cost is better than the current best cost, update the best moves and best cost
         if final_cost < best_cost:
@@ -32,9 +31,8 @@ def greedy_lattice(cost_df, movements):
     return convert_to_xyz(best_moves, movements), best_cost, time.time() - start_time
 
 
-def greedy_lattice_instance(moves, cost_df, movements):
+def greedy_lattice_instance(moves, cost_matrix, movements):
     start_time = time.time()
-    cost_matrix = cost_df.to_numpy()
     cost_matrix = np.insert(cost_matrix, 0, 1000, axis=1)
 
     print('-' * 50)
@@ -164,3 +162,4 @@ def convert_to_xyz(moves, possible_movements):
     xyz[1:] = np.cumsum(possible_movements[moves], axis=0)
 
     return pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
+
