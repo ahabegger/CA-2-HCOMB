@@ -44,7 +44,7 @@ def menu(pdb_code, structure, visualize=True):
 
 
 def testing(pdb):
-    structures = ["1", "4", "6", "8", "12", "20"]
+    structures = ["1", "4", "6", "8", "12"]
     costs = []
     times = []
 
@@ -65,5 +65,5 @@ if __name__ == '__main__':
     # structure = "4"
     pdb_code = "1A2M"
 
-    # menu(pdb_code, structure)
-    testing(pdb_code)
+    menu(pdb_code, "12", visualize=True)
+    #testing(pdb_code)
