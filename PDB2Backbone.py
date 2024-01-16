@@ -1,4 +1,3 @@
-# Import Outside Libraries
 import pandas as pd
 from Bio import PDB
 import urllib.request

@@ -2,6 +2,7 @@ from PDB2Backbone import create_backbone
 from Structures import create_lattice
 import pandas as pd
 from matplotlib import pyplot as plt
+from TransformationReports.GenerateReport import create_report
 
 '''
 main.py
@@ -32,12 +33,12 @@ def menu(pdb_code, structure, visualize=True):
         xyz, cost, time = create_backbone(pdb_code), 0, 0
         if visualize:
             plot_structure(xyz[['X', 'Y', 'Z']], title="CA Backbone Structure")
-        #  create_report(pdb_code, xyz, "CA Backbone Structure")
+        create_report(pdb_code, xyz, "CA Backbone Structure")
     else:
         xyz, cost, time = create_lattice(int(structure), pdb_code)
         if visualize:
             plot_structure(xyz, title=f"{structure} Move Lattice for {pdb_code}")
-        #  create_report(pdb_code, xyz, f"{structure} Lattice Structure")
+        create_report(pdb_code, xyz, f"{structure} Move")
 
     return cost, time
 
@@ -61,29 +62,7 @@ def plot_structure(xyz, title='Protein Structure'):
     plt.legend()
     plt.show()
 
-    return None
-
-
-def testing(pdb_code):
-    structures = ["1", "4", "6", "8", "12"]
-    costs = []
-    times = []
-
-    for structure in structures:
-        cost, time = menu(pdb_code, structure, visualize=False)
-        costs.append(cost)
-        times.append(time)
-
-    print("Costs: ", costs)
-    print("Times: ", times)
-    print("Total Cost: ", sum(costs))
-    print("Total Time: ", sum(times))
-
 
 if __name__ == '__main__':
-    # pdb_code, structure = user_input()
-
-    # structure = "4"
-    pdb = "1A2M"
-
-    menu(pdb, "12", visualize=True)
+    pdb2 = "1TNM"
+    menu(pdb2, "4", visualize=True)
