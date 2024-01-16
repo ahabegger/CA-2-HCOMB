@@ -1,3 +1,4 @@
+import pandas as pd
 from Greedy import greedy_lattice
 from PDB2Backbone import create_backbone
 import Tilt as tilt
@@ -16,6 +17,7 @@ def create_lattice(num_moves, pdb_code):
 
     # Get Structure Name and Movements
     structure_name, movements = get_movements(num_moves)
+    movements = np.array(movements, dtype=np.float16)
 
     print('-' * 50)
     print(f"{structure_name} ({num_moves} Moves) for {pdb_code}")
@@ -34,18 +36,21 @@ def create_lattice(num_moves, pdb_code):
     print('-' * 50)
     print("GREEDY FITTING OPTIMIZATION")
     start_time = time.time()
-    xyz, fitted_cost = greedy_lattice(cost_matrix, optimized_movements)
+    fitted_moves, fitted_cost = greedy_lattice(cost_matrix, optimized_movements)
     fitted_time = time.time() - start_time
     print(f"Fitting Cost: {fitted_cost}")
     print(f"Fitting Time: {fitted_time}")
 
     # Summarize Results
+    xyz = convert_to_xyz(fitted_moves, optimized_movements) * 3.0
+    xyz = pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
+    xyz = pd.concat([backbone_xyz[['ID', 'Amino Acid']], xyz], axis=1)
     print('-' * 50)
     print(f"Total Cost: {structure_cost + fitted_cost}")
     print(f"Total Time: {tilt_time + fitted_time}")
     print('-' * 50)
 
-    return xyz, structure_cost + fitted_cost, time
+    return xyz, structure_cost + fitted_cost, tilt_time + fitted_time
 
 
 def get_movements(num_moves):
@@ -53,6 +58,7 @@ def get_movements(num_moves):
     sqrt_3_div_2 = np.sqrt(3) / 2
     sqrt_2_div_2 = np.sqrt(2) / 2
 
+    # Return Structure Name and Movements
     if num_moves == 4:
         return ("SQUARE TILING",
                 [
@@ -69,7 +75,6 @@ def get_movements(num_moves):
                     [0, 0, 1], [0, 0, -1]
                 ])
     elif num_moves == 8:
-        # TRIANGULAR PRISMATIC HONEYCOMB (8 MOVES)
         return ("TRIANGULAR PRISMATIC HONEYCOMB",
                 [
                     [sqrt_3_div_2, 0.5, 0], [-sqrt_3_div_2, 0.5, 0],
@@ -78,7 +83,6 @@ def get_movements(num_moves):
                     [0, 0, 1], [0, 0, -1]
                 ])
     elif num_moves == 12:
-        # TETRAHEDRAL-OCTAHEDRAL HONEYCOMB (12 MOVES)
         return ("TETRAHEDRAL-OCTAHEDRAL HONEYCOMB",
                 [
                     [sqrt_2_div_2, sqrt_2_div_2, 0], [sqrt_2_div_2, 0, sqrt_2_div_2],
@@ -88,3 +92,20 @@ def get_movements(num_moves):
                     [0, sqrt_2_div_2, -sqrt_2_div_2], [-sqrt_2_div_2, sqrt_2_div_2, 0],
                     [-sqrt_2_div_2, 0, sqrt_2_div_2], [0, -sqrt_2_div_2, sqrt_2_div_2]
                 ])
+
+
+def convert_to_xyz(moves, possible_movements):
+    # Ensure moves is a NumPy array
+    moves = np.array(moves, dtype=int)
+
+    # Check if possible_movements is a list of lists or a 2D NumPy array
+    if isinstance(possible_movements, list):
+        possible_movements = np.array(possible_movements)
+
+    # Initialize the xyz array with the origin and correct size
+    xyz = np.zeros((len(moves) + 1, 3), dtype=np.float16)
+
+    # Efficiently compute the cumulative sum of movements
+    xyz[1:] = np.cumsum(possible_movements[moves], axis=0, dtype=np.float16)
+
+    return xyz
