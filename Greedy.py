@@ -135,12 +135,6 @@ def get_cost(moves, cost_matrix):
 
 
 def is_valid_moves(moves, possible_movements):
-    xyz = convert_to_xyz(moves, possible_movements)
-    _, unique_indices = np.unique(xyz, axis=0, return_index=True)
-    return len(unique_indices) == xyz.shape[0]
-
-
-def convert_to_xyz(moves, possible_movements):
     # Ensure moves is a NumPy array
     moves = np.array(moves, dtype=int)
 
@@ -154,4 +148,6 @@ def convert_to_xyz(moves, possible_movements):
     # Efficiently compute the cumulative sum of movements
     xyz[1:] = np.cumsum(possible_movements[moves], axis=0, dtype=np.float16)
 
-    return xyz
+    _, unique_indices = np.unique(xyz, axis=0, return_index=True)
+
+    return len(unique_indices) == xyz.shape[0]
