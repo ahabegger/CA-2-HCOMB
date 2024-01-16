@@ -1,6 +1,6 @@
+import multiprocessing
 import time
 import numpy as np
-import pandas as pd
 
 '''
 Greedy.py
@@ -13,42 +13,58 @@ def greedy_lattice(cost_matrix, movements):
     best_moves = []
     best_cost = float('inf')
 
-    for i in range(5):
-        initial_moves = [(i % cost_matrix.shape[1])] * cost_matrix.shape[0]
+    # Run the greedy lattice instance in parallel
+    with multiprocessing.Pool() as pool:
+        async_results = []
 
-        # Run the greedy lattice instance
-        moves, final_cost = greedy_lattice_instance(i, initial_moves, cost_matrix, movements)
+        for i in range(5):
+            initial_moves = [(i % cost_matrix.shape[1])] * cost_matrix.shape[0]
+            async_result = pool.apply_async(greedy_lattice_instance, (i, initial_moves, cost_matrix, movements))
+            async_results.append(async_result)
 
-        # If the final cost is better than the current best cost, update the best moves and best cost
-        if final_cost < best_cost:
-            best_moves = moves
-            best_cost = final_cost
-        if best_cost == 0:
-            break
+        for async_result in async_results:
+            try:
+                moves, final_cost, report = async_result.get(timeout=60)
+                print(report)
+                if final_cost < best_cost:
+                    best_moves = moves
+                    best_cost = final_cost
+                if best_cost == 0:
+                    break
+            except multiprocessing.TimeoutError:
+                print(f"A task exceeded the 60-second limit and was skipped.")
+                continue
 
-    fitted_xyz = pd.DataFrame(convert_to_xyz(best_moves, movements),
-                              columns=['X', 'Y', 'Z'])
+    # If no valid moves were found, run the failsafe test
+    if best_cost == float('inf'):
+        initial_moves = [(0 % cost_matrix.shape[1])] * cost_matrix.shape[0]
+        best_moves, info1 = test_battery(1, 5, initial_moves, cost_matrix, movements)
+        best_moves, info2 = test_battery(2, 3, best_moves, cost_matrix, movements)
+        print("FailSafe Test: " + info1 + info2)
+        best_cost = get_cost(best_moves, cost_matrix)
 
-    return fitted_xyz, best_cost
+    return best_moves, best_cost
 
 
 def greedy_lattice_instance(test_num, moves, cost_matrix, movements):
     start_time = time.time()
 
-    print(f"Test #{test_num}: ", end='')
-    print(f"Cost={format(get_cost(moves, cost_matrix), '.2f')}", end='|')
+    report = f"Test #{test_num}: "
+    report += f"Cost={format(get_cost(moves, cost_matrix), '.2f')}|"
 
     # Refine the moves using local search
     refined_moves = moves
-    refined_moves = test_battery(2, 5, refined_moves, cost_matrix, movements)
-    refined_moves = test_battery(3, 5, refined_moves, cost_matrix, movements)
-    refined_moves = test_battery(5, 2, refined_moves, cost_matrix, movements)
+    refined_moves, info2 = test_battery(2, 5, refined_moves, cost_matrix, movements)
+    refined_moves, info3 = test_battery(3, 5, refined_moves, cost_matrix, movements)
+    refined_moves, info5 = test_battery(5, 2, refined_moves, cost_matrix, movements)
+    report += info2 + info3 + info5
 
     final_cost = get_cost(refined_moves, cost_matrix)
     elapsed_time = time.time() - start_time
-    print(f"\nResults #{test_num}: {format(final_cost, '.3f')} in {int(elapsed_time)} seconds")
 
-    return refined_moves, final_cost
+    report += f"\nResults #{test_num}: {format(final_cost, '.3f')} in {int(elapsed_time)} seconds"
+
+    return refined_moves, final_cost, report
 
 
 def test_battery(window_size, num_tests, moves, cost_matrix, movements):
@@ -56,20 +72,26 @@ def test_battery(window_size, num_tests, moves, cost_matrix, movements):
     lowest_cost = starting_cost
     lowest_moves = moves.copy()
 
-    print(f'LR{window_size}', end='=')
+    report = f'LR{window_size}='
 
     for i in range(num_tests):
         refined_moves = run_refinement(window_size, moves, cost_matrix, movements)
         refined_cost = get_cost(refined_moves, cost_matrix)
         if refined_cost == 0:
-            return refined_moves
+            return refined_moves, report + f"0|"
         elif refined_cost < lowest_cost:
             lowest_cost = get_cost(refined_moves, cost_matrix)
             lowest_moves = refined_moves.copy()
 
-    print(f"{format(lowest_cost - starting_cost, '.2f')}", end='|')
+    report += f"{format(lowest_cost - starting_cost, '.2f')}|"
 
-    return lowest_moves
+    return lowest_moves, report
+
+
+def worker(window_size, moves, cost_matrix, movements):
+    refined_moves = run_refinement(window_size, moves, cost_matrix, movements)
+    refined_cost = get_cost(refined_moves, cost_matrix)
+    return refined_moves, refined_cost
 
 
 def run_refinement(window_size, moves, cost_matrix, movements):
