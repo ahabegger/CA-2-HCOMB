@@ -99,6 +99,9 @@ def local_search_refinement(window, moves, cost_matrix, movements):
         cost_rows = [cost_matrix[i + offset] for offset in range(window)]
         combinations = find_combinations(cost_rows, total_cost=total_cost, movements=movements)
 
+        if len(combinations) == 0:
+            continue
+
         original_segment = moves[i: i + window].copy()  # Store the original segment
         for combo in combinations:
             moves[i: i + window] = combo  # Update in place
