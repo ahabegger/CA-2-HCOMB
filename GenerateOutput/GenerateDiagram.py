@@ -11,6 +11,26 @@ report containing the original PDB file, the modified PDB file, and the diagrams
 '''
 
 
+def plot_structure(xyz, title='Protein Structure'):
+    # Convert to DataFrame for easier processing
+    df = pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
+
+    # Create 3D plot
+    fig = plt.figure()
+    fig.suptitle(title, fontsize=16)
+    ax = fig.add_subplot(projection='3d')
+
+    # Plot points
+    ax.scatter(df['X'], df['Y'], df['Z'], color='green', label='Points')
+
+    # Draw connections
+    ax.plot3D(df['X'], df['Y'], df['Z'], color='blue', label='Line Connection')
+
+    # Show plot
+    plt.legend()
+    plt.show()
+
+
 def create_nglview(pdb_file):
     view = nglview.show_structure_file(pdb_file)
     nglview.write_html(f'{pdb_file.split("/")[2].split(".")[0]}_diagram.html', view)
