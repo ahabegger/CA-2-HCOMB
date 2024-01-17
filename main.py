@@ -43,29 +43,45 @@ def menu(pdb_code, structure, visualize=True):
             plot_structure(xyz, title=f"{structure} Move Lattice for {pdb_code}")
         create_report(pdb_code, xyz, f"{structure} Move")
 
-    return cost, time
+def argument_parser():
+    # Create the parser
+    parser = argparse.ArgumentParser(description='Convert a PDB file or PDB code to a Simplified Structure.')
 
+    # Add the arguments
+    parser.add_argument('pdb', metavar='pdb', type=str, nargs='?',
+                        help='input a PDB code or a PDB filepath')
+    parser.add_argument('structure', metavar='structure', type=int, nargs='?',
+                        help='input the number of moves for the structure you want to create (1, 4, 6, 8, 12)')
+    parser.add_argument('-v', '--visualize', action='store_true',
+                        help='visualize the structure using matplotlib')
+    parser.add_argument('-r', '--report', action='store_true',
+                        help='generate a report in the GenerateOutput/Reports folder')
+    parser.add_argument('-o-xyz', '--output_xyz', metavar='FILENAME', type=str,
+                        help='output new structure xyz into given filename')
+    parser.add_argument('-o-pdb', '--output_pdb', metavar='FILENAME', type=str,
+                        help='output new structure PDB into given filename')
+    parser.add_argument('-m', '--multiprocess_off', action='store_true',
+                        help='turn off multiprocess for fitting algorithm')
+    parser.add_argument('-nf', '--no_footprint', action='store_true',
+                        help='deleting pdb files after use')
 
-def plot_structure(xyz, title='Protein Structure'):
-    # Convert to DataFrame for easier processing
-    df = pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
-
-    # Create 3D plot
-    fig = plt.figure()
-    fig.suptitle(title, fontsize=16)
-    ax = fig.add_subplot(projection='3d')
-
-    # Plot points
-    ax.scatter(df['X'], df['Y'], df['Z'], color='green', label='Points')
-
-    # Draw connections
-    ax.plot3D(df['X'], df['Y'], df['Z'], color='blue', label='Line Connection')
-
-    # Show plot
-    plt.legend()
-    plt.show()
+    # Execute the parse_args() method
+    user_inputs = parser.parse_args()
+    return user_inputs
 
 
 if __name__ == '__main__':
     pdb2 = "1TNM"
     menu(pdb2, "4", visualize=True)
+    # Get Arguments
+    args = argument_parser()
+
+    pdb_code = args.pdb
+    structure = args.structure
+    visualize = args.visualize
+    report = args.report
+    output_xyz = args.output_xyz
+    output_pdb = args.output_pdb
+    multiprocess = args.multiprocess_off
+    no_footprint = args.no_footprint
+
