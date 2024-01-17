@@ -1,7 +1,7 @@
 import numpy as np
 
 '''
-Tile.py
+Tilting.py
 Defines functions for optimizing the tilt of a given set of movements with respect 
 to a backbone structure defined by XYZ coordinates. The primary function, `optimize_tilt`, 
 iteratively rotates the movements in 3D space, evaluating each rotation using a cost function 
