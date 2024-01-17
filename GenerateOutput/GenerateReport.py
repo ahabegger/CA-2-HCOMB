@@ -1,7 +1,7 @@
 import pandas as pd
+import GenerateOutput.GenerateDiagram as diagrams
+import GenerateOutput.GeneratePDB as pdb
 from PDB2Backbone import create_backbone
-import TransformationReports.GenerateDiagram as diagrams
-import TransformationReports.GeneratePDB as pdb
 
 '''
 GenerateReport.py

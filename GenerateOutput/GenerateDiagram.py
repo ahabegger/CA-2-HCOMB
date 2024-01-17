@@ -1,5 +1,4 @@
 import os
-
 import nglview
 import pandas as pd
 from matplotlib import pyplot as plt

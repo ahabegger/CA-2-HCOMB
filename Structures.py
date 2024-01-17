@@ -1,9 +1,9 @@
-import pandas as pd
-from Greedy import greedy_lattice
-from PDB2Backbone import create_backbone
-import Tilt as tilt
-import numpy as np
 import time
+import numpy as np
+import pandas as pd
+import Tilting as tilt
+from Fitting import fitting_algorithm
+from PDB2Backbone import create_backbone
 
 '''
 Structures.py

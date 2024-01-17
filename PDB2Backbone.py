@@ -1,7 +1,6 @@
+import os
 import pandas as pd
 from Bio import PDB
-import urllib.request
-import os
 
 '''
 PDB2Backbone.py

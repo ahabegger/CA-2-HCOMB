@@ -1,8 +1,11 @@
-from PDB2Backbone import create_backbone
-from Structures import create_lattice
+import argparse
+import os
 import pandas as pd
-from matplotlib import pyplot as plt
-from TransformationReports.GenerateReport import create_report
+from GenerateOutput.GenerateDiagram import plot_structure
+from GenerateOutput.GeneratePDB import create_modified_pdb, download_pdb, check_pdb_is_valid, count_chains_in_pdb
+from GenerateOutput.GenerateReport import create_report
+from PDB2Backbone import create_backbone
+from Structures import create_structure
 
 '''
 main.py
