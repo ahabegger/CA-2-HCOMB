@@ -71,8 +71,6 @@ def argument_parser():
 
 
 if __name__ == '__main__':
-    pdb2 = "1TNM"
-    menu(pdb2, "4", visualize=True)
     # Get Arguments
     args = argument_parser()
 
@@ -85,3 +83,56 @@ if __name__ == '__main__':
     multiprocess = args.multiprocess_off
     no_footprint = args.no_footprint
 
+    changed_pdb = False
+    if pdb_code is None:
+        changed_pdb = True
+        replace = False
+        while not replace:
+            pdb_code = ''
+            while len(pdb_code) != 4:
+                print("Input the 4-Letter PDB Code for the Protein you want to create a Structure for:")
+                print("Sample PDB Codes are 1A0M, 1A1M, 1A2M, 1A3M, 1A4M, "
+                      "1A5M, 1A6M, 1A7M, 1A8M, 1A9M, 1B0M, 1B1M, 1B2M, 1B3M, 1B4M...")
+                pdb_code = input("Input 4-Letter PDB Code: ")
+
+            if check_pdb_is_valid(pdb_code):
+                replace = True
+
+    # Get the PDB file
+    pdb_filepath = ""
+    if len(pdb_code) == 4:
+        pdb_filepath = download_pdb(pdb_code)
+    else:
+        pdb_filepath = pdb_code
+        pdb_code = pdb_filepath.split('/')[-1].split('.')[0]
+
+    if changed_pdb:
+        num_chains = count_chains_in_pdb(pdb_code)
+        if num_chains > 1:
+            print(f"WARNING: {pdb_code} contains {num_chains} chains. "
+                  f"The program will treat the protein as a single continuous chain.")
+            override = "-1"
+            while override not in ["Y", "N"]:
+                override = input("Do you want to override the warning? (Y/N): ")
+            if override == "N":
+                exit(0)
+    else:
+        num_chains = count_chains_in_pdb(pdb_code)
+        if num_chains > 1:
+            print(f"WARNING: {pdb_code} contains {num_chains} chains. "
+                  f"The program will treat the protein as a single continuous chain.")
+
+    if structure is None:
+        while structure not in ["1", "4", "6", "8", "12"]:
+            print("Input the Number for the Structure you want to create:")
+            print("1  = CA BACKBONE")
+            print("4  = SQUARE TILING")
+            print("6  = CUBIC HONEYCOMB")
+            print("8  = TRIANGULAR PRISMATIC HONEYCOMB")
+            print("12 = TETRAHEDRAL-OCTAHEDRAL HONEYCOMB")
+            structure = input("Input Structure: ")
+        structure = int(structure)
+
+    # Execute the main function
+    execute(pdb_code, pdb_filepath, structure, visualize,
+            report, output_xyz, output_pdb, multiprocess, no_footprint)

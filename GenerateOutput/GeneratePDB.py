@@ -9,6 +9,25 @@ report containing the original PDB file, the modified PDB file, and the diagrams
 '''
 
 
+def check_pdb_is_valid(pdb_id):
+    # Define the URL for the PDB file
+    pdb_url = f'https://files.rcsb.org/download/{pdb_id}.pdb'
+
+    try:
+        # Download the PDB file
+        pdb_file, _ = urllib.request.urlretrieve(pdb_url, f'{pdb_id}.pdb')
+
+        # Remove the PDB file
+        os.remove(f'{pdb_id}.pdb')
+
+        return True
+
+    except Exception as e:
+        print(f'Not a valid PDB code: {pdb_id}.')
+        print(f'Error: {e}')
+        return False
+
+
 def download_pdb(pdb_id):
     url = f'https://files.rcsb.org/download/{pdb_id}.pdb'
     response = requests.get(url)
@@ -21,7 +40,23 @@ def download_pdb(pdb_id):
         return True
     else:
         print(f'Error downloading {pdb_id}.pdb. Status code: {response.status_code}')
-        return False
+
+
+def count_chains_in_pdb(pdb_code):
+    chain_ids = set()
+    pdb_filepath = f"GenerateOutput/PDB_Files/{pdb_code}.pdb"
+
+    try:
+        with open(pdb_filepath, 'r') as file:
+            for line in file:
+                if line.startswith("ATOM"):
+                    chain_id = line[21]  # Chain ID is located at index 21
+                    chain_ids.add(chain_id)
+    except FileNotFoundError:
+        print(f"File not found: {pdb_filepath}")
+        return 0
+
+    return len(chain_ids)
 
 
 def create_modified_pdb(pdb_code, output_xyz, structure):
