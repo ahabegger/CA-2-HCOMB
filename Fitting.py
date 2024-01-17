@@ -98,12 +98,6 @@ def test_battery(window_size, num_tests, moves, cost_matrix, movements):
     return lowest_moves, report
 
 
-def worker(window_size, moves, cost_matrix, movements):
-    refined_moves = run_refinement(window_size, moves, cost_matrix, movements)
-    refined_cost = get_cost(refined_moves, cost_matrix)
-    return refined_moves, refined_cost
-
-
 def run_refinement(window_size, moves, cost_matrix, movements):
     cost = get_cost(moves, cost_matrix)
     if cost == 0:
