@@ -41,6 +41,19 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     print(xyz)
     print('-' * 50)
 
+    if report_toggle:
+        create_report(pdb_id, xyz, structure_name[structure_num])
+    if output_xyz_file is not None:
+        xyz.to_csv(output_xyz_file, index=False)
+    if output_pdb_file is not None:
+        create_modified_pdb(pdb_id, xyz, structure_name[structure_num])
+    if no_footprint_toggle:
+        if os.path.exists(pdb_file):
+            os.remove(pdb_file)
+        if os.path.exists(f"GenerateOutput/PDB_Files/{pdb_id}_modified.pdb"):
+            os.remove(f"GenerateOutput/PDB_Files/{pdb_id}_modified.pdb")
+    if visualize_toggle:
+        plot_structure(xyz, title=f"{structure_name[structure_num]} Structure ({str(structure_num)}) for {pdb_id}")
 
 
 def argument_parser():

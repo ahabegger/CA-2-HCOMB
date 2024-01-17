@@ -50,7 +50,7 @@ def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
     print(f"Total Time: {tilt_time + fitted_time}")
     print('-' * 50)
 
-    return xyz, structure_cost + fitted_cost, tilt_time + fitted_time
+    return xyz
 
 
 def get_movements(num_moves):
