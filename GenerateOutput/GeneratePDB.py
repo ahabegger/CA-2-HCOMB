@@ -4,8 +4,10 @@ import requests
 
 '''
 GeneratePDB.py
-This Script takes a PDB code and a DataFrame containing the new coordinates of the protein backbone and creates a
-report containing the original PDB file, the modified PDB file, and the diagrams of both.
+Facilitate the validation, downloading, and manipulation of PDB (Protein Data Bank) files. 
+Key functions include checking the validity of a given PDB ID, downloading PDB files, 
+counting the number of chains in a PDB file, and creating a modified PDB file with new 
+XYZ coordinates, which is essential for protein structure analysis and visualization.
 '''
 
 
@@ -34,10 +36,10 @@ def download_pdb(pdb_id):
 
     # If the request was successful
     if response.status_code == 200:
-        file_path = f'TransformationReports/PDB_Files/{pdb_id}.pdb'
+        file_path = f'GenerateOutput/PDB_Files/{pdb_id}.pdb'
         with open(file_path, 'wb') as file:
             file.write(response.content)
-        return True
+        return file_path
     else:
         print(f'Error downloading {pdb_id}.pdb. Status code: {response.status_code}')
 

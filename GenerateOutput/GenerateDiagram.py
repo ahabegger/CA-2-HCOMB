@@ -5,8 +5,10 @@ from matplotlib import pyplot as plt
 
 '''
 GenerateDiagram.py
-This Script takes a PDB code and a DataFrame containing the new coordinates of the protein backbone and creates a
-report containing the original PDB file, the modified PDB file, and the diagrams of both.
+Provide functions for visualizing protein structures in various formats. It includes 
+methods to create interactive 3D plots and diagrams of protein structures from XYZ 
+coordinate data, as well as to generate and save these visualizations as HTML diagrams 
+and PNG images, enhancing the ability to analyze and present protein structures effectively.
 '''
 
 

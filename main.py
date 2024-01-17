@@ -9,8 +9,11 @@ from Structures import create_structure
 
 '''
 main.py
-This Script takes a PDB code and a structure type and creates a report containing the original PDB file, the modified
-PDB file, and the diagrams of both.
+To process protein structures from PDB (Protein Data Bank) files or IDs, and convert them into 
+simplified structural representations based on specified parameters. The script offers functionalities 
+like creating different structural models (e.g., CA Backbone, Cubic Honeycomb), generating reports, 
+visualizing structures, and exporting results in XYZ or PDB formats, while also handling user 
+input and command-line arguments to tailor the processing to specific needs.
 '''
 
 

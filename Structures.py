@@ -7,13 +7,18 @@ from PDB2Backbone import create_backbone
 
 '''
 Structures.py
-This Script is used to create a Lattice from a PDB file.
+Generate a structure based on the input parameters like the number of moves and a PDB file, 
+then optimize the structure using tilt and fitting algorithms. The code begins by 
+constructing a backbone structure from a PDB file, defines movements based on the number 
+of moves, and then applies optimization techniques to refine the structure, finally 
+returning the optimized XYZ coordinates.
 '''
 
 
 def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
     # Create Backbone
-    backbone_xyz = create_backbone(pdb_code)
+    backbone_xyz = create_backbone(pdb_filepath)
+    amino_acid_distance = get_amino_acid_distance(backbone_xyz[['X', 'Y', 'Z']])
 
     # Get Structure Name and Movements
     structure_name, movements = get_movements(num_moves)
@@ -22,7 +27,7 @@ def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
     print('-' * 50)
     print(f"{structure_name} ({num_moves} Moves) for {pdb_code}")
 
-    # Optimize Movements with Tilt.py
+    # Optimize Movements with Tilting.py
     print('-' * 50)
     print("TILT OPTIMIZATION")
     start_time = time.time()
@@ -32,17 +37,17 @@ def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
     print(f"Structure Cost: {structure_cost}")
     print(f"Tilt Time: {tilt_time}")
 
-    # Fit Points with Greedy.py
+    # Fit Points with Fitting.py
     print('-' * 50)
-    print("GREEDY FITTING OPTIMIZATION")
+    print("FITTING OPTIMIZATION")
     start_time = time.time()
-    fitted_moves, fitted_cost = greedy_lattice(cost_matrix, optimized_movements)
+    fitted_moves, fitted_cost = fitting_algorithm(cost_matrix, optimized_movements, multiprocess_toggle)
     fitted_time = time.time() - start_time
     print(f"Fitting Cost: {fitted_cost}")
     print(f"Fitting Time: {fitted_time}")
 
     # Summarize Results
-    xyz = convert_to_xyz(fitted_moves, optimized_movements) * 3.0
+    xyz = convert_to_xyz(fitted_moves, optimized_movements) * amino_acid_distance
     xyz = pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
     xyz = pd.concat([backbone_xyz[['ID', 'Amino Acid']], xyz], axis=1)
     print('-' * 50)
@@ -109,3 +114,12 @@ def convert_to_xyz(moves, possible_movements):
     xyz[1:] = np.cumsum(possible_movements[moves], axis=0, dtype=np.float16)
 
     return xyz
+
+
+def get_amino_acid_distance(xyz):
+    # Get the distance between amino acids
+    amino_acid_distance = 0
+    for i in range(len(xyz) - 1):
+        amino_acid_distance += np.linalg.norm(xyz.iloc[i] - xyz.iloc[i + 1])
+
+    return amino_acid_distance / (len(xyz) - 1)

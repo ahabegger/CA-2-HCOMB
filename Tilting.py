@@ -2,8 +2,13 @@ import numpy as np
 
 '''
 Tile.py
-This Script is used to optimize the movements for a given structure
-by rotating the movements around the X, Y, and Z axes.
+Defines functions for optimizing the tilt of a given set of movements with respect 
+to a backbone structure defined by XYZ coordinates. The primary function, `optimize_tilt`, 
+iteratively rotates the movements in 3D space, evaluating each rotation using a cost function 
+to find the combination of movements that minimizes the cost. Auxiliary functions 
+`rotate_movements`, `create_cost_matrix`, and `get_cost` support this process by handling 
+the rotation calculations, creating a cost matrix, and calculating the cost of movements, 
+respectively.
 '''
 
 
@@ -112,4 +117,3 @@ def get_cost(backbone_xyz_np, movements):
 
     # Return the sum of minimum costs for each vector
     return np.min(cost_matrix, axis=1).sum()
-

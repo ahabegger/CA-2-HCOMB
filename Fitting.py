@@ -4,17 +4,20 @@ import numpy as np
 
 '''
 Fitting.py
-This Script is used to run the Greedy Lattice Algorithm.
+Optimizing a set of movements based on a cost matrix, with the option of using 
+multiprocessing for parallel execution. The script includes functions to iteratively 
+refine the movements to achieve the lowest possible cost, utilizing techniques 
+like local search refinement and testing different combinations of movements, and 
+it ensures the validity of the final movement set.
 '''
 
 
 def fitting_algorithm(cost_matrix, movements, multiprocess_toggle):
-    # Executes the greedy lattice instance 10 times and returns the best result
     best_moves = []
     best_cost = float('inf')
 
     if not multiprocess_toggle:
-        # Run the greedy lattice instance in parallel
+        # Run the fitting_movements in parallel
         with multiprocessing.Pool() as pool:
             async_results = []
             for i in range(5):
@@ -34,7 +37,7 @@ def fitting_algorithm(cost_matrix, movements, multiprocess_toggle):
                     print(f"A task exceeded the 60-second limit and was skipped.")
                     continue
     else:
-        # Run the greedy lattice instance sequentially
+        # Run the fitting_movements sequentially
         for i in range(5):
             initial_moves = [(i % cost_matrix.shape[1])] * cost_matrix.shape[0]
             moves, final_cost, report = fitting_movements(i, initial_moves, cost_matrix, movements)

@@ -5,8 +5,11 @@ from PDB2Backbone import create_backbone
 
 '''
 GenerateReport.py
-This Script takes a PDB code and a DataFrame containing the new coordinates of the protein backbone and creates a
-report containing the original PDB file, the modified PDB file, and the diagrams of both.
+Generate comprehensive reports for protein structures transformed using PDB2Lattice, a 
+tool for analyzing and manipulating protein data. It involves downloading PDB files, 
+creating modified PDB files, generating diagrams for visualization, and compiling all this 
+information into a detailed HTML report that includes comparisons between the original 
+and modified structures, along with interactive diagrams and structural data.
 '''
 
 

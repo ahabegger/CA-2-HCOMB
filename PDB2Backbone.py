@@ -4,7 +4,11 @@ from Bio import PDB
 
 '''
 PDB2Backbone.py
-This Script takes a PDB code and creates a DataFrame containing the coordinates of the protein backbone.
+Parse a given PDB (Protein Data Bank) file and extract the backbone structure of 
+a protein. It focuses on creating a DataFrame containing the amino acid sequence 
+and the corresponding X, Y, Z coordinates of each alpha carbon (CA) atom in the 
+protein's backbone, thus providing a structural representation of the protein for 
+further analysis or manipulation.
 '''
 
 
@@ -45,4 +49,3 @@ def create_backbone(pdb_filepath):
     os.remove(pdb_filepath)
 
     return xyz_df
-
