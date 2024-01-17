@@ -64,8 +64,8 @@ def fitting_movements(test_num, moves, cost_matrix, movements):
 
     # Refine the moves using local search
     refined_moves = moves
-    refined_moves, info2 = test_battery(2, 5, refined_moves, cost_matrix, movements)
-    refined_moves, info3 = test_battery(3, 5, refined_moves, cost_matrix, movements)
+    refined_moves, info2 = test_battery(3, 5, refined_moves, cost_matrix, movements)
+    refined_moves, info3 = test_battery(4, 5, refined_moves, cost_matrix, movements)
     refined_moves, info5 = test_battery(5, 2, refined_moves, cost_matrix, movements)
     report += info2 + info3 + info5
 
