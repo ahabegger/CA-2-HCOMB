@@ -14,34 +14,34 @@ PDB file, and the diagrams of both.
 '''
 
 
-def user_input():
-    print("Sample PDB Codes are 1A0M, 1A1M, 1A2M, 1A3M, 1A4M, "
-          "1A5M, 1A6M, 1A7M, 1A8M, 1A9M, 1B0M, 1B1M, 1B2M, 1B3M, 1B4M")
-    user_pdb = input("Input 4-Letter PDB Code: ")
+def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
+            report_toggle, output_xyz_file, output_pdb_file,
+            multiprocess_toggle, no_footprint_toggle):
+    structure_num = int(structure_num)
+    structure_name = {
+        1: "CA Backbone",
+        4: "Square Tiling",
+        6: "Cubic Honeycomb",
+        8: "Triangular Prismatic Honeycomb",
+        12: "Tetrahedral-Octahedral Honeycomb"
+    }
 
-    print("Input the Number for the Structure you want to create:")
-    print("1  = CA BACKBONE")
-    print("4  = SQUARE TILING")
-    print("6  = CUBIC HONEYCOMB")
-    print("8  = TRIANGULAR PRISMATIC HONEYCOMB")
-    print("12 = TETRAHEDRAL-OCTAHEDRAL HONEYCOMB")
+    if structure_num == 1:  # CA Backbone Structure
+        print(f"Creating CA Backbone for {pdb_file}")
+        xyz = create_backbone(pdb_file)
+        xyz = xyz[['X', 'Y', 'Z']]
+    else:  # Structure Simplification
+        xyz = create_structure(structure_num, pdb_file, pdb_id, multiprocess_toggle)
 
-    structure = input("Input Structure: ")
+    print(f"Created {structure_name[structure_num]} Structure for {pdb_id}")
+    print(f"Printing XYZ for {structure_name[structure_num]} Structure...")
+    print('-' * 50)
+    pd.set_option('display.max_rows', None)
+    pd.set_option('display.max_columns', None)
+    print(xyz)
+    print('-' * 50)
 
-    return user_pdb, structure
 
-
-def menu(pdb_code, structure, visualize=True):
-    if structure == "1":  # CA Backbone Structure
-        xyz, cost, time = create_backbone(pdb_code), 0, 0
-        if visualize:
-            plot_structure(xyz[['X', 'Y', 'Z']], title="CA Backbone Structure")
-        create_report(pdb_code, xyz, "CA Backbone Structure")
-    else:
-        xyz, cost, time = create_lattice(int(structure), pdb_code)
-        if visualize:
-            plot_structure(xyz, title=f"{structure} Move Lattice for {pdb_code}")
-        create_report(pdb_code, xyz, f"{structure} Move")
 
 def argument_parser():
     # Create the parser
