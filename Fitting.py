@@ -13,27 +13,37 @@ def fitting_algorithm(cost_matrix, movements, multiprocess_toggle):
     best_moves = []
     best_cost = float('inf')
 
-    # Run the greedy lattice instance in parallel
-    with multiprocessing.Pool() as pool:
-        async_results = []
-
+    if not multiprocess_toggle:
+        # Run the greedy lattice instance in parallel
+        with multiprocessing.Pool() as pool:
+            async_results = []
+            for i in range(5):
+                initial_moves = [(i % cost_matrix.shape[1])] * cost_matrix.shape[0]
+                async_result = pool.apply_async(fitting_movements, (i, initial_moves, cost_matrix, movements))
+                async_results.append(async_result)
+            for async_result in async_results:
+                try:
+                    moves, final_cost, report = async_result.get(timeout=60)
+                    print(report)
+                    if final_cost < best_cost:
+                        best_moves = moves
+                        best_cost = final_cost
+                    if best_cost == 0:
+                        break
+                except multiprocessing.TimeoutError:
+                    print(f"A task exceeded the 60-second limit and was skipped.")
+                    continue
+    else:
+        # Run the greedy lattice instance sequentially
         for i in range(5):
             initial_moves = [(i % cost_matrix.shape[1])] * cost_matrix.shape[0]
-            async_result = pool.apply_async(greedy_lattice_instance, (i, initial_moves, cost_matrix, movements))
-            async_results.append(async_result)
-
-        for async_result in async_results:
-            try:
-                moves, final_cost, report = async_result.get(timeout=60)
-                print(report)
-                if final_cost < best_cost:
-                    best_moves = moves
-                    best_cost = final_cost
-                if best_cost == 0:
-                    break
-            except multiprocessing.TimeoutError:
-                print(f"A task exceeded the 60-second limit and was skipped.")
-                continue
+            moves, final_cost, report = fitting_movements(i, initial_moves, cost_matrix, movements)
+            print(report)
+            if final_cost < best_cost:
+                best_moves = moves
+                best_cost = final_cost
+            if best_cost == 0:
+                break
 
     # If no valid moves were found, run the failsafe test
     if best_cost == float('inf'):

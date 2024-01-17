@@ -11,7 +11,7 @@ This Script is used to create a Lattice from a PDB file.
 '''
 
 
-def create_lattice(num_moves, pdb_code):
+def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
     # Create Backbone
     backbone_xyz = create_backbone(pdb_code)
 
