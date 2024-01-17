@@ -18,8 +18,8 @@ def create_report(pdb_code, output_xyz, structure):
     pdb.create_modified_pdb(pdb_code, output_xyz, structure)
 
     # Create the Diagrams
-    diagrams.create_nglview(f"TransformationReports/PDB_Files/{pdb_code}.pdb")
-    diagrams.create_nglview(f"TransformationReports/PDB_Files/{pdb_code}_modified.pdb")
+    diagrams.create_nglview(f"GenerateOutput/PDB_Files/{pdb_code}.pdb")
+    diagrams.create_nglview(f"GenerateOutput/PDB_Files/{pdb_code}_modified.pdb")
 
     # Create the Report
     write_report_html(pdb_code, structure, output_xyz)
@@ -55,16 +55,19 @@ def write_report_html(pdb_code, structure, xyz):
 
     intermediate = f'<h3>Intermediate Model</h3>\n'
 
-    backbone = create_backbone(pdb_code)
-    plot_filename = f"TransformationReports/Reports/Plots/{pdb_code}_backbone.png"
+    backbone = create_backbone(f"GenerateOutput/PDB_Files/{pdb_code}.pdb")
+    plot_filename = f"GenerateOutput/Reports/Plots/{pdb_code}_backbone.png"
     backbone_plot = diagrams.plot_structure_to_image(backbone[['X', 'Y', 'Z']],
                                                      plot_filename,
                                                      title="CA Backbone Structure")
 
     middle = f'<h3>Output Model</h3>\n' \
-             f'<p>TransformationReports/PDB_Files/{pdb_code}_modified.pdb</p>\n'
+             f'<p>GenerateOutput/PDB_Files/{pdb_code}_modified.pdb</p>\n'
 
-    plot_filename = f"TransformationReports/Reports/Plots/{pdb_code}_{structure.replace(' ', '_')}.png"
+    # Replace spaces and - with underscores
+    structure = structure.replace(' ', '_').replace('-', '_')
+
+    plot_filename = f"GenerateOutput/Reports/Plots/{pdb_code}_{structure}.png"
     output_plot = diagrams.plot_structure_to_image(xyz,
                                                    plot_filename,
                                                    title=f"{structure} Structure")
@@ -73,7 +76,7 @@ def write_report_html(pdb_code, structure, xyz):
     compare = f'<h3>Comparison XYZ</h3>\n'
     backbone = start_at_zero(backbone)
     backbone = backbone.rename(columns={'X': 'Backbone_X', 'Y': 'Backbone_Y', 'Z': 'Backbone_Z'})
-    xyz = xyz.rename(columns={'X': f'{structure}_X', 'Y': f'{structure}_Y', 'Z': f'{structure}_Z'})
+    xyz = xyz.rename(columns={'X': 'Output_X', 'Y': f'Output_Y', 'Z': f'Output_Z'})
     xyz = xyz.drop(columns=['ID', 'Amino Acid'])
     combined_df = pd.concat([backbone, xyz], axis=1)
     combined_table = combined_df.to_html()
@@ -81,7 +84,7 @@ def write_report_html(pdb_code, structure, xyz):
     html = (top + input_diagram + intermediate + backbone_plot + middle +
             output_diagram + compare + combined_table + bottom)
 
-    with open(f"TransformationReports/Reports/{pdb_code}_{structure.replace(' ', '_')}.html", 'w') as file:
+    with open(f"GenerateOutput/Reports/{pdb_code}_{structure.replace(' ', '_')}.html", 'w') as file:
         file.write(html)
 
 

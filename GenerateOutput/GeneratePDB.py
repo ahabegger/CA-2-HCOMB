@@ -29,18 +29,17 @@ def create_modified_pdb(pdb_code, output_xyz, structure):
     header = f"HEADER    Modified File of {pdb_code}"
     title = f"TITLE     {structure} {pdb_code}"
     remark = (f"REMARK    All Credit to the original authors of {pdb_code}\n"
-              f"REMARK    Changed using PDB2LatticePy\n"
+              f"REMARK    Changed using PDB2Lattice\n"
               f"REMARK    GitHub: https://github.com/ahabegger/PDB-2-Lattice")
     seq_lines = ""
     atom_lines = ""
     end = "END"
 
     # Read the PDB file
-    with open(f"TransformationReports/PDB_Files/{pdb_code}.pdb") as file:
+    with open(f"GenerateOutput/PDB_Files/{pdb_code}.pdb") as file:
         pdb_file = file.read()
         counter = 1
         for line in pdb_file.splitlines():
-
             # Add the SEQRES lines to the new PDB file
             if line.split()[0] == "SEQRES":
                 seq_lines += line + '\n'
@@ -52,7 +51,7 @@ def create_modified_pdb(pdb_code, output_xyz, structure):
                     counter += 1
 
     # Create the new Modified PDB file
-    with open(f"TransformationReports/PDB_Files/{pdb_code}_modified.pdb", 'w') as file:
+    with open(f"GenerateOutput/PDB_Files/{pdb_code}_modified.pdb", 'w') as file:
         file.write(header + '\n')
         file.write(title + '\n')
         file.write(remark + '\n')
