@@ -3,12 +3,12 @@ import time
 import numpy as np
 
 '''
-Greedy.py
+Fitting.py
 This Script is used to run the Greedy Lattice Algorithm.
 '''
 
 
-def greedy_lattice(cost_matrix, movements):
+def fitting_algorithm(cost_matrix, movements, multiprocess_toggle):
     # Executes the greedy lattice instance 10 times and returns the best result
     best_moves = []
     best_cost = float('inf')
@@ -46,7 +46,7 @@ def greedy_lattice(cost_matrix, movements):
     return best_moves, best_cost
 
 
-def greedy_lattice_instance(test_num, moves, cost_matrix, movements):
+def fitting_movements(test_num, moves, cost_matrix, movements):
     start_time = time.time()
 
     report = f"Test #{test_num}: "
