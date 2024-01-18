@@ -42,12 +42,6 @@ PDB2Lattice can transform complex protein structures into simplified models, eac
 
 ### Installation
 
-To install the required dependencies (pandas~=2.1.3, numpy~=1.26.2, requests~=2.31.0, nglview~=3.0.8, matplotlib~=3.8.2, bio~=1.6.0 ), run the following command:
-
-```bash
-pip install -r requirements.txt
-```
-
 To use PDB2Lattice, please make sure you have Python installed on your system. Clone or download the repository using one of the following commands: 
 
 ```bash
@@ -55,7 +49,11 @@ git clone https://github.com/ahabegger/PDB-2-Lattice.git
 git clone git@github.com:ahabegger/PDB-2-Lattice.git
 ```
 
-Then, navigate to the directory containing `main.py`. This script is the entry point for processing PDB files or IDs.
+Then, navigate to the directory containing `main.py`. This script is the entry point for processing PDB files or IDs, but before that the required dependencies (pandas~=2.1.3, numpy~=1.26.2, requests~=2.31.0, nglview~=3.0.8, matplotlib~=3.8.2, bio~=1.6.0 ) must be downloaded by running the following command:
+
+```bash
+pip install -r requirements.txt
+```
 
 ### Command-Line Arguments
 
