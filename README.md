@@ -1,9 +1,6 @@
-# PDB2Lattice: README
-### Alexander J. Habegger
-
 ![PDB2Lattice](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/fb1433d3-45bc-4e03-8d53-4cbb5c65444a)
 
-## Overview
+# PDB2Lattice: README
 
 PDB2LatticePy stands at the forefront of simplifying protein structures. Its primary mission is to untangle the complexities inherent in protein data, transforming PDB files or IDs into more digestible and manageable forms. The software specializes in converting detailed protein structures of the Protein Data Bank into simplified models such as the CA Backbone, Square Tiling, and various honeycomb structures. These models are more comprehensible and retain the crucial structural information necessary for computation.
 
