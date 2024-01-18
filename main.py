@@ -46,7 +46,6 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     if structure_num == 1:  # CA Backbone Structure
         print(f"Creating CA Backbone for {pdb_file}")
         xyz = create_backbone(pdb_file)
-        xyz = xyz[['X', 'Y', 'Z']]
     else:  # Structure Simplification
         xyz = create_structure(structure_num, pdb_file, pdb_id, multiprocess_toggle)
 
