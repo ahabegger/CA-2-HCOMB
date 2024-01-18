@@ -20,27 +20,23 @@ The tool is crafted with a focus on user experience. It accommodates various inp
 
 ## Types of Simplified Structures
 
-PDB2Lattice can transform complex protein structures into simplified models, each providing unique insights and perspectives. The tool supports the following types of simplified structures:
+PDB2Lattice can transform complex protein structures into simplified models, each providing unique insights and perspectives. All simplification structures have an edge that is one unit long and is composed of convex shapes. These requirements allow the exclusion principle to be followed by making the alpha carbons placed at the vertices not too close to one another. The edges within the models represent the connection between consecutive amino acids. The tool supports the following types of simplified structures:
 
-![ca_backbone](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/700117b0-212f-4bb3-9d66-985a963c1287)
-
-1. **CA Backbone**: This model represents the most fundamental aspect of a protein's structure, focusing solely on the alpha carbon (CA) atoms in the protein's backbone.
+1. **Square Tiling**: A 2D geometric pattern where squares of identical size are arranged side by side, covering a plane without gaps or overlaps. The 2D model is derived from the XYZ coordinates of the alpha carbon backbone in the PDB file by having the amino acids projected onto the 2D plane. The simplification limits movement from one amino acid to another into 4 valid movements represented by [x, y]: [1, 0], [-1, 0], [0, 1], and [0, -1]. 
 
 ![square_tiling](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/be712d5b-aebd-4b24-ac7a-dcf0e99d76fc)
 
-2. **Square Tiling**: This 2D model is derived from the CA Backbone, projecting the protein structure onto a two-dimensional plane. It simplifies the structure into a grid-like pattern, making observing and analyzing the protein's topology easier in a planar format.
+2. **Cubic Honeycomb**: A 3D geometric structure of cubes arranged in a continuous pattern. This honeycomb tessellation features cubes that are aligned and stacked in such a way as to fill space without any gaps or overlaps, showcasing perfect symmetry and uniformity. Elevating the representation to three dimensions, the Cubic Honeycomb model extends the alpha carbon backbone into a 3D lattice. This model offers a more spatially comprehensive view, portraying how the protein's structure occupies three-dimensional space. The simplification limits movement from one amino acid to another into 6 valid movements represented [x, y, z]: [1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1] and [0, 0, -1].
 
 ![cubic_honeycomb](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/55161819-cbc0-407b-9a09-c8fe663e0dfe)
 
-3. **Cubic Honeycomb**: Elevating the representation to three dimensions, the Cubic Honeycomb model extends the CA Backbone into a 3D lattice. This model offers a more spatially comprehensive view, portraying how the protein's structure occupies three-dimensional space. 
+3. **Triangular Prismatic Honeycomb**: A spatial tessellation formed by stacking triangular prisms in a continuous, repeating pattern. This honeycomb structure is characterized by its uniform, three-sided prisms arranged to fill the space without gaps or overlaps. The simplification limits movement from one amino acid to another into 8 valid movements represented [x, y, z]: [sqrt_3_div_2, 0.5, 0], [-sqrt_3_div_2, 0.5, 0], [0, 1, 0], [sqrt_3_div_2, -0.5, 0], [-sqrt_3_div_2, -0.5, 0], [0, -1, 0], [0, 0, 1], and [0, 0, -1].
 
 ![triangular_prismatic_honeycomb](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/0a20ea09-f43b-4c73-a93f-7a6e81c33938)
 
-4. **Triangular Prismatic Honeycomb**: This model further sophisticates the 3D representation by incorporating triangular prismatic elements into the honeycomb structure. It offers an intricate view of the protein's structure, highlighting the complex interplay between its components in three dimensions. This model is particularly useful for detailed structural analysis and spatial understanding of the protein.
+4. **Tetrahedral-Octahedral Honeycomb**: A complex 3D geometric structure where tetrahedra and octahedra interlock in a repeating pattern. The most complex model in the suite, this structure uses a combination of tetrahedral and octahedral elements to represent the protein's backbone in 3D. The simplification limits movement from one amino acid to another into 12 valid movements represented [x, y, z]: [sqrt_2_div_2, sqrt_2_div_2, 0], [sqrt_2_div_2, 0, sqrt_2_div_2], [0, sqrt_2_div_2, sqrt_2_div_2], [-sqrt_2_div_2, -sqrt_2_div_2, 0], [-sqrt_2_div_2, 0, -sqrt_2_div_2], [0, -sqrt_2_div_2, -sqrt_2_div_2], [sqrt_2_div_2, -sqrt_2_div_2, 0], [sqrt_2_div_2, 0, -sqrt_2_div_2], [0, sqrt_2_div_2, -sqrt_2_div_2], [-sqrt_2_div_2, sqrt_2_div_2, 0], [-sqrt_2_div_2, 0, sqrt_2_div_2], [0, -sqrt_2_div_2, sqrt_2_div_2].
 
 ![tetrahedral_octahedral_honeycomb](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/4f8b55d5-1067-4fc9-9fd6-49d04a338fe2)
-
-5. **Tetrahedral-Octahedral Honeycomb**: The most complex model in the suite, this structure uses a combination of tetrahedral and octahedral elements to represent the protein's backbone in 3D. This model provides a detailed and nuanced view of the protein structure, allowing for an in-depth analysis of its spatial configuration and interactions. It is ideal for advanced studies where detailed spatial relationships within the protein are critical.
 
 ## Usage
 
@@ -92,10 +88,14 @@ Optional Arguments:
 Run `main.py` from the command line, providing the necessary arguments. For example:
 
 ```bash
-python main.py 1A0M 4 -v -r --output_xyz "output_structure.xyz" --output_pdb "output_structure.pdb"
+python main.py 1A0M 6 -v -r --output_xyz "output_structure.xyz" --output_pdb "output_structure.pdb"
 ```
 
 This command processes the PDB code `1A0M`, creates a Square Tiling structure, visualizes it, generates a report, and outputs the results in XYZ and PDB formats.
+
+Here is the visualizing of the Square Tiling structure for the PDB code `1A0M`:
+
+
 
 ### Handling Multiple Chains
 
