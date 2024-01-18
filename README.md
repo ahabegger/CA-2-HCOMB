@@ -91,11 +91,9 @@ Run `main.py` from the command line, providing the necessary arguments. For exam
 python main.py 1A0M 6 -v -r --output_xyz "output_structure.xyz" --output_pdb "output_structure.pdb"
 ```
 
-This command processes the PDB code `1A0M`, creates a Square Tiling structure, visualizes it, generates a report, and outputs the results in XYZ and PDB formats.
+This command processes the PDB code `1A0M`, creates a Square Tiling structure, visualizes it, generates a report, and outputs the results in XYZ and PDB formats. Here is the visualization of the Square Tiling structure for the PDB code `1A0M`:
 
-Here is the visualizing of the Square Tiling structure for the PDB code `1A0M`:
-
-
+![1A0M](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/aea10afb-1893-4a1f-b26b-e747f70705fa)
 
 ### Handling Multiple Chains
 
