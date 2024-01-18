@@ -2,7 +2,7 @@
 
 # PDB2Lattice: README
 
-PDB2Lattice stands at the forefront of simplifying protein structures. Its primary mission is to untangle the complexities inherent in protein data, transforming PDB files or IDs into more digestible and manageable forms. The software specializes in converting detailed protein structures of the Protein Data Bank into simplified models such as the CA Backbone, Square Tiling, and various honeycomb structures. These models are more comprehensible and retain the crucial structural information necessary for computation.
+PDB2Lattice is a repository authored and managed by Alexander J. Habegger (beggar) and stands at the forefront of simplifying protein structures. Its primary mission is to untangle the complexities inherent in protein data, transforming PDB files or IDs into more digestible and manageable forms. The software specializes in converting detailed protein structures of the Protein Data Bank into simplified models such as the CA Backbone, Square Tiling, and various honeycomb structures. These models are more comprehensible and retain the crucial structural information necessary for computation.
 
 ### Computational Efficiency
 
@@ -143,3 +143,7 @@ The PDB2Lattice project cordially invites contributions from the community. Enth
 ## Licensing
 
 PDB2Lattice is released as open-source software under the MIT License. This license permits users to modify and distribute the software according to the license's stipulations.
+
+## Contact 
+
+I can be contacted by email at my university email habeggaj (at sign) miamioh (dot) edu
