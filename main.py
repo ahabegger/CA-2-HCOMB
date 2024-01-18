@@ -148,15 +148,6 @@ if __name__ == '__main__':
             print("12 = TETRAHEDRAL-OCTAHEDRAL HONEYCOMB")
             structure = input("Input Structure: ")
 
-    while structure not in ["1", "4", "6", "8", "12"]:
-        print("Input the Number for the Structure you want to create:")
-        print("1  = CA BACKBONE")
-        print("4  = SQUARE TILING")
-        print("6  = CUBIC HONEYCOMB")
-        print("8  = TRIANGULAR PRISMATIC HONEYCOMB")
-        print("12 = TETRAHEDRAL-OCTAHEDRAL HONEYCOMB")
-        structure = input("Input Structure: ")
-
     structure = int(structure)
 
     # Execute the main function
