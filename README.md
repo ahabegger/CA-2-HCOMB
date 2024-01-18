@@ -122,24 +122,24 @@ Upon successful execution, the script will:
 
 - **GenerateReport.py**: This script is designed to generate comprehensive reports for protein structures transformed using PDB2Lattice. It involves downloading PDB files, creating modified PDB files, generating diagrams for visualization, and compiling all this information into detailed HTML reports. These reports include original and modified structures, interactive diagrams, and structural data comparisons.
 
-## Contributions
+## Contribution
 
-Contributions to PDB2Lattice are welcome. Whether it's improving the code, adding new features, or fixing bugs, feel free to fork the repository and submit your pull requests.
+The PDB2Lattice project cordially invites contributions from the community. Enthusiasts and professionals are encouraged to enhance the project's functionality by refining existing code, introducing novel features, or rectifying extant bugs. Interested parties may fork the repository and submit pull requests for review.
 
-### Potential Contributions
+### Potential Enhancements
 
-- **Multi-Chain Support**: The current version of PDB2Lattice does not support multiple chains. 
+- **Extension to Multi-Chain Support**: Presently, PDB2Lattice is limited to handling single-chain structures. Expansion to accommodate multiple chains is a significant avenue for development.
 
-- **Options for Allowing Different Test Batteries for Fitting Algorithm**: The fitting algorithm currently uses a fixed set of test batteries. Allowing users to specify different test batteries for the algorithm would be helpful.
+- **Diversification of Test Batteries in Fitting Algorithm**: The current iteration of the fitting algorithm employs a static set of test batteries. Introducing the capability for users to input varied test batteries could significantly enhance the algorithm's adaptability.
 
-- **Options for Allowing Different Cost Functions for Fitting Algorithm**: The fitting algorithm currently uses a fixed cost function. It would be helpful to allow users to specify different cost functions for the algorithm. For Example, the similarity of current XYZ points in structure to that of the backbone structure.
+- **Customization of Cost Functions in Fitting Algorithm**: The algorithm currently operates with a predetermined cost function. Enabling user-defined cost functions, such as those focusing on the congruence of current XYZ coordinates with the backbone structure, would be a valuable improvement.
 
-- **Improvements to the Tilt Algorithm**: The tilt algorithm currently uses a fixed set of movements. Allowing users to specify different movements for the algorithm would be helpful.
+- **Refinement of the Tilt Algorithm**: The tilt algorithm is restricted to a specific movement repertoire. Offering a mechanism for users to specify alternative movements would enhance its versatility.
 
-- **Generating Reports for Multiple Structures**: The current version of PDB2Lattice only supports generating reports for a single structure. It would be helpful to allow users to generate reports for multiple structures.
+- **Report Generation for Multiple Structures**: The existing version of PDB2Lattice supports report generation for only single structures. A feature allowing for concurrently compiling reports for multiple structures would be beneficial.
 
-- **Improvements to the Report Generation**: The current version of PDB2Lattice generates report information in an unclear format. It would be helpful to improve the report generation to make it more readable and user-friendly.
+- **Enhancements in Report Generation**: The clarity and user-friendliness of the generated reports in the current version of PDB2Lattice need improvement. Revamping the report generation process to produce more comprehensible and accessible output is a crucial area for enhancement.
 
-## License
+## Licensing
 
-PDB2Lattice is open-source software licensed under MIT License. Users are free to modify and distribute the software under the terms of this license.
+PDB2Lattice is released as open-source software under the MIT License. This license permits users to modify and distribute the software according to the license's stipulations.
