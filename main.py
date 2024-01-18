@@ -107,8 +107,8 @@ if __name__ == '__main__':
             pdb_code = ''
             while len(pdb_code) != 4:
                 print("Input the 4-Letter PDB Code for the Protein you want to create a Structure for:")
-                print("Sample PDB Codes are 1A0M, 1A1M, 1A2M, 1A3M, 1A4M, "
-                      "1A5M, 1A6M, 1A7M, 1A8M, 1A9M, 1B0M, 1B1M, 1B2M, 1B3M, 1B4M...")
+                print("Sample PDB Codes are 101M, 102L, 102M, 103L, 103M, 104M, 105M, 106M, 107L, 107M, 108L, "
+                      "108M, 109L, 109M, 110L, 110M, 111L, 111M, 112L, 112M, 113L, 114L")
                 pdb_code = input("Input 4-Letter PDB Code: ")
 
             if check_pdb_is_valid(pdb_code):
@@ -147,7 +147,17 @@ if __name__ == '__main__':
             print("8  = TRIANGULAR PRISMATIC HONEYCOMB")
             print("12 = TETRAHEDRAL-OCTAHEDRAL HONEYCOMB")
             structure = input("Input Structure: ")
-        structure = int(structure)
+
+    while structure not in ["1", "4", "6", "8", "12"]:
+        print("Input the Number for the Structure you want to create:")
+        print("1  = CA BACKBONE")
+        print("4  = SQUARE TILING")
+        print("6  = CUBIC HONEYCOMB")
+        print("8  = TRIANGULAR PRISMATIC HONEYCOMB")
+        print("12 = TETRAHEDRAL-OCTAHEDRAL HONEYCOMB")
+        structure = input("Input Structure: ")
+
+    structure = int(structure)
 
     # Execute the main function
     execute(pdb_code, pdb_filepath, structure, visualize,

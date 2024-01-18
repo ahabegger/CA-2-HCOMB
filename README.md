@@ -61,9 +61,9 @@ The `main.py` script is designed to be run from the command line with several ar
 
 Required Arguments:
 
-1. `pdb`: Specify the PDB code or the file path to a PDB file. For example, PDB codes are `1A0M`, `1A1M`, etc. The script will prompt you to enter a valid 4-letter PDB code if this argument is not provided.
+1. `pdb`: Specify the PDB code or the file path to a PDB file. For example, PDB codes are 101M, 102L, 102M, 103L, 103M, 104M, 105M, 106M, 107L, 107M, 108L, 108M, 109L, 109M, 110L, 110M, 111L, 111M, 112L, 112M, 113L, 114L, etc. The script will prompt you to enter a valid 4-letter PDB code if this argument is not provided.
 
-2. `structure`: Enter the number corresponding to the structure type you wish to create. The options are:
+2. `structure`: Enter the number corresponding to the structure type you wish to create. The script will prompt you to enter a valid structure number if this argument is not provided. The options are:
    - `1` for CA Backbone
    - `4` for Square Tiling
    - `6` for Cubic Honeycomb
