@@ -2,7 +2,7 @@
 
 # PDB2Lattice: README
 
-PDB2LatticePy stands at the forefront of simplifying protein structures. Its primary mission is to untangle the complexities inherent in protein data, transforming PDB files or IDs into more digestible and manageable forms. The software specializes in converting detailed protein structures of the Protein Data Bank into simplified models such as the CA Backbone, Square Tiling, and various honeycomb structures. These models are more comprehensible and retain the crucial structural information necessary for computation.
+PDB2Lattice stands at the forefront of simplifying protein structures. Its primary mission is to untangle the complexities inherent in protein data, transforming PDB files or IDs into more digestible and manageable forms. The software specializes in converting detailed protein structures of the Protein Data Bank into simplified models such as the CA Backbone, Square Tiling, and various honeycomb structures. These models are more comprehensible and retain the crucial structural information necessary for computation.
 
 ### Computational Efficiency
 
@@ -10,7 +10,7 @@ Simplifying structures remarkably reduces the computational power required for p
 
 ### User-Centric Design
 
-The tool is crafted with a focus on user experience. It accommodates various inputs and command-line arguments, enabling customization to meet diverse research needs and personal preferences. This user-centric design philosophy ensures that PDB2LatticePy is accessible to a wide range of users, from seasoned researchers to students just beginning their exploration of protein structures.
+The tool is crafted with a focus on user experience. It accommodates various inputs and command-line arguments, enabling customization to meet diverse research needs and personal preferences. This user-centric design philosophy ensures that PDB2Lattice is accessible to a wide range of users, from seasoned researchers to students just beginning their exploration of protein structures.
 
 ## Related Repositories
 
@@ -42,13 +42,16 @@ PDB2Lattice can transform complex protein structures into simplified models, eac
 
 ### Installation
 
-To use PDB2LatticePy, please make sure you have Python installed on your system. Clone or download the repository. 
+To install the required dependencies (pandas~=2.1.3, numpy~=1.26.2, requests~=2.31.0, nglview~=3.0.8, matplotlib~=3.8.2, bio~=1.6.0 ), run the following command:
+
+```bash
+pip install -r requirements.txt
+```
+
+To use PDB2Lattice, please make sure you have Python installed on your system. Clone or download the repository using one of the following commands: 
 
 ```bash
 git clone https://github.com/ahabegger/PDB-2-Lattice.git
-```
-or 
-```bash
 git clone git@github.com:ahabegger/PDB-2-Lattice.git
 ```
 
@@ -123,11 +126,11 @@ Upon successful execution, the script will:
 
 ## Contributions
 
-Contributions to PDB2LatticePy are welcome. Whether it's improving the code, adding new features, or fixing bugs, feel free to fork the repository and submit your pull requests.
+Contributions to PDB2Lattice are welcome. Whether it's improving the code, adding new features, or fixing bugs, feel free to fork the repository and submit your pull requests.
 
 ### Potential Contributions
 
-- **Multi-Chain Support**: The current version of PDB2LatticePy does not support multiple chains. 
+- **Multi-Chain Support**: The current version of PDB2Lattice does not support multiple chains. 
 
 - **Options for Allowing Different Test Batteries for Fitting Algorithm**: The fitting algorithm currently uses a fixed set of test batteries. Allowing users to specify different test batteries for the algorithm would be helpful.
 
@@ -135,10 +138,10 @@ Contributions to PDB2LatticePy are welcome. Whether it's improving the code, add
 
 - **Improvements to the Tilt Algorithm**: The tilt algorithm currently uses a fixed set of movements. Allowing users to specify different movements for the algorithm would be helpful.
 
-- **Generating Reports for Multiple Structures**: The current version of PDB2LatticePy only supports generating reports for a single structure. It would be helpful to allow users to generate reports for multiple structures.
+- **Generating Reports for Multiple Structures**: The current version of PDB2Lattice only supports generating reports for a single structure. It would be helpful to allow users to generate reports for multiple structures.
 
-- **Improvements to the Report Generation**: The current version of PDB2LatticePy generates report information in an unclear format. It would be helpful to improve the report generation to make it more readable and user-friendly.
+- **Improvements to the Report Generation**: The current version of PDB2Lattice generates report information in an unclear format. It would be helpful to improve the report generation to make it more readable and user-friendly.
 
 ## License
 
-PDB2LatticePy is open-source software licensed under MIT License. Users are free to modify and distribute the software under the terms of this license.
+PDB2Lattice is open-source software licensed under MIT License. Users are free to modify and distribute the software under the terms of this license.
