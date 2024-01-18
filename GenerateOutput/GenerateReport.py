@@ -1,19 +1,27 @@
+"""
+GenerateReport.py
+Generate comprehensive reports for protein structures transformed using PDB2Lattice, a
+tool for analyzing and manipulating protein data. It involves downloading PDB files,
+creating modified PDB files, generating diagrams for visualization, and compiling all this
+information into a detailed HTML report that includes comparisons between the original
+and modified structures, along with interactive diagrams and structural data.
+"""
+
 import pandas as pd
 import GenerateOutput.GenerateDiagram as diagrams
 import GenerateOutput.GeneratePDB as pdb
 from PDB2Backbone import create_backbone
 
-'''
-GenerateReport.py
-Generate comprehensive reports for protein structures transformed using PDB2Lattice, a 
-tool for analyzing and manipulating protein data. It involves downloading PDB files, 
-creating modified PDB files, generating diagrams for visualization, and compiling all this 
-information into a detailed HTML report that includes comparisons between the original 
-and modified structures, along with interactive diagrams and structural data.
-'''
-
 
 def create_report(pdb_code, output_xyz, structure):
+    """
+    Create a report for the given PDB code and structure.
+    :param pdb_code:
+    :param output_xyz:
+    :param structure:
+    :return:
+    """
+
     # Download the PDB file
     pdb.download_pdb(pdb_code)
 
@@ -29,6 +37,14 @@ def create_report(pdb_code, output_xyz, structure):
 
 
 def write_report_html(pdb_code, structure, xyz):
+    """
+    Write the HTML report for the given PDB code and structure.
+    :param pdb_code:
+    :param structure:
+    :param xyz:
+    :return:
+    """
+
     input_diagram_file = f"{pdb_code}_diagram.html"
     output_diagram_file = f"{pdb_code}_modified_diagram.html"
     input_diagram = diagrams.get_nglview_html(input_diagram_file)
@@ -92,6 +108,13 @@ def write_report_html(pdb_code, structure, xyz):
 
 
 def start_at_zero(df):
+    """
+    Changes the Dataframe to start the XYZ coordinates at zero
+    and still be in the same relative positions.
+    :param df:
+    :return: zero_based_df
+    """
+
     for col in ['X', 'Y', 'Z']:
         if col in df.columns:
             original_first_value = df[col].iloc[0]

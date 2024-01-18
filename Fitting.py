@@ -1,18 +1,26 @@
+"""
+Fitting.py
+Optimizing a set of movements based on a cost matrix, with the option of using
+multiprocessing for parallel execution. The script includes functions to iteratively
+refine the movements to achieve the lowest possible cost, utilizing techniques
+like local search refinement and testing different combinations of movements, and
+it ensures the validity of the final movement set.
+"""
+
 import multiprocessing
 import time
 import numpy as np
 
-'''
-Fitting.py
-Optimizing a set of movements based on a cost matrix, with the option of using 
-multiprocessing for parallel execution. The script includes functions to iteratively 
-refine the movements to achieve the lowest possible cost, utilizing techniques 
-like local search refinement and testing different combinations of movements, and 
-it ensures the validity of the final movement set.
-'''
-
 
 def fitting_algorithm(cost_matrix, movements, multiprocess_toggle):
+    """
+    Creates a set of initial moves and runs the fitting algorithm to optimize the moves
+    :param cost_matrix:
+    :param movements:
+    :param multiprocess_toggle:
+    :return: best_moves, best_cost
+    """
+
     best_moves = []
     best_cost = float('inf')
 
@@ -60,6 +68,15 @@ def fitting_algorithm(cost_matrix, movements, multiprocess_toggle):
 
 
 def fitting_movements(test_num, moves, cost_matrix, movements):
+    """
+    Runs a series of Test Batteries to refine the moves and return the best result
+    :param test_num:
+    :param moves:
+    :param cost_matrix:
+    :param movements:
+    :return: refined_moves, final_cost, report
+    """
+
     start_time = time.time()
 
     report = f"Test #{test_num}: "
@@ -81,6 +98,16 @@ def fitting_movements(test_num, moves, cost_matrix, movements):
 
 
 def test_battery(window_size, num_tests, moves, cost_matrix, movements):
+    """
+    A Test Battery is a series of tests that are run in sequence to refine the moves.
+    :param window_size:
+    :param num_tests:
+    :param moves:
+    :param cost_matrix:
+    :param movements:
+    :return: lowest_moves, report
+    """
+
     starting_cost = get_cost(moves, cost_matrix)
     lowest_cost = starting_cost
     lowest_moves = moves.copy()
@@ -102,6 +129,15 @@ def test_battery(window_size, num_tests, moves, cost_matrix, movements):
 
 
 def run_refinement(window_size, moves, cost_matrix, movements):
+    """
+    Run the refinement process until the cost no longer changes.
+    :param window_size:
+    :param moves:
+    :param cost_matrix:
+    :param movements:
+    :return: moves
+    """
+
     cost = get_cost(moves, cost_matrix)
     if cost == 0:
         return moves
@@ -116,6 +152,15 @@ def run_refinement(window_size, moves, cost_matrix, movements):
 
 
 def local_search_refinement(window, moves, cost_matrix, movements):
+    """
+    Refine the moves using local search.
+    :param window:
+    :param moves:
+    :param cost_matrix:
+    :param movements:
+    :return: moves
+    """
+
     indices = np.array(range(len(moves) - window + 1))
     randomized_indices = np.random.permutation(indices)
 
@@ -143,7 +188,14 @@ def local_search_refinement(window, moves, cost_matrix, movements):
 
 
 def find_combinations(cost_rows, total_cost, movements):
-    # Function to recursively find all combinations of cost up to a certain depth (row)
+    """
+    Function to recursively find all combinations of cost up to a certain depth (row)
+    :param cost_rows:
+    :param total_cost:
+    :param movements:
+    :return:
+    """
+
     def find_combinations_recursive(row, current_cost, current_indices):
         if row == len(cost_rows):
             # Check if the combination is valid and within the cost limit
@@ -163,10 +215,23 @@ def find_combinations(cost_rows, total_cost, movements):
 
 
 def get_cost(moves, cost_matrix):
+    """
+    Get the cost of a given set of moves and cost matrix
+    :param moves:
+    :param cost_matrix:
+    :return: total_cost
+    """
     return np.sum(cost_matrix[np.arange(len(moves)), moves])
 
 
 def is_valid_moves(moves, possible_movements):
+    """
+    Check if a set of moves is valid based on the possible movements
+    :param moves:
+    :param possible_movements:
+    :return: validity
+    """
+
     # Ensure moves is a NumPy array
     moves = np.array(moves, dtype=int)
 

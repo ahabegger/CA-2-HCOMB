@@ -1,3 +1,12 @@
+"""
+Structures.py
+Generate a structure based on the input parameters like the number of moves and a PDB file,
+then optimize the structure using tilt and fitting algorithms. The code begins by
+constructing a backbone structure from a PDB file, defines movements based on the number
+of moves, and then applies optimization techniques to refine the structure, finally
+returning the optimized XYZ coordinates.
+"""
+
 import time
 import numpy as np
 import pandas as pd
@@ -5,17 +14,18 @@ import Tilting as tilt
 from Fitting import fitting_algorithm
 from PDB2Backbone import create_backbone
 
-'''
-Structures.py
-Generate a structure based on the input parameters like the number of moves and a PDB file, 
-then optimize the structure using tilt and fitting algorithms. The code begins by 
-constructing a backbone structure from a PDB file, defines movements based on the number 
-of moves, and then applies optimization techniques to refine the structure, finally 
-returning the optimized XYZ coordinates.
-'''
-
 
 def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
+    """
+    Create a structure based on the input parameters like the number of moves and a PDB file,
+    then optimize the structure using tilt and fitting algorithms.
+    :param num_moves:
+    :param pdb_filepath:
+    :param pdb_code:
+    :param multiprocess_toggle:
+    :return: xyz
+    """
+
     # Create Backbone
     backbone_xyz = create_backbone(pdb_filepath)
     amino_acid_distance = get_amino_acid_distance(backbone_xyz[['X', 'Y', 'Z']])
@@ -59,6 +69,12 @@ def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
 
 
 def get_movements(num_moves):
+    """
+    Get the name and movements for a given number of moves.
+    :param num_moves:
+    :return: structure_name, movements
+    """
+
     # Define Math Calculations
     sqrt_3_div_2 = np.sqrt(3) / 2
     sqrt_2_div_2 = np.sqrt(2) / 2
@@ -100,6 +116,13 @@ def get_movements(num_moves):
 
 
 def convert_to_xyz(moves, possible_movements):
+    """
+    Convert a list of moves to a list of XYZ coordinates
+    :param moves:
+    :param possible_movements:
+    :return: xyz
+    """
+
     # Ensure moves is a NumPy array
     moves = np.array(moves, dtype=int)
 
@@ -117,6 +140,12 @@ def convert_to_xyz(moves, possible_movements):
 
 
 def get_amino_acid_distance(xyz):
+    """
+    Get the average distance between amino acids
+    :param xyz:
+    :return: average_distance
+    """
+
     # Get the distance between amino acids
     amino_acid_distance = 0
     for i in range(len(xyz) - 1):

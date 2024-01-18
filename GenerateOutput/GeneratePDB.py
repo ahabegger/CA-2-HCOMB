@@ -1,17 +1,23 @@
+"""
+GeneratePDB.py
+Facilitate the validation, downloading, and manipulation of PDB (Protein Data Bank) files.
+Key functions include checking the validity of a given PDB ID, downloading PDB files,
+counting the number of chains in a PDB file, and creating a modified PDB file with new
+XYZ coordinates, which is essential for protein structure analysis and visualization.
+"""
+
 import os
 import urllib.request
 import requests
 
-'''
-GeneratePDB.py
-Facilitate the validation, downloading, and manipulation of PDB (Protein Data Bank) files. 
-Key functions include checking the validity of a given PDB ID, downloading PDB files, 
-counting the number of chains in a PDB file, and creating a modified PDB file with new 
-XYZ coordinates, which is essential for protein structure analysis and visualization.
-'''
-
 
 def check_pdb_is_valid(pdb_id):
+    """
+    Check if the given PDB ID is valid.
+    :param pdb_id:
+    :return: validity
+    """
+
     # Define the URL for the PDB file
     pdb_url = f'https://files.rcsb.org/download/{pdb_id}.pdb'
 
@@ -31,6 +37,12 @@ def check_pdb_is_valid(pdb_id):
 
 
 def download_pdb(pdb_id):
+    """
+    Download the PDB file for the given PDB ID.
+    :param pdb_id:
+    :return:
+    """
+
     url = f'https://files.rcsb.org/download/{pdb_id}.pdb'
     response = requests.get(url)
 
@@ -45,6 +57,12 @@ def download_pdb(pdb_id):
 
 
 def count_chains_in_pdb(pdb_code):
+    """
+    Count the number of chains in the given PDB file.
+    :param pdb_code:
+    :return: chain_count
+    """
+
     chain_ids = set()
     pdb_filepath = f"GenerateOutput/PDB_Files/{pdb_code}.pdb"
 
@@ -62,6 +80,14 @@ def count_chains_in_pdb(pdb_code):
 
 
 def create_modified_pdb(pdb_code, output_xyz, structure):
+    """
+    Creates a PDB file for the new Structure
+    :param pdb_code:
+    :param output_xyz:
+    :param structure:
+    :return:
+    """
+
     # Set the PDB file structure
     header = f"HEADER    Modified File of {pdb_code}"
     title = f"TITLE     {structure} {pdb_code}"
@@ -100,6 +126,13 @@ def create_modified_pdb(pdb_code, output_xyz, structure):
 
 
 def replace_coordinates(input_line, new_coords):
+    """
+    Replace the coordinates in the given line with the new coordinates.
+    :param input_line:
+    :param new_coords:
+    :return: new_line
+    """
+
     # Ensure the new coordinates are in the correct format
     return (input_line[:30] +
             f"{new_coords.X:8.3f}" +  # New X coordinate

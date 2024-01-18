@@ -1,3 +1,12 @@
+"""
+main.py
+To process protein structures from PDB (Protein Data Bank) files or IDs, and convert them into
+simplified structural representations based on specified parameters. The script offers functionalities
+like creating different structural models (e.g., CA Backbone, Cubic Honeycomb), generating reports,
+visualizing structures, and exporting results in XYZ or PDB formats, while also handling user
+input and command-line arguments to tailor the processing to specific needs.
+"""
+
 import argparse
 import os
 import pandas as pd
@@ -7,19 +16,24 @@ from GenerateOutput.GenerateReport import create_report
 from PDB2Backbone import create_backbone
 from Structures import create_structure
 
-'''
-main.py
-To process protein structures from PDB (Protein Data Bank) files or IDs, and convert them into 
-simplified structural representations based on specified parameters. The script offers functionalities 
-like creating different structural models (e.g., CA Backbone, Cubic Honeycomb), generating reports, 
-visualizing structures, and exporting results in XYZ or PDB formats, while also handling user 
-input and command-line arguments to tailor the processing to specific needs.
-'''
-
 
 def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
             report_toggle, output_xyz_file, output_pdb_file,
             multiprocess_toggle, no_footprint_toggle):
+    """
+    Execute the program with the user inputs.
+    :param pdb_id:
+    :param pdb_file:
+    :param structure_num:
+    :param visualize_toggle:
+    :param report_toggle:
+    :param output_xyz_file:
+    :param output_pdb_file:
+    :param multiprocess_toggle:
+    :param no_footprint_toggle:
+    :return: None
+    """
+
     structure_num = int(structure_num)
     structure_name = {
         1: "CA Backbone",
@@ -60,6 +74,11 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
 
 
 def argument_parser():
+    """
+    Parse the arguments from the command line.
+    :return: user_inputs
+    """
+
     # Create the parser
     parser = argparse.ArgumentParser(description='Convert a PDB file or PDB code to a Simplified Structure.')
 

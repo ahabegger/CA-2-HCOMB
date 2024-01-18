@@ -1,18 +1,25 @@
-import numpy as np
-
-'''
+"""
 Tilting.py
-Defines functions for optimizing the tilt of a given set of movements with respect 
-to a backbone structure defined by XYZ coordinates. The primary function, `optimize_tilt`, 
-iteratively rotates the movements in 3D space, evaluating each rotation using a cost function 
-to find the combination of movements that minimizes the cost. Auxiliary functions 
-`rotate_movements`, `create_cost_matrix`, and `get_cost` support this process by handling 
-the rotation calculations, creating a cost matrix, and calculating the cost of movements, 
+Defines functions for optimizing the tilt of a given set of movements with respect
+to a backbone structure defined by XYZ coordinates. The primary function, `optimize_tilt`,
+iteratively rotates the movements in 3D space, evaluating each rotation using a cost function
+to find the combination of movements that minimizes the cost. Auxiliary functions
+`rotate_movements`, `create_cost_matrix`, and `get_cost` support this process by handling
+the rotation calculations, creating a cost matrix, and calculating the cost of movements,
 respectively.
-'''
+"""
+
+import numpy as np
 
 
 def optimize_tilt(backbone_xyz, movements):
+    """
+    Optimize the tilt of a given set of movements with respect to a backbone structure
+    :param backbone_xyz:
+    :param movements:
+    :return:  lowest_movements, cost_matrix, lowest_sum, [x, y, z]
+    """
+
     backbone_xyz_np = backbone_xyz[['X', 'Y', 'Z']].to_numpy()
     lowest_sum = get_cost(backbone_xyz_np, movements)
     lowest_movements = movements
@@ -72,6 +79,13 @@ def rotate_movements(movements, degree_x, degree_y, degree_z):
 
 
 def create_cost_matrix(backbone_xyz_np, movements):
+    """
+    Create a cost matrix for the given movements
+    :param backbone_xyz_np:
+    :param movements:
+    :return: cost_matrix
+    """
+
     # Compute movement vectors and their magnitudes
     movement_vectors = backbone_xyz_np[1:] - backbone_xyz_np[:-1]
     magnitudes = np.linalg.norm(movement_vectors, axis=1)
@@ -100,6 +114,13 @@ def create_cost_matrix(backbone_xyz_np, movements):
 
 
 def get_cost(backbone_xyz_np, movements):
+    """
+    Get the cost of the given movements
+    :param backbone_xyz_np:
+    :param movements:
+    :return: cost
+    """
+
     # Compute movement vectors and their magnitudes
     movement_vectors = backbone_xyz_np[1:] - backbone_xyz_np[:-1]
     magnitudes = np.linalg.norm(movement_vectors, axis=1)

@@ -1,18 +1,25 @@
+"""
+GenerateDiagram.py
+Provide functions for visualizing protein structures in various formats. It includes
+methods to create interactive 3D plots and diagrams of protein structures from XYZ
+coordinate data, as well as to generate and save these visualizations as HTML diagrams
+and PNG images, enhancing the ability to analyze and present protein structures effectively.
+"""
+
 import os
 import nglview
 import pandas as pd
 from matplotlib import pyplot as plt
 
-'''
-GenerateDiagram.py
-Provide functions for visualizing protein structures in various formats. It includes 
-methods to create interactive 3D plots and diagrams of protein structures from XYZ 
-coordinate data, as well as to generate and save these visualizations as HTML diagrams 
-and PNG images, enhancing the ability to analyze and present protein structures effectively.
-'''
-
 
 def plot_structure(xyz, title='Protein Structure'):
+    """
+    Plot the given XYZ coordinates as a 3D plot.
+    :param xyz:
+    :param title:
+    :return: None
+    """
+
     # Convert to DataFrame for easier processing
     df = pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
 
@@ -33,11 +40,23 @@ def plot_structure(xyz, title='Protein Structure'):
 
 
 def create_nglview(pdb_file):
+    """
+    Create an interactive 3D diagram of the given PDB file.
+    :param pdb_file:
+    :return:
+    """
+
     view = nglview.show_structure_file(pdb_file)
     nglview.write_html(f'{pdb_file.split("/")[2].split(".")[0]}_diagram.html', view)
 
 
 def get_nglview_html(filename):
+    """
+    Get the HTML code for the given NGLView diagram.
+    :param filename:
+    :return: diagram
+    """
+
     diagram = ""
     with open(filename) as file:
         for line in file:
@@ -48,6 +67,14 @@ def get_nglview_html(filename):
 
 
 def plot_structure_to_image(xyz, filename, title='Protein Structure'):
+    """
+    Plot the given XYZ coordinates as a 3D plot and save it as a PNG image.
+    :param xyz:
+    :param filename:
+    :param title:
+    :return: HTML_for_image
+    """
+
     # Convert to DataFrame for easier processing
     df = pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
 
