@@ -46,8 +46,9 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     if structure_num == 1:  # CA Backbone Structure
         print(f"Creating CA Backbone for {pdb_file}")
         xyz = create_backbone(pdb_file)
+        untilted_xyz = xyz.copy()
     else:  # Structure Simplification
-        xyz = create_structure(structure_num, pdb_file, pdb_id, multiprocess_toggle)
+        xyz, untilted_xyz = create_structure(structure_num, pdb_file, pdb_id, multiprocess_toggle)
 
     print(f"Created {structure_name[structure_num]} Structure for {pdb_id}")
     print(f"Printing XYZ for {structure_name[structure_num]} Structure...")
@@ -60,7 +61,7 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     if report_toggle:
         create_report(pdb_id, xyz, structure_name[structure_num])
     if output_xyz_file is not None:
-        xyz.to_csv(output_xyz_file, index=False)
+        untilted_xyz.to_csv(output_xyz_file, index=False)
     if output_pdb_file is not None:
         create_modified_pdb(pdb_id, xyz, structure_name[structure_num])
     if no_footprint_toggle:

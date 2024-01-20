@@ -56,16 +56,21 @@ def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
     print(f"Fitting Cost: {fitted_cost}")
     print(f"Fitting Time: {fitted_time}")
 
-    # Summarize Results
+    # Determine XYZ Coordinates
     xyz = convert_to_xyz(fitted_moves, optimized_movements) * amino_acid_distance
     xyz = pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
     xyz = pd.concat([backbone_xyz[['ID', 'Amino Acid']], xyz], axis=1)
+
+    untilted_xyz = convert_to_xyz(fitted_moves, movements)
+    untilted_xyz = pd.DataFrame(untilted_xyz, columns=['X', 'Y', 'Z'])
+    untilted_xyz = pd.concat([backbone_xyz[['ID', 'Amino Acid']], untilted_xyz], axis=1)
+
     print('-' * 50)
     print(f"Total Cost: {structure_cost + fitted_cost}")
     print(f"Total Time: {tilt_time + fitted_time}")
     print('-' * 50)
 
-    return xyz
+    return xyz, untilted_xyz
 
 
 def get_movements(num_moves):
