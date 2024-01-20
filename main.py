@@ -51,11 +51,15 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
         xyz, untilted_xyz = create_structure(structure_num, pdb_file, pdb_id, multiprocess_toggle)
 
     print(f"Created {structure_name[structure_num]} Structure for {pdb_id}")
-    print(f"Printing XYZ for {structure_name[structure_num]} Structure...")
+    print(f"Printing Tilted XYZ for {structure_name[structure_num]} Structure...")
     print('-' * 50)
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
     print(xyz)
+    print('-' * 50)
+    print(f"Printing Untilted XYZ for {structure_name[structure_num]} Structure...")
+    print('-' * 50)
+    print(untilted_xyz)
     print('-' * 50)
 
     if report_toggle:
