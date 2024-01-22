@@ -245,6 +245,11 @@ def is_valid_moves(moves, possible_movements):
     # Efficiently compute the cumulative sum of movements
     xyz[1:] = np.cumsum(possible_movements[moves], axis=0, dtype=np.float16)
 
-    _, unique_indices = np.unique(xyz, axis=0, return_index=True)
+    # Check if any of the xyz coordinates are within 0.2 of each other
+    for i, point in enumerate(xyz):
+        distances = np.linalg.norm(xyz - point, axis=1)
+        distances[i] = np.inf  # Ignore the distance of the point to itself
+        if np.any(distances < 0.2):
+            return False
 
-    return len(unique_indices) == xyz.shape[0]
+    return True
