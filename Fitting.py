@@ -226,30 +226,24 @@ def get_cost(moves, cost_matrix):
 
 def is_valid_moves(moves, possible_movements):
     """
-    Check if a set of moves is valid based on the possible movements
+    Check if a set of moves is valid based on the possible movements.
     :param moves:
     :param possible_movements:
     :return: validity
     """
 
-    # Ensure moves is a NumPy array
     moves = np.array(moves, dtype=int)
 
-    # Check if possible_movements is a list of lists or a 2D NumPy array
     if isinstance(possible_movements, list):
-        possible_movements = np.array(possible_movements)
+        possible_movements = np.array(possible_movements, dtype=np.float32)
 
-    # Initialize the xyz array with the origin and correct size
-    xyz = np.zeros((len(moves) + 1, 3), dtype=np.float16)
+    xyz = np.zeros((len(moves) + 1, 3), dtype=np.float32)
+    xyz[1:] = np.cumsum(possible_movements[moves], axis=0)
 
-    # Efficiently compute the cumulative sum of movements
-    xyz[1:] = np.cumsum(possible_movements[moves], axis=0, dtype=np.float16)
-
-    # Check if any of the xyz coordinates are within 0.2 of each other
     for i, point in enumerate(xyz):
         distances = np.linalg.norm(xyz - point, axis=1)
         distances[i] = np.inf  # Ignore the distance of the point to itself
-        if np.any(distances < 0.2):
+        if np.any(np.isfinite(distances) & (distances < 0.2)):
             return False
 
     return True
