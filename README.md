@@ -122,11 +122,7 @@ Upon successful execution, the script will:
 
 - **GenerateReport.py**: This script is designed to generate comprehensive reports for protein structures transformed using PDB2Lattice. It involves downloading PDB files, creating modified PDB files, generating diagrams for visualization, and compiling all this information into detailed HTML reports. These reports include original and modified structures, interactive diagrams, and structural data comparisons.
 
-## Contribution
-
-The PDB2Lattice project cordially invites contributions from the community. Enthusiasts and professionals are encouraged to enhance the project's functionality by refining existing code, introducing novel features, or rectifying extant bugs. Interested parties may fork the repository and submit pull requests for review.
-
-### Potential Enhancements
+## Potential Improvements
 
 - **Extension to Multi-Chain Support**: Presently, PDB2Lattice is limited to handling single-chain structures. Expansion to accommodate multiple chains is a significant avenue for development.
 
