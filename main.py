@@ -15,6 +15,7 @@ from GenerateOutput.GeneratePDB import create_modified_pdb, download_pdb, check_
 from GenerateOutput.GenerateReport import create_report
 from PDB2Backbone import create_backbone
 from Structures import create_structure
+from Performance import calculate_tm_align
 
 
 def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
@@ -60,6 +61,13 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     print(f"Printing Untilted XYZ for {structure_name[structure_num]} Structure...")
     print('-' * 50)
     print(untilted_xyz)
+    print('-' * 50)
+
+    create_modified_pdb(pdb_id, xyz, structure_name[structure_num])
+
+    print('-' * 50)
+    tm_score = calculate_tm_align(pdb_file, f"GenerateOutput/PDB_Files/{pdb_id}_modified.pdb")
+    print(f"TM Score: {tm_score}")
     print('-' * 50)
 
     if report_toggle:

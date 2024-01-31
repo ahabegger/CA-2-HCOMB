@@ -1,12 +1,25 @@
 """
 Performance.py
 """
+import os
 
 import numpy as np
 
 
-def calculate_tm_align():
-    tm_score = 0
+def calculate_tm_align(template_pdb, modified_pdb):
+    """
+    Calculate the TM-Align score between two PDB files.
+    :param template_pdb:
+    :param modified_pdb:
+    :return:
+    """
+    # Run TM-Align
+    os.system(f".\TM-Align\TMalign {template_pdb} {modified_pdb} > TM-Align_Output.txt")
+
+    # Read the TM-Align output file
+    with open("TM-Align_Output.txt", 'r') as file:
+        tm_score = float(file.readlines()[21].split()[1])
+
     return tm_score
 
 
@@ -31,4 +44,3 @@ def calculate_rmsd(template_ca_xyz, target_ca_xyz):
     rmsd = np.sqrt(mean_diff_squared)
 
     return rmsd
-

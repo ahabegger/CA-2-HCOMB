@@ -51,7 +51,4 @@ def create_backbone(pdb_filepath):
                            'Y': coordinates[1],
                            'Z': coordinates[2]})
 
-    # Remove the PDB file
-    os.remove(pdb_filepath)
-
     return xyz_df
