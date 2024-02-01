@@ -1,8 +1,8 @@
-![PDB2Lattice](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/fb1433d3-45bc-4e03-8d53-4cbb5c65444a)
+![CA-2-HCOMB](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/fb1433d3-45bc-4e03-8d53-4cbb5c65444a)
 
-# PDB2Lattice: README
+# CA-2-HCOMB: README
 
-PDB2Lattice is a repository authored and managed by Alexander J. Habegger and stands at the forefront of simplifying protein structures. Its primary mission is to untangle the complexities inherent in protein data, transforming PDB files or IDs into more digestible and manageable forms. The software specializes in converting detailed protein structures of the Protein Data Bank into simplified models such as the CA Backbone, Square Tiling, and various honeycomb structures. These models are more comprehensible and retain the crucial structural information necessary for computation.
+CA-2-HCOMB is a repository by Alexander J. Habegger and stands at the forefront of simplifying protein structures. Its primary mission is to untangle the complexities inherent in protein data, transforming PDB files or IDs into more digestible and manageable forms. The software specializes in converting detailed protein structures of the Protein Data Bank into simplified models such as the CA Backbone, Square Tiling, and various honeycomb structures. These models are more comprehensible and retain the crucial structural information necessary for computation.
 
 ### Computational Efficiency
 
@@ -10,17 +10,17 @@ Simplifying structures remarkably reduces the computational power required for p
 
 ### User-Centric Design
 
-The tool is crafted with a focus on user experience. It accommodates various inputs and command-line arguments, enabling customization to meet diverse research needs and personal preferences. This user-centric design philosophy ensures that PDB2Lattice is accessible to a wide range of users, from seasoned researchers to students just beginning their exploration of protein structures.
+The tool is crafted with a focus on user experience. It accommodates various inputs and command-line arguments, enabling customization to meet diverse research needs and personal preferences. This user-centric design philosophy ensures that CA-2-HCOMB is accessible to a wide range of users, from seasoned researchers to students just beginning their exploration of protein structures.
 
 ## Related Repositories
 
-- [Lattice-2-Backbone](https://github.com/ahabegger/Lattice-2-Backbone): This repository contains the inverse of PDB2Lattice, converting simplified structures into CA Backbones.
+- [Lattice-2-Backbone](https://github.com/ahabegger/Lattice-2-Backbone): This repository contains the inverse of CA-2-HCOMB, converting simplified structures into CA Backbones.
 
-- [Quantum-Protein-Lattice-Folding](https://github.com/ahabegger/Quantum-Protein-Lattice-Folding): This repository contains the code for the Quantum Protein Lattice Folding project, which uses PDB2Lattice to generate simplified structures for quantum computing simulations.
+- [Quantum-Protein-Lattice-Folding](https://github.com/ahabegger/Quantum-Protein-Lattice-Folding): This repository contains the code for the Quantum Protein Lattice Folding project, which uses CA-2-HCOMB to generate simplified structures for quantum computing simulations.
 
 ## Types of Simplified Structures
 
-PDB2Lattice can transform complex protein structures into simplified models, each providing unique insights and perspectives. All simplification structures have an edge that is one unit long and is composed of convex shapes. These requirements allow the exclusion principle to be followed by making the alpha carbons placed at the vertices not too close to one another. The edges within the models represent the connection between consecutive amino acids. The tool supports the following types of simplified structures:
+CA-2-HCOMB can transform complex protein structures into simplified models, each providing unique insights and perspectives. All simplification structures have an edge that is one unit long and is composed of convex shapes. These requirements allow the exclusion principle to be followed by making the alpha carbons placed at the vertices not too close to one another. The edges within the models represent the connection between consecutive amino acids. The tool supports the following types of simplified structures:
 
 1. **Square Tiling**: A 2D geometric pattern where squares of identical size are arranged side by side, covering a plane without gaps or overlaps. The 2D model is derived from the XYZ coordinates of the alpha carbon backbone in the PDB file by having the amino acids projected onto the 2D plane. The simplification limits movement from one amino acid to another into 4 valid movements represented by [x, y]: [1, 0], [-1, 0], [0, 1], and [0, -1]. 
 
@@ -42,7 +42,7 @@ PDB2Lattice can transform complex protein structures into simplified models, eac
 
 ### Installation
 
-To use PDB2Lattice, please make sure you have Python installed on your system. Clone or download the repository using one of the following commands: 
+To use CA-2-HCOMB, please make sure you have Python installed on your system. Clone or download the repository using one of the following commands: 
 
 ```bash
 git clone https://github.com/ahabegger/PDB-2-Lattice.git
@@ -120,11 +120,11 @@ Upon successful execution, the script will:
 
 - **Fitting.py**: This script optimizes movements based on a cost matrix. It can use multiprocessing for parallel execution and includes functions for iteratively refining movements to achieve the lowest possible cost, using techniques like local search refinement and testing different combinations of movements.
 
-- **GenerateReport.py**: This script is designed to generate comprehensive reports for protein structures transformed using PDB2Lattice. It involves downloading PDB files, creating modified PDB files, generating diagrams for visualization, and compiling all this information into detailed HTML reports. These reports include original and modified structures, interactive diagrams, and structural data comparisons.
+- **GenerateReport.py**: This script is designed to generate comprehensive reports for protein structures transformed using CA-2-HCOMB. It involves downloading PDB files, creating modified PDB files, generating diagrams for visualization, and compiling all this information into detailed HTML reports. These reports include original and modified structures, interactive diagrams, and structural data comparisons.
 
 ## Potential Improvements
 
-- **Extension to Multi-Chain Support**: Presently, PDB2Lattice is limited to handling single-chain structures. Expansion to accommodate multiple chains is a significant avenue for development.
+- **Extension to Multi-Chain Support**: Presently, CA-2-HCOMB is limited to handling single-chain structures. Expansion to accommodate multiple chains is a significant avenue for development.
 
 - **Diversification of Test Batteries in Fitting Algorithm**: The current iteration of the fitting algorithm employs a static set of test batteries. Introducing the capability for users to input varied test batteries could significantly enhance the algorithm's adaptability.
 
@@ -132,13 +132,13 @@ Upon successful execution, the script will:
 
 - **Refinement of the Tilt Algorithm**: The tilt algorithm is restricted to a specific movement repertoire. Offering a mechanism for users to specify alternative movements would enhance its versatility.
 
-- **Report Generation for Multiple Structures**: The existing version of PDB2Lattice supports report generation for only single structures. A feature allowing for concurrently compiling reports for multiple structures would be beneficial.
+- **Report Generation for Multiple Structures**: The existing version of CA-2-HCOMB supports report generation for only single structures. A feature allowing for concurrently compiling reports for multiple structures would be beneficial.
 
-- **Enhancements in Report Generation**: The clarity and user-friendliness of the generated reports in the current version of PDB2Lattice need improvement. Revamping the report generation process to produce more comprehensible and accessible output is a crucial area for enhancement.
+- **Enhancements in Report Generation**: The clarity and user-friendliness of the generated reports in the current version of CA-2-HCOMB need improvement. Revamping the report generation process to produce more comprehensible and accessible output is a crucial area for enhancement.
 
 ## Licensing
 
-PDB2Lattice is released as open-source software under the MIT License. This license permits users to modify and distribute the software according to the license's stipulations.
+CA-2-HCOMB is released as open-source software under the MIT License. This license permits users to modify and distribute the software according to the license's stipulations.
 
 ## Contact 
 
