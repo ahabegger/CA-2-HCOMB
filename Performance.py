@@ -1,5 +1,7 @@
 """
 Performance.py
+To calculate the TM-Align score and Root-Mean-Square Deviation (RMSD)
+between two sets of xyz coordinates.
 """
 
 from tmtools import tm_align
@@ -30,7 +32,6 @@ def calculate_tm_score(template_xyz, modified_xyz, amino_acids):
 def calculate_rmsd(template_ca_xyz, target_ca_xyz):
     """
     Calculate the Root-Mean-Square Deviation (RMSD) between two sets of points.
-
     :param template_ca_xyz: Numpy array of xyz coordinates for the template
     :param target_ca_xyz: Numpy array of xyz coordinates for the target
     :return: rmsd value
@@ -54,7 +55,6 @@ def calculate_rmsd(template_ca_xyz, target_ca_xyz):
 def three_letter_amino_acid_to_one_letter(three_letter):
     """
     Convert a three-letter amino acid code to a one-letter code.
-
     :param three_letter: string
     :return: one_letter: string
     """
@@ -80,4 +80,5 @@ def three_letter_amino_acid_to_one_letter(three_letter):
         "TYR": "Y",
         "VAL": "V"
     }
+
     return one_letter.get(three_letter, "X")

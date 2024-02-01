@@ -14,7 +14,7 @@ from GenerateOutput.GenerateDiagram import plot_structure
 from GenerateOutput.GeneratePDB import create_modified_pdb, download_pdb, check_pdb_is_valid, count_chains_in_pdb
 from GenerateOutput.GenerateReport import create_report
 from PDB2Backbone import create_backbone
-from Structures import create_structure, get_amino_acid_distance
+from Structures import create_structure
 from Performance import calculate_tm_score, calculate_rmsd
 
 
@@ -51,7 +51,6 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     else:  # Structure Simplification
         xyz, untilted_xyz = create_structure(structure_num, pdb_file, pdb_id, multiprocess_toggle)
 
-
     print(f"Created {structure_name[structure_num]} Structure for {pdb_id}")
     print(f"Printing Tilted XYZ for {structure_name[structure_num]} Structure...")
     print('-' * 50)
@@ -64,6 +63,7 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     print(untilted_xyz)
     print('-' * 50)
 
+    # Prepare Data for TM-Align and RMSD
     backbone_xyz = create_backbone(pdb_file)
     amino_acids = backbone_xyz['Amino Acid']
     backbone_xyz = backbone_xyz[['X', 'Y', 'Z']]
