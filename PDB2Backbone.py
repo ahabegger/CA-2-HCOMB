@@ -7,7 +7,6 @@ protein's backbone, thus providing a structural representation of the protein fo
 further analysis or manipulation.
 """
 
-import os
 import pandas as pd
 from Bio import PDB
 
