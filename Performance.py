@@ -7,6 +7,15 @@ between two sets of xyz coordinates.
 from tmtools import tm_align
 import numpy as np
 
+"""
+tmtools is a Python package that provides a wrapper for the TM-Align executable. It allows you to use TM-Align in 
+your Python code.TM-Align Algorithm has been developed by Dr. Yang Zhang and his team: 
+Y. Zhang, J. Skolnick, 
+Scoring function for automated assessment of protein structure template quality, Proteins, 57: 702-710 (2004). 
+J. Xu, Y. Zhang, 
+How significant is a protein structure similarity with TM-score=0.5? Bioinformatics, 26, 889-895 (2010).
+"""
+
 
 def calculate_tm_score(template_xyz, modified_xyz, amino_acids):
     """

@@ -14,7 +14,7 @@ The tool is crafted with a focus on user experience. It accommodates various inp
 
 ## Related Repositories
 
-- [Lattice-2-Backbone](https://github.com/ahabegger/Lattice-2-Backbone): This repository contains the inverse of CA-2-HCOMB, converting simplified structures into CA Backbones.
+- [HCOMB-2-CA](https://github.com/ahabegger/HCOMB-2-CA): This repository contains the inverse of CA-2-HCOMB, converting simplified honeycomb structures into a CA backbones.
 
 - [Quantum-Protein-Lattice-Folding](https://github.com/ahabegger/Quantum-Protein-Lattice-Folding): This repository contains the code for the Quantum Protein Lattice Folding project, which uses CA-2-HCOMB to generate simplified structures for quantum computing simulations.
 
@@ -136,9 +136,29 @@ Upon successful execution, the script will:
 
 - **Enhancements in Report Generation**: The clarity and user-friendliness of the generated reports in the current version of CA-2-HCOMB need improvement. Revamping the report generation process to produce more comprehensible and accessible output is a crucial area for enhancement.
 
-## Licensing
+## Licensing & Credits
 
-CA-2-HCOMB is released as open-source software under the MIT License. This license permits users to modify and distribute the software according to the license's stipulations.
+CA-2-HCOMB is released as open-source software under the [MIT License](https://github.com/ahabegger/CA-2-HCOMB/blob/main/LICENSE). This license permits users to modify and distribute the software according to the license's stipulations.
+
+[TM-Align](https://zhanggroup.org/TM-score/) used in Python wrapper TM-Tools is developed by Yang Zhang and Jianyi Yang, and the software version 20210224 is licensed under the MIT license. The TM-Align algorithm is described in the following paper:
+- Y. Zhang, J. Skolnick, _Scoring function for automated assessment of protein structure template quality_, Proteins, 57: 702-710 (2004). [Link](https://pubmed.ncbi.nlm.nih.gov/15476259/)
+- J. Xu, Y. Zhang, _How significant is a protein structure similarity with TM-score=0.5?_ Bioinformatics, 26, 889-895 (2010). [Link](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2913670/)
+
+[TM-Tools](https://pypi.org/project/tmtools/) wrapper and modifications are also released under the MIT License.
+
+[Pandas](https://pandas.pydata.org/docs/) is an open source, BSD-licensed dependency.
+
+[NumPy](https://github.com/numpy/numpy/tree/main) is an open source, BSD-licensed dependency.
+
+[Requests](https://pypi.org/project/requests/) uses the Apache Software License (Apache 2.0).
+
+[NGLView](https://pypi.org/project/nglview/) is released under the MIT License.
+
+[Matplotlib](https://pypi.org/project/matplotlib/) is released under the Python Software Foundation License (PSF).
+
+[BioPython](https://pypi.org/project/biopython/) is open source and released under the Biopython License Agreement and BSD License ([See Details](https://github.com/biopython/biopython/blob/master/LICENSE.rst)).
+
+[Dr. Khodakhast Bibak](https://sites.miamioh.edu/khodakhast-bibaks-homepage/?_ga=2.165577279.1008085691.1706802775-453988590.1704227413) advised at each step of the development of this project, and his guidance was invaluable.
 
 ## Contact 
 
