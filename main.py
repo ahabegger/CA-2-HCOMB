@@ -12,7 +12,7 @@ import os
 import pandas as pd
 from GenerateOutput.GenerateDiagram import plot_structure
 from GenerateOutput.GeneratePDB import create_modified_pdb, download_pdb, check_pdb_is_valid, count_chains_in_pdb
-from GenerateOutput.GenerateReport import create_report
+from GenerateOutput.GenerateReport import create_report, start_at_zero
 from PDB2Backbone import create_backbone
 from Structures import create_structure
 from Performance import calculate_tm_score, calculate_rmsd
@@ -67,7 +67,8 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     backbone_xyz = create_backbone(pdb_file)
     amino_acids = backbone_xyz['Amino Acid']
     backbone_xyz = backbone_xyz[['X', 'Y', 'Z']]
-    model_xyz = xyz[['X', 'Y', 'Z']]
+    backbone_xyz = start_at_zero(backbone_xyz).to_numpy()
+    model_xyz = xyz[['X', 'Y', 'Z']].to_numpy()
 
     # Calculate TM-Align Score and RMSD
     tm_score = calculate_tm_score(backbone_xyz, model_xyz, amino_acids)
