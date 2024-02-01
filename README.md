@@ -92,7 +92,7 @@ Run `main.py` from the command line, providing the necessary arguments. For exam
 python main.py 1A0M 6 -v -r --output_xyz "output_structure.xyz" --output_pdb "output_structure.pdb"
 ```
 
-This command processes the PDB code `1A0M`, creates a Square Tiling structure, visualizes it, generates a report, and outputs the results in XYZ and PDB formats. Here is the visualization of the Square Tiling structure for the PDB code `1A0M`:
+This command processes the PDB code `1A0M`, creates a Cubic Honeycomb structure, visualizes the structure using Matplotlib, generates a report, and outputs the new structure in both XYZ and PDB formats.
 
 ![1A0M](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/aea10afb-1893-4a1f-b26b-e747f70705fa)
 
@@ -107,28 +107,14 @@ Upon successful execution, the script will:
 - Generate visualization plots (if `-v` is used).
 - Create a detailed report (if `-r` is used).
 - Output the structure in XYZ and PDB formats (if specified).
-
-## Features
-
-- **main.py**: This is the core script of the repository. It processes protein structures from PDB files or IDs, converting them into simplified structural representations. The script offers functionalities for creating various structural models (e.g., CA Backbone, Cubic Honeycomb), generating reports, visualizing structures, and exporting results in XYZ or PDB formats. It is designed to handle user input and command-line arguments to customize the processing according to specific requirements.
-
-- **Structures.py**: This script generates a structure based on input parameters such as the number of moves and a PDB file. It optimizes the structure using tilt and fitting algorithms, starting with constructing a backbone structure from a PDB file, defining movements, applying optimization techniques to refine the structure, and finally returning the optimized XYZ coordinates.
-
-- **Tilting.py**: This module defines functions for optimizing the tilt of a set of movements concerning a backbone structure defined by XYZ coordinates. The primary function, `optimize_tilt`, iteratively rotates the movements in 3D space, evaluating each rotation using a cost function to find the optimal combination of movements. Auxiliary functions like `rotate_movements`, `create_cost_matrix`, and `get_cost` support this process.
-
-- **PDB2Backbone.py**: This script is used to parse a given PDB file and extract the backbone structure of a protein. It creates a DataFrame containing the amino acid sequence and the corresponding X, Y, Z coordinates of each alpha carbon (CA) atom in the protein's backbone, facilitating further analysis or manipulation.
-
-- **Fitting.py**: This script optimizes movements based on a cost matrix. It can use multiprocessing for parallel execution and includes functions for iteratively refining movements to achieve the lowest possible cost, using techniques like local search refinement and testing different combinations of movements.
-
-- **GenerateReport.py**: This script is designed to generate comprehensive reports for protein structures transformed using CA-2-HCOMB. It involves downloading PDB files, creating modified PDB files, generating diagrams for visualization, and compiling all this information into detailed HTML reports. These reports include original and modified structures, interactive diagrams, and structural data comparisons.
+- Output the TM-Align score of the original and simplified structure.
+- Output the RMSD score of the original and simplified structure.
 
 ## Potential Improvements
 
 - **Extension to Multi-Chain Support**: Presently, CA-2-HCOMB is limited to handling single-chain structures. Expansion to accommodate multiple chains is a significant avenue for development.
 
 - **Diversification of Test Batteries in Fitting Algorithm**: The current iteration of the fitting algorithm employs a static set of test batteries. Introducing the capability for users to input varied test batteries could significantly enhance the algorithm's adaptability.
-
-- **Customization of Cost Functions in Fitting Algorithm**: The algorithm currently operates with a predetermined cost function. Enabling user-defined cost functions, such as those focusing on the congruence of current XYZ coordinates with the backbone structure, would be a valuable improvement.
 
 - **Refinement of the Tilt Algorithm**: The tilt algorithm is restricted to a specific movement repertoire. Offering a mechanism for users to specify alternative movements would enhance its versatility.
 
