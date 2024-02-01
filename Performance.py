@@ -1,26 +1,30 @@
 """
 Performance.py
 """
-import os
 
+from tmtools import tm_align
 import numpy as np
 
 
-def calculate_tm_align(template_pdb, modified_pdb):
+def calculate_tm_score(template_xyz, modified_xyz, amino_acids):
     """
-    Calculate the TM-Align score between two PDB files.
-    :param template_pdb:
-    :param modified_pdb:
-    :return:
+    Calculate the TM-Align score between two sets of xyz coordinates.
+
+    :param amino_acids: Amino acids in the structure
+    :param template_xyz: Numpy array of xyz coordinates for the template
+    :param modified_xyz: Numpy array of xyz coordinates for the modified structure
+    :return: tm_score
     """
-    # Run TM-Align
-    os.system(f".\TM-Align\TMalign {template_pdb} {modified_pdb} > TM-Align_Output.txt")
 
-    # Read the TM-Align output file
-    with open("TM-Align_Output.txt", 'r') as file:
-        tm_score = float(file.readlines()[21].split()[1])
+    # Convert the amino acids to a string
+    sequence = ''
+    amino_acids.tolist()
+    for acid in amino_acids:
+        sequence += three_letter_amino_acid_to_one_letter(acid)
 
-    return tm_score
+    # Calculate the TM-Align score
+    tm_score = tm_align(template_xyz, modified_xyz, sequence, sequence)
+    return tm_score.tm_norm_chain2
 
 
 def calculate_rmsd(template_ca_xyz, target_ca_xyz):
@@ -31,6 +35,7 @@ def calculate_rmsd(template_ca_xyz, target_ca_xyz):
     :param target_ca_xyz: Numpy array of xyz coordinates for the target
     :return: rmsd value
     """
+
     if template_ca_xyz.shape != target_ca_xyz.shape:
         raise ValueError("The input arrays must have the same shape.")
 
@@ -44,3 +49,35 @@ def calculate_rmsd(template_ca_xyz, target_ca_xyz):
     rmsd = np.sqrt(mean_diff_squared)
 
     return rmsd
+
+
+def three_letter_amino_acid_to_one_letter(three_letter):
+    """
+    Convert a three-letter amino acid code to a one-letter code.
+
+    :param three_letter: string
+    :return: one_letter: string
+    """
+    one_letter = {
+        "ALA": "A",
+        "ARG": "R",
+        "ASN": "N",
+        "ASP": "D",
+        "CYS": "C",
+        "GLN": "Q",
+        "GLU": "E",
+        "GLY": "G",
+        "HIS": "H",
+        "ILE": "I",
+        "LEU": "L",
+        "LYS": "K",
+        "MET": "M",
+        "PHE": "F",
+        "PRO": "P",
+        "SER": "S",
+        "THR": "T",
+        "TRP": "W",
+        "TYR": "Y",
+        "VAL": "V"
+    }
+    return one_letter.get(three_letter, "X")

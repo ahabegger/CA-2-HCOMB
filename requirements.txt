@@ -4,3 +4,4 @@ requests~=2.31.0
 nglview~=3.0.8
 matplotlib~=3.8.2
 bio~=1.6.0
+tmtools~=0.0.3
