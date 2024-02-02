@@ -15,7 +15,7 @@ from GenerateOutput.GeneratePDB import create_modified_pdb, download_pdb, check_
 from GenerateOutput.GenerateReport import create_report, start_at_zero
 from PDB2Backbone import create_backbone
 from Structures import create_structure
-from Performance import calculate_tm_score, calculate_rmsd
+from Performance import calculate_tm_score, calculate_rmsd, calculate_rnm_score
 
 
 def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
@@ -75,6 +75,9 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     print(f"TM Score: {tm_score}")
     rmsd_score = calculate_rmsd(backbone_xyz, model_xyz)
     print(f"RMSD Score: {rmsd_score}")
+    rnm_score_radians, rnm_score_degrees = calculate_rnm_score(backbone_xyz, model_xyz)
+    print(f"RNM Score in Radians: {rnm_score_radians}")
+    print(f"RNM Score in Degrees: {rnm_score_degrees}")
     print('-' * 50)
 
     if report_toggle:
@@ -90,6 +93,8 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
             os.remove(f"GenerateOutput/PDB_Files/{pdb_id}_modified.pdb")
     if visualize_toggle:
         plot_structure(xyz, title=f"{structure_name[structure_num]} Structure ({str(structure_num)}) for {pdb_id}")
+
+    exit(0)
 
 
 def argument_parser():

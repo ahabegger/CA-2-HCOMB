@@ -68,6 +68,38 @@ def calculate_rmsd(template_ca_xyz, target_ca_xyz):
     return rmsd
 
 
+def calculate_rnm_score(template_xyz, modified_xyz):
+    """
+    Calculate the RNM-Align score between two sets of xyz coordinates.
+    :param template_xyz: Numpy array of xyz coordinates for the template
+    :param modified_xyz: Numpy array of xyz coordinates for the modified structure
+    :return: rnm_score
+    """
+
+    n = template_xyz.shape[0]
+    total = 0
+
+    for i in range(n-1):
+        template_m = template_xyz[i+1] - template_xyz[i]
+        template_norm = np.linalg.norm(template_m)
+        template_m = template_m / template_norm
+        modified_m = modified_xyz[i+1] - modified_xyz[i]
+        modified_norm = np.linalg.norm(modified_m)
+        modified_m = modified_m / modified_norm
+        dot_product = np.dot(template_m, modified_m)
+
+        # Ensure the dot product is clamped between -1 and 1 for the arccos function
+        dot_product_clamped = np.clip(dot_product, -1.0, 1.0)
+
+        angle = np.arccos(dot_product_clamped)
+        total += angle
+
+    rnm_score_radians = (1 / (n-1)) * total
+    rnm_score_degrees = rnm_score_radians * (180 / np.pi)
+
+    return rnm_score_radians, rnm_score_degrees
+
+
 def three_letter_amino_acid_to_one_letter(three_letter):
     """
     Convert a three-letter amino acid code to a one-letter code.
