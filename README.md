@@ -126,7 +126,7 @@ Upon successful execution, the script will:
 
 CA-2-HCOMB is released as open-source software under the [MIT License](https://github.com/ahabegger/CA-2-HCOMB/blob/main/LICENSE). This license permits users to modify and distribute the software according to the license's stipulations.
 
-[TM-Align](https://zhanggroup.org/TM-score/) used in Python wrapper TM-Tools is developed by Yang Zhang and Jianyi Yang, and the software version 20210224 is licensed under the MIT license. The TM-Align algorithm is described in the following paper:
+[TM-Align](https://zhanggroup.org/TM-score/) used in Python wrapper TM-Tools was developed by Yang Zhang and Jianyi Yang, and the software version 20210224 is licensed under the GPL v3 license. The TM-Align algorithm is described in the following paper:
 - Y. Zhang, J. Skolnick, _Scoring function for automated assessment of protein structure template quality_, Proteins, 57: 702-710 (2004). [Link](https://pubmed.ncbi.nlm.nih.gov/15476259/)
 - J. Xu, Y. Zhang, _How significant is a protein structure similarity with TM-score=0.5?_ Bioinformatics, 26, 889-895 (2010). [Link](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2913670/)
 
