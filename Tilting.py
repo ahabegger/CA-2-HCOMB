@@ -86,7 +86,7 @@ def create_cost_matrix(ca_trace, movements):
     :return: cost_matrix
     """
 
-    # Compute movement vectors and their magnitudes
+    # Compute normalized movement vectors
     movement_vectors = ca_trace[1:] - ca_trace[:-1]
     magnitudes = np.linalg.norm(movement_vectors, axis=1)
 
@@ -95,14 +95,20 @@ def create_cost_matrix(ca_trace, movements):
 
     # Iterate over movements to calculate costs
     for i, movement in enumerate(movements):
-        # Convert movement to float32
+        # Convert movement to float16
         movement = np.array(movement, dtype=np.float16)
 
         # Normalize movement vectors and compute the cost
         # Handle zero magnitudes to avoid division by zero
         norm_movement_vectors = movement_vectors / magnitudes[:, np.newaxis]
         norm_movement_vectors[magnitudes == 0] = 0
-        cost_matrix[:, i] = np.linalg.norm(norm_movement_vectors - movement, axis=1)
+
+        # Compute the dot product between the normalized movement vectors and the movement
+        dot_product = np.dot(norm_movement_vectors, movement)
+        dot_product_clamped = np.clip(dot_product, -1.0, 1.0)
+
+        # Compute the arccos of the clamped dot product
+        cost_matrix[:, i] = np.arccos(dot_product_clamped)
 
     # Find the minimum value in each row
     lowest_costs = np.min(cost_matrix, axis=1)
