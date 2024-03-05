@@ -4,7 +4,7 @@ To calculate the TM-Align score and Root-Mean-Square Deviation (RMSD)
 between two sets of xyz coordinates.
 """
 
-from tmtools import tm_align
+import tmtools
 import numpy as np
 
 """
@@ -34,7 +34,7 @@ def calculate_tm_score(template_xyz, modified_xyz, amino_acids):
         sequence += three_letter_amino_acid_to_one_letter(acid)
 
     # Calculate the TM-Align score
-    tm_results = tm_align(template_xyz, modified_xyz, sequence, sequence)
+    tm_results = tmtools.tm_align(template_xyz, modified_xyz, sequence, sequence)
 
     # Get the TM-Align score
     # tm_norm_chain1 is the TM-score normalized by the length of the first chain

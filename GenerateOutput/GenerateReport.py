@@ -10,7 +10,7 @@ and modified structures, along with interactive diagrams and structural data.
 import pandas as pd
 import GenerateOutput.GenerateDiagram as diagrams
 import GenerateOutput.GeneratePDB as pdb
-from PDB2Backbone import create_backbone
+from PDB2CA import create_trace
 
 
 def create_report(pdb_code, output_xyz, structure):
@@ -74,11 +74,11 @@ def write_report_html(pdb_code, structure, xyz):
 
     intermediate = f'<h3>Intermediate Model</h3>\n'
 
-    backbone = create_backbone(f"GenerateOutput/PDB_Files/{pdb_code}.pdb")
-    plot_filename = f"GenerateOutput/Reports/Plots/{pdb_code}_backbone.png"
-    backbone_plot = diagrams.plot_structure_to_image(backbone[['X', 'Y', 'Z']],
+    ca_trace = create_trace(f"GenerateOutput/PDB_Files/{pdb_code}.pdb")
+    plot_filename = f"GenerateOutput/Reports/Plots/{pdb_code}_trace.png"
+    ca_trace_plot = diagrams.plot_structure_to_image(ca_trace[['X', 'Y', 'Z']],
                                                      plot_filename,
-                                                     title="CA Backbone Structure")
+                                                     title="CA Trace Structure")
 
     middle = f'<h3>Output Model</h3>\n' \
              f'<p>GenerateOutput/PDB_Files/{pdb_code}_modified.pdb</p>\n'
@@ -93,14 +93,14 @@ def write_report_html(pdb_code, structure, xyz):
     output_diagram = output_plot + output_diagram
 
     compare = f'<h3>Comparison XYZ</h3>\n'
-    backbone = start_at_zero(backbone)
-    backbone = backbone.rename(columns={'X': 'Backbone_X', 'Y': 'Backbone_Y', 'Z': 'Backbone_Z'})
+    ca_trace = start_at_zero(ca_trace)
+    ca_trace = ca_trace.rename(columns={'X': 'Trace_X', 'Y': 'Trace_Y', 'Z': 'Trace_Z'})
     xyz = xyz.rename(columns={'X': 'Output_X', 'Y': f'Output_Y', 'Z': f'Output_Z'})
     xyz = xyz.drop(columns=['ID', 'Amino Acid'])
-    combined_df = pd.concat([backbone, xyz], axis=1)
+    combined_df = pd.concat([ca_trace, xyz], axis=1)
     combined_table = combined_df.to_html()
 
-    html = (top + input_diagram + intermediate + backbone_plot + middle +
+    html = (top + input_diagram + intermediate + ca_trace_plot + middle +
             output_diagram + compare + combined_table + bottom)
 
     with open(f"GenerateOutput/Reports/{pdb_code}_{structure.replace(' ', '_')}.html", 'w') as file:

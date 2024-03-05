@@ -1,7 +1,7 @@
 """
 Tilting.py
 Defines functions for optimizing the tilt of a given set of movements with respect
-to a backbone structure defined by XYZ coordinates. The primary function, `optimize_tilt`,
+to a CA trace structure defined by XYZ coordinates. The primary function, `optimize_tilt`,
 iteratively rotates the movements in 3D space, evaluating each rotation using a cost function
 to find the combination of movements that minimizes the cost. Auxiliary functions
 `rotate_movements`, `create_cost_matrix`, and `get_cost` support this process by handling
@@ -12,16 +12,16 @@ respectively.
 import numpy as np
 
 
-def optimize_tilt(backbone_xyz, movements):
+def optimize_tilt(ca_trace, movements):
     """
-    Optimize the tilt of a given set of movements with respect to a backbone structure
-    :param backbone_xyz:
+    Optimize the tilt of a given set of movements with respect to a CA trace structure
+    :param ca_trace:
     :param movements:
     :return:  lowest_movements, cost_matrix, lowest_sum, [x, y, z]
     """
 
-    backbone_xyz_np = backbone_xyz[['X', 'Y', 'Z']].to_numpy()
-    lowest_sum = get_cost(backbone_xyz_np, movements)
+    ca_trace_np = ca_trace[['X', 'Y', 'Z']].to_numpy()
+    lowest_sum = get_cost(ca_trace_np, movements)
     lowest_movements = movements
 
     x, y, z = 0, 0, 0
@@ -31,7 +31,7 @@ def optimize_tilt(backbone_xyz, movements):
             for k in np.arange(0, 375, 10):
                 if 0 <= i <= 360 and 0 <= j <= 360 and 0 <= k <= 360:
                     tilt_movements = rotate_movements(movements, i, j, k)
-                    current_sum = get_cost(backbone_xyz_np, tilt_movements)
+                    current_sum = get_cost(ca_trace_np, tilt_movements)
                     if current_sum < lowest_sum:
                         lowest_sum = current_sum
                         lowest_movements = tilt_movements
@@ -42,14 +42,14 @@ def optimize_tilt(backbone_xyz, movements):
             for k in np.arange(z - 10, z + 10):
                 if 0 <= i <= 360 and 0 <= j <= 360 and 0 <= k <= 360:
                     tilt_movements = rotate_movements(movements, i, j, k)
-                    current_sum = get_cost(backbone_xyz_np, tilt_movements)
+                    current_sum = get_cost(ca_trace_np, tilt_movements)
                     if current_sum < lowest_sum:
                         lowest_sum = current_sum
                         lowest_movements = tilt_movements
                         x, y, z = i, j, k
 
     # Create normalized cost matrix
-    cost_matrix = create_cost_matrix(backbone_xyz_np, lowest_movements)
+    cost_matrix = create_cost_matrix(ca_trace_np, lowest_movements)
 
     return lowest_movements, cost_matrix, lowest_sum, [x, y, z]
 
@@ -78,16 +78,16 @@ def rotate_movements(movements, degree_x, degree_y, degree_z):
     return changed_movements
 
 
-def create_cost_matrix(backbone_xyz_np, movements):
+def create_cost_matrix(ca_trace, movements):
     """
     Create a cost matrix for the given movements
-    :param backbone_xyz_np:
+    :param ca_trace: NP Array
     :param movements:
     :return: cost_matrix
     """
 
     # Compute movement vectors and their magnitudes
-    movement_vectors = backbone_xyz_np[1:] - backbone_xyz_np[:-1]
+    movement_vectors = ca_trace[1:] - ca_trace[:-1]
     magnitudes = np.linalg.norm(movement_vectors, axis=1)
 
     # Initialize the cost matrix
@@ -113,16 +113,16 @@ def create_cost_matrix(backbone_xyz_np, movements):
     return cost_matrix
 
 
-def get_cost(backbone_xyz_np, movements):
+def get_cost(ca_trace, movements):
     """
     Get the cost of the given movements
-    :param backbone_xyz_np:
+    :param ca_trace: NP Array
     :param movements:
     :return: cost
     """
 
     # Compute movement vectors and their magnitudes
-    movement_vectors = backbone_xyz_np[1:] - backbone_xyz_np[:-1]
+    movement_vectors = ca_trace[1:] - ca_trace[:-1]
     magnitudes = np.linalg.norm(movement_vectors, axis=1)
 
     # Initialize the cost matrix

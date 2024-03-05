@@ -2,7 +2,7 @@
 Structures.py
 Generate a structure based on the input parameters like the number of moves and a PDB file,
 then optimize the structure using tilt and fitting algorithms. The code begins by
-constructing a backbone structure from a PDB file, defines movements based on the number
+constructing a CA trace structure from a PDB file, defines movements based on the number
 of moves, and then applies optimization techniques to refine the structure, finally
 returning the optimized XYZ coordinates.
 """
@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import Tilting as tilt
 from Fitting import fitting_algorithm
-from PDB2Backbone import create_backbone
+from PDB2CA import create_trace
 
 
 def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
@@ -26,9 +26,9 @@ def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
     :return: xyz
     """
 
-    # Create Backbone
-    backbone_xyz = create_backbone(pdb_filepath)
-    amino_acid_distance = get_amino_acid_distance(backbone_xyz[['X', 'Y', 'Z']])
+    # Create CA Trace and Get Amino Acid Distance
+    ca_trace = create_trace(pdb_filepath)
+    amino_acid_distance = get_amino_acid_distance(ca_trace[['X', 'Y', 'Z']])
 
     # Get Structure Name and Movements
     structure_name, movements = get_movements(num_moves)
@@ -41,7 +41,7 @@ def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
     print('-' * 50)
     print("TILT OPTIMIZATION")
     start_time = time.time()
-    optimized_movements, cost_matrix, structure_cost, rotations = tilt.optimize_tilt(backbone_xyz, movements)
+    optimized_movements, cost_matrix, structure_cost, rotations = tilt.optimize_tilt(ca_trace, movements)
     tilt_time = time.time() - start_time
     print(f"Rotations: {rotations[0]} around X-Axis, {rotations[1]} around Y-Axis, {rotations[2]} around Z-Axis")
     print(f"Structure Cost: {structure_cost}")
@@ -59,11 +59,11 @@ def create_structure(num_moves, pdb_filepath, pdb_code, multiprocess_toggle):
     # Determine XYZ Coordinates
     xyz = convert_to_xyz(fitted_moves, optimized_movements) * amino_acid_distance
     xyz = pd.DataFrame(xyz, columns=['X', 'Y', 'Z'])
-    xyz = pd.concat([backbone_xyz[['ID', 'Amino Acid']], xyz], axis=1)
+    xyz = pd.concat([ca_trace[['ID', 'Amino Acid']], xyz], axis=1)
 
     untilted_xyz = convert_to_xyz(fitted_moves, movements)
     untilted_xyz = pd.DataFrame(untilted_xyz, columns=['X', 'Y', 'Z'])
-    untilted_xyz = pd.concat([backbone_xyz[['ID', 'Amino Acid']], untilted_xyz], axis=1)
+    untilted_xyz = pd.concat([ca_trace[['ID', 'Amino Acid']], untilted_xyz], axis=1)
 
     print('-' * 50)
     print(f"Total Cost: {structure_cost + fitted_cost}")

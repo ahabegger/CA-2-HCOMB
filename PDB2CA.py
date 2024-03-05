@@ -1,9 +1,9 @@
 """
-PDB2Backbone.py
-Parse a given PDB (Protein Data Bank) file and extract the backbone structure of
+PDB2CA.py
+Parse a given PDB (Protein Data Bank) file and extract the CA trace structure of
 a protein. It focuses on creating a DataFrame containing the amino acid sequence
 and the corresponding X, Y, Z coordinates of each alpha carbon (CA) atom in the
-protein's backbone, thus providing a structural representation of the protein for
+protein's CA trace, thus providing a structural representation of the protein for
 further analysis or manipulation.
 """
 
@@ -11,7 +11,7 @@ import pandas as pd
 from Bio import PDB
 
 
-def create_backbone(pdb_filepath):
+def create_trace(pdb_filepath):
     """
     Create a DataFrame containing the amino acid sequence and the corresponding X, Y, Z
     :param pdb_filepath:

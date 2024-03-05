@@ -13,7 +13,7 @@ import pandas as pd
 from GenerateOutput.GenerateDiagram import plot_structure
 from GenerateOutput.GeneratePDB import create_modified_pdb, download_pdb, check_pdb_is_valid, count_chains_in_pdb
 from GenerateOutput.GenerateReport import create_report, start_at_zero
-from PDB2Backbone import create_backbone
+from PDB2CA import create_trace
 from Structures import create_structure
 from Performance import calculate_tm_score, calculate_rmsd, calculate_rnm_score
 
@@ -37,16 +37,16 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
 
     structure_num = int(structure_num)
     structure_name = {
-        1: "CA Backbone",
+        1: "CA Trace",
         4: "Square Tiling",
         6: "Cubic Honeycomb",
         8: "Triangular Prismatic Honeycomb",
         12: "Tetrahedral-Octahedral Honeycomb"
     }
 
-    if structure_num == 1:  # CA Backbone Structure
-        print(f"Creating CA Backbone for {pdb_file}")
-        xyz = create_backbone(pdb_file)
+    if structure_num == 1:  # CA Trace Structure
+        print(f"Creating CA Trace for {pdb_file}")
+        xyz = create_trace(pdb_file)
         untilted_xyz = xyz.copy()
     else:  # Structure Simplification
         xyz, untilted_xyz = create_structure(structure_num, pdb_file, pdb_id, multiprocess_toggle)
@@ -64,18 +64,18 @@ def execute(pdb_id, pdb_file, structure_num, visualize_toggle,
     print('-' * 50)
 
     # Prepare Data for TM-Align and RMSD
-    backbone_xyz = create_backbone(pdb_file)
-    amino_acids = backbone_xyz['Amino Acid']
-    backbone_xyz = backbone_xyz[['X', 'Y', 'Z']]
-    backbone_xyz = start_at_zero(backbone_xyz).to_numpy()
+    ca_trace_xyz = create_trace(pdb_file)
+    amino_acids = ca_trace_xyz['Amino Acid']
+    ca_trace_xyz = ca_trace_xyz[['X', 'Y', 'Z']]
+    ca_trace_xyz = start_at_zero(ca_trace_xyz).to_numpy()
     model_xyz = xyz[['X', 'Y', 'Z']].to_numpy()
 
     # Calculate TM-Align Score and RMSD
-    tm_score = calculate_tm_score(backbone_xyz, model_xyz, amino_acids)
+    tm_score = calculate_tm_score(ca_trace_xyz, model_xyz, amino_acids)
     print(f"TM Score: {tm_score}")
-    rmsd_score = calculate_rmsd(backbone_xyz, model_xyz)
+    rmsd_score = calculate_rmsd(ca_trace_xyz, model_xyz)
     print(f"RMSD Score: {rmsd_score}")
-    rnm_score_radians, rnm_score_degrees = calculate_rnm_score(backbone_xyz, model_xyz)
+    rnm_score_radians, rnm_score_degrees = calculate_rnm_score(ca_trace_xyz, model_xyz)
     print(f"RNM Score in Radians: {rnm_score_radians}")
     print(f"RNM Score in Degrees: {rnm_score_degrees}")
     print('-' * 50)

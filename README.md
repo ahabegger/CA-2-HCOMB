@@ -14,7 +14,7 @@ The tool is crafted with a focus on user experience. It accommodates various inp
 
 ## Related Repositories
 
-- [HCOMB-2-CA](https://github.com/ahabegger/HCOMB-2-CA): This repository contains the inverse of CA-2-HCOMB, converting simplified honeycomb structures into a CA backbones.
+- [HCOMB-2-CA](https://github.com/ahabegger/HCOMB-2-CA): This repository contains the inverse of CA-2-HCOMB, converting simplified honeycomb structures into a CA Trace.
 
 - [Quantum-Protein-Lattice-Folding](https://github.com/ahabegger/Quantum-Protein-Lattice-Folding): This repository contains the code for the Quantum Protein Lattice Folding project, which uses CA-2-HCOMB to generate simplified structures for quantum computing simulations.
 
@@ -22,11 +22,11 @@ The tool is crafted with a focus on user experience. It accommodates various inp
 
 CA-2-HCOMB can transform complex protein structures into simplified models, each providing unique insights and perspectives. All simplification structures have an edge that is one unit long and is composed of convex shapes. These requirements allow the exclusion principle to be followed by making the alpha carbons placed at the vertices not too close to one another. The edges within the models represent the connection between consecutive amino acids. The tool supports the following types of simplified structures:
 
-1. **Square Tiling**: A 2D geometric pattern where squares of identical size are arranged side by side, covering a plane without gaps or overlaps. The 2D model is derived from the XYZ coordinates of the alpha carbon backbone in the PDB file by having the amino acids projected onto the 2D plane. The simplification limits movement from one amino acid to another into 4 valid movements represented by [x, y]: [1, 0], [-1, 0], [0, 1], and [0, -1]. 
+1. **Square Tiling**: A 2D geometric pattern where squares of identical size are arranged side by side, covering a plane without gaps or overlaps. The 2D model is derived from the XYZ coordinates of the alpha carbon trace in the PDB file by having the amino acids projected onto the 2D plane. The simplification limits movement from one amino acid to another into 4 valid movements represented by [x, y]: [1, 0], [-1, 0], [0, 1], and [0, -1]. 
 
 ![square_tiling](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/be712d5b-aebd-4b24-ac7a-dcf0e99d76fc)
 
-2. **Cubic Honeycomb**: A 3D geometric structure of cubes arranged in a continuous pattern. This honeycomb tessellation features cubes that are aligned and stacked in such a way as to fill space without any gaps or overlaps, showcasing perfect symmetry and uniformity. Elevating the representation to three dimensions, the Cubic Honeycomb model extends the alpha carbon backbone into a 3D lattice. This model offers a more spatially comprehensive view, portraying how the protein's structure occupies three-dimensional space. The simplification limits movement from one amino acid to another into 6 valid movements represented [x, y, z]: [1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], and [0, 0, -1].
+2. **Cubic Honeycomb**: A 3D geometric structure of cubes arranged in a continuous pattern. This honeycomb tessellation features cubes that are aligned and stacked in such a way as to fill space without any gaps or overlaps, showcasing perfect symmetry and uniformity. Elevating the representation to three dimensions, the Cubic Honeycomb model extends the alpha carbon trace into a 3D lattice. This model offers a more spatially comprehensive view, portraying how the protein's structure occupies three-dimensional space. The simplification limits movement from one amino acid to another into 6 valid movements represented [x, y, z]: [1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], and [0, 0, -1].
 
 ![cubic_honeycomb](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/55161819-cbc0-407b-9a09-c8fe663e0dfe)
 
@@ -34,7 +34,7 @@ CA-2-HCOMB can transform complex protein structures into simplified models, each
 
 ![triangular_prismatic_honeycomb](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/0a20ea09-f43b-4c73-a93f-7a6e81c33938)
 
-4. **Tetrahedral-Octahedral Honeycomb**: A complex 3D geometric structure where tetrahedra and octahedra interlock in a repeating pattern. The most complex model in the suite, this structure uses a combination of tetrahedral and octahedral elements to represent the protein's backbone in 3D. The simplification limits movement from one amino acid to another into 12 valid movements represented [x, y, z]: [sqrt_2_div_2, sqrt_2_div_2, 0], [sqrt_2_div_2, 0, sqrt_2_div_2], [0, sqrt_2_div_2, sqrt_2_div_2], [-sqrt_2_div_2, -sqrt_2_div_2, 0], [-sqrt_2_div_2, 0, -sqrt_2_div_2], [0, -sqrt_2_div_2, -sqrt_2_div_2], [sqrt_2_div_2, -sqrt_2_div_2, 0], [sqrt_2_div_2, 0, -sqrt_2_div_2], [0, sqrt_2_div_2, -sqrt_2_div_2], [-sqrt_2_div_2, sqrt_2_div_2, 0], [-sqrt_2_div_2, 0, sqrt_2_div_2], and [0, -sqrt_2_div_2, sqrt_2_div_2].
+4. **Tetrahedral-Octahedral Honeycomb**: A complex 3D geometric structure where tetrahedra and octahedra interlock in a repeating pattern. The most complex model in the suite, this structure uses a combination of tetrahedral and octahedral elements to represent the protein's CA Trace in 3D. The simplification limits movement from one amino acid to another into 12 valid movements represented [x, y, z]: [sqrt_2_div_2, sqrt_2_div_2, 0], [sqrt_2_div_2, 0, sqrt_2_div_2], [0, sqrt_2_div_2, sqrt_2_div_2], [-sqrt_2_div_2, -sqrt_2_div_2, 0], [-sqrt_2_div_2, 0, -sqrt_2_div_2], [0, -sqrt_2_div_2, -sqrt_2_div_2], [sqrt_2_div_2, -sqrt_2_div_2, 0], [sqrt_2_div_2, 0, -sqrt_2_div_2], [0, sqrt_2_div_2, -sqrt_2_div_2], [-sqrt_2_div_2, sqrt_2_div_2, 0], [-sqrt_2_div_2, 0, sqrt_2_div_2], and [0, -sqrt_2_div_2, sqrt_2_div_2].
 
 ![tetrahedral_octahedral_honeycomb](https://github.com/ahabegger/PDB-2-Lattice/assets/79123947/4f8b55d5-1067-4fc9-9fd6-49d04a338fe2)
 
