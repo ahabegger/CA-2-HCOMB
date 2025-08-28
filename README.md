@@ -14,9 +14,9 @@ The tool is crafted with a focus on user experience. It accommodates various inp
 
 ## Related Repositories
 
-- [HCOMB-2-CA](https://github.com/ahabegger/HCOMB-2-CA): This repository contains the inverse of CA-2-HCOMB, converting simplified honeycomb structures into a CA Trace.
+- [QuantumHoneycombPSP](https://github.com/ahabegger/QuantumHoneycombPSP) is a Python-based project designed to model protein structure prediction (PSP) using quantum computing techniques. The project includes various modules to encode sequences, generate energy matrices, and create energy functions for different lattice types. It also supports the conversion of these energy functions into Quadratic Unconstrained Binary Optimization (QUBO) and Ising models. Then runs the QUBO model on D-Wave's quantum annealer to predict the protein structure.
 
-- [Quantum-Protein-Lattice-Folding](https://github.com/ahabegger/Quantum-Protein-Lattice-Folding): This repository contains the code for the Quantum Protein Lattice Folding project, which uses CA-2-HCOMB to generate simplified structures for quantum computing simulations.
+
 
 ## Types of Simplified Structures
 
@@ -148,4 +148,11 @@ CA-2-HCOMB is released as open-source software under the [MIT License](https://g
 
 ## Contact 
 
-I can be contacted by email at my university email habeggaj (at sign) miamioh (dot) edu
+I can be contacted by email at my university email alexhabegger (at sign) yahoo (dot) com.
+
+
+
+
+
+
+
