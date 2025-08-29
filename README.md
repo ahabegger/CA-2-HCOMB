@@ -12,11 +12,11 @@ Simplifying structures remarkably reduces the computational power required for p
 
 The tool is crafted with a focus on user experience. It accommodates various inputs and command-line arguments, enabling customization to meet diverse research needs and personal preferences. This user-centric design philosophy ensures that CA-2-HCOMB is accessible to a wide range of users, from seasoned researchers to students just beginning their exploration of protein structures.
 
-## Related Repositories
+## Related Works
 
 - [QuantumHoneycombPSP](https://github.com/ahabegger/QuantumHoneycombPSP) is a Python-based project designed to model protein structure prediction (PSP) using quantum computing techniques. The project includes various modules to encode sequences, generate energy matrices, and create energy functions for different lattice types. It also supports the conversion of these energy functions into Quadratic Unconstrained Binary Optimization (QUBO) and Ising models. Then runs the QUBO model on D-Wave's quantum annealer to predict the protein structure.
 
-
+- [Quantum Computing in Protein Folding: Integrating Lattice Models and Energy Functions](http://rave.ohiolink.edu/etdc/view?acc_num=miami1732108553863368) is a Master's Thesis. Here is the abstract: Protein folding is an NP-Hard problem in computational biology due to the three-dimensional nature of proteins and the vast conformational space. Quantum computing shows promise in addressing this challenge by using unique quantum algorithms to explore protein folding landscapes more efficiently. Key contributions of this thesis include: the Relative Normalized Movement Score, a novel metric for evaluating protein structure fidelity in a distance-independent manner, novel energy models, such as the Hydrophobic-Polar-Acidic-Basic (HPAB) model, and the development and application of CA-2-HCOMB, a Protein Chain Lattice Fitting (PCLF) program, which simplifies protein structures by fitting alpha-carbon traces into discrete lattice models to reduce computational complexity while maintaining structural fidelity. Building upon previous research, we formulated a novel energy encoding for both the Triangular Prismatic Honeycomb (HCOMB-8) lattice model and the Tetrahedral-Octahedral Honeycomb (HCOMB-12) lattice model, also known as the face-centered cubic (FCC) lattice. These lattice models enable more precise protein structure modeling and can be reduced to a Quadratic Unconstrained Binary Optimization (QUBO) problem. To demonstrate the proof of concept, we folded a small peptide sequence using the HCOMB-8 and HCOMB-12 models with the LeapHybrid Algorithm on D-Wave's quantum computer.
 
 ## Types of Simplified Structures
 
